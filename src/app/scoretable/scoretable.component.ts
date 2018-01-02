@@ -26,7 +26,7 @@ export class ScoretableComponent implements OnInit {
 
   @ViewChild(MatDatepicker) datepicker: MatDatepicker<Date>;
 
-  constructor(private firestore: AngularFirestore, public dialog: MatDialog, private globalVars: GlobalVars) {
+  constructor(private firestore: AngularFirestore, public dialog: MatDialog, public globalVars: GlobalVars) {
   }
 
   ngOnInit() {
