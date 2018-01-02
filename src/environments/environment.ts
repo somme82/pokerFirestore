@@ -6,11 +6,11 @@
 export const environment = {
   production: false,
   firebase: {
-    apiKey: "AIzaSyCcGF0FVdjEs99fdZZlVYVj8ZGaVT_HABM",
-    authDomain: "poker-3872e.firebaseapp.com",
-    databaseURL: "https://poker-3872e.firebaseio.com",
-    projectId: "poker-3872e",
-    storageBucket: "poker-3872e.appspot.com",
-    messagingSenderId: "398559167847"
+    apiKey: "AIzaSyAdmmjcckyobpJ781zBtjUdMdOUtejL_b8",
+    authDomain: "fnp-crew.firebaseapp.com",
+    databaseURL: "https://fnp-crew.firebaseio.com",
+    projectId: "fnp-crew",
+    storageBucket: "",
+    messagingSenderId: "389993943760"
   }
 };
