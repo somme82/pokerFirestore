@@ -4,5 +4,8 @@ export class Player {
   totalscore: number;
   totalbuyin: number;
   participations: number;
+  realRank: number;
+  overAllRank: number;
+  relevantForTotalScore: boolean = false;
 }
 
