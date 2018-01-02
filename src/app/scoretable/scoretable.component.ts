@@ -136,6 +136,14 @@ export class ScoretableComponent implements OnInit {
     this.globalVars.currentYear++;
     this.getPlayerResults();
   }
-
+  showAllPlayers()
+  {
+    if(this.globalVars.showAllPlayers){
+      this.globalVars.showAllPlayers = false;
+    } else{
+      this.globalVars.showAllPlayers = true;
+    }
+    console.log(this.globalVars.showAllPlayers);
+  }
 
 }
