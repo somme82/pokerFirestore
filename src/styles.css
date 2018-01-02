@@ -6,6 +6,7 @@ body{
   font-family: "Arial" !important;
   margin: 0px !important;
   height: 100%;
+  line-height: 1 !important;
 }
 
 div.fnpc-headline {
@@ -156,12 +157,27 @@ div.fnpc-profile{
   float: right;
 }
 
-div.fnpc-profile-avatar img{
+
+.fnpc-profile-avatar {
   width: 10%;
   float: left;
   margin: 0 20px 0px 0;
   position: relative;
   pointer-events: none;
+}
+.fnpc-profile-avatar:after {
+  /* Drag Prevention */
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+div.fnpc-profile-avatar img{
+  width: 100%;
+  display: block;
 }
 
 div.fnpc-profile-head{
@@ -173,7 +189,7 @@ div.fnpc-profile-head{
 
 div.fnpc-profile-rebuy{
   color: #999;
-  margin: 0 0 10px 0;
+  /*margin: 0 0 10px 0;*/
   font-size: 90%;
   float: left;
 }
