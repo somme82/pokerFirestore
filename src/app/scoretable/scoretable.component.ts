@@ -79,8 +79,9 @@ export class ScoretableComponent implements OnInit {
       if (this.scores && this.scores.length > 0) {
         this.scores.forEach(s => {
           if (this.playerResults.some(p => p.id === s.data.player)) {
-            this.playerResults.find(p => p.id === s.data.player).totalscore += s.data.totalscore;
-            this.playerResults.find(p => p.id === s.data.player).totalbuyin += s.data.buyin;
+            var p = this.playerResults.find(p => p.id === s.data.player);
+            this.playerResults.find(p => p.id === s.data.player).totalscore = Number((Number(p.totalscore) + Number(s.data.totalscore)));
+            this.playerResults.find(p => p.id === s.data.player).totalbuyin = Number((Number(p.totalbuyin) + Number(s.data.buyin)));
             this.playerResults.find(p => p.id === s.data.player).participations += 1;
           } else {
             var player = <Player>{};
@@ -98,7 +99,7 @@ export class ScoretableComponent implements OnInit {
       });
     });
 
-
+    console.log(this.playerResults);
     this.playersCollection = this.firestore.collection('players');
     this.players = this.playersCollection.snapshotChanges()
       .map(actions => {
