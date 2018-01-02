@@ -48,3 +48,6 @@ firebase.json
 firestore.indexes.json
 firestore.rules
 storage.rules
+
+#images
+/src/assets/icons-png
