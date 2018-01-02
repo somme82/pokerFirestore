@@ -4,7 +4,7 @@
   <div class="fnpc-headline-item-right" (click)="getNextMatchday()"><img src="../../assets/images/carat-r-white.svg"></div>
 </div>
 <div class="fnpc-content">
-  <div [ngClass]="{'fnpc-profile': true, 'active': score.data.player == globalVars.selectedPlayer}" *ngFor="let score of scores | async; let i = index" (click)="getScore( score.data.player, score.id )">
+  <div [ngClass]="{'fnpc-profile': true, 'active': score.data.player == globalVars.selectedPlayer, 'oddRow':(i %2 !=0)}" *ngFor="let score of scores | async; let i = index" (click)="getScore( score.data.player, score.id )">
     <div class="fnpc-profile-avatar">
       <img src="../../assets/images/home-black.svg">
     </div>

@@ -187,3 +187,7 @@ div.active{
   margin: 0px !important;
   background-color: white;
 }
+
+.oddRow {
+  background-color:#eee;
+}
