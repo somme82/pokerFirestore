@@ -26,26 +26,12 @@ export class ScoretableComponent implements OnInit {
 
   @ViewChild(MatDatepicker) datepicker: MatDatepicker<Date>;
 
-  constructor(private firestore: AngularFirestore, public dialog: MatDialog, private globalVars: GlobalVars) { }
+  constructor(private firestore: AngularFirestore, public dialog: MatDialog, private globalVars: GlobalVars) {
+  }
 
-  ngOnInit( ) {
+  ngOnInit() {
+
     this.getPlayerResults();
-    this.playersCollection = this.firestore.collection('players');
-    this.players = this.playersCollection.snapshotChanges()
-      .map(actions => {
-        return actions.map(a => {
-          const data = a.payload.doc.data() as Player;
-          const id = a.payload.doc.id;
-          if (this.playerResults.some(p=>p.id == id))  {
-            data.totalscore = this.playerResults.find(p => p.id === id).totalscore;
-            data.totalbuyin = this.playerResults.find(p => p.id === id).totalbuyin;
-            data.participations = this.playerResults.find(p => p.id === id).participations;
-          }
-          return {id, data};
-        }).sort(function(a, b){
-          return b.data.totalscore-a.data.totalscore;
-        });
-      });
   }
 
   onDateChange = (e: MatDatepickerInputEvent<Date>) => {
@@ -60,34 +46,39 @@ export class ScoretableComponent implements OnInit {
     this.globalVars.matchdayId = pushkey;
   }
 
-  openDatepicker()
-  {
+  openDatepicker() {
     this.datepicker.open();
   }
 
-  setPlayer(name){
+  setPlayer(name) {
     this.globalVars.selectedPlayer = name;
   }
 
 
-  getPlayerResults(){
+  getPlayerResults() {
+    console.log(this.globalVars.currentYear);
+    let start = new Date(this.globalVars.currentYear + '-01-01');
+    let end = new Date(this.globalVars.currentYear + '-12-31');
+
     this.playerResults = new Array<Player>()
-    this.scoreCollection = this.firestore.collection('scores');
+    this.scoreCollection = this.firestore.collection('scores', ref => ref
+      .where('matchdayDate', '>', start)
+      .where('matchdayDate', '<', end));
     this.scores = this.scoreCollection.snapshotChanges()
       .map(actions => {
-        return actions.map( a => {
+        return actions.map(a => {
           const data = a.payload.doc.data() as Score;
           const id = a.payload.doc.id;
           return {id, data};
         });
       });
 
-    this.scores.subscribe( s => {
+    this.scores.subscribe(s => {
       this.scores = s;
+      console.log(s);
       if (this.scores && this.scores.length > 0) {
         this.scores.forEach(s => {
-          if (this.playerResults.some(p => p.id === s.data.player))
-          {
+          if (this.playerResults.some(p => p.id === s.data.player)) {
             this.playerResults.find(p => p.id === s.data.player).totalscore += s.data.totalscore;
             this.playerResults.find(p => p.id === s.data.player).totalbuyin += s.data.buyin;
             this.playerResults.find(p => p.id === s.data.player).participations += 1;
@@ -102,10 +93,30 @@ export class ScoretableComponent implements OnInit {
         })
       }
 
-      this.playerResults = this.playerResults.sort(function(a, b){
-        return b.totalscore-a.totalscore;
+      this.playerResults = this.playerResults.sort(function (a, b) {
+        return b.totalscore - a.totalscore;
       });
     });
+
+
+    this.playersCollection = this.firestore.collection('players');
+    this.players = this.playersCollection.snapshotChanges()
+      .map(actions => {
+        return actions.map(a => {
+          const data = a.payload.doc.data() as Player;
+          const id = a.payload.doc.id;
+          if (this.playerResults.some(p => p.id == id)) {
+            data.totalscore = this.playerResults.find(p => p.id === id).totalscore;
+            data.totalbuyin = this.playerResults.find(p => p.id === id).totalbuyin;
+            data.participations = this.playerResults.find(p => p.id === id).participations;
+          } else{
+            data.participations = 0;
+          }
+          return {id, data};
+        }).sort(function (a, b) {
+          return b.data.totalscore - a.data.totalscore;
+        });
+      });
   }
 
   openDialog() {
@@ -113,5 +124,18 @@ export class ScoretableComponent implements OnInit {
       panelClass: 'fnpc-dialog'
     });
   }
+
+  previousYear()
+  {
+    this.globalVars.currentYear--;
+    this.getPlayerResults();
+  }
+
+  nextYear()
+  {
+    this.globalVars.currentYear++;
+    this.getPlayerResults();
+  }
+
 
 }

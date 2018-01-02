@@ -1,20 +1,22 @@
 <div class="fnpc-headline">
-  <div class="fnpc-headline-item-left"><img src="../../assets/images/carat-l-white.svg"></div>
-  <div class="fnpc-headline-item-middle">Rangliste 2017</div>
-  <div class="fnpc-headline-item-right"><img src="../../assets/images/carat-r-white.svg"></div>
+  <div class="fnpc-headline-item-left" (click)="previousYear()"><img src="../../assets/images/carat-l-white.svg"></div>
+  <div class="fnpc-headline-item-middle">Rangliste {{globalVars.currentYear}}</div>
+  <div class="fnpc-headline-item-right"(click)="nextYear()"><img src="../../assets/images/carat-r-white.svg"></div>
 </div>
 
 <div class="fnpc-content" >
   <!--div *ngIf="resultsInit == true"-->
-  <div [ngClass]="{'fnpc-profile': true, 'active': player.id == globalVars.selectedPlayer}" *ngFor="let player of players | async; let i = index" (click)="setPlayer( player.id )">
-    <div class="fnpc-profile-avatar">
-      <img src="../../assets/images/home-black.svg">
+  <div *ngFor="let player of players | async; let i = index">
+    <div *ngIf="player.data.participations > 0" [ngClass]="{'fnpc-profile': true, 'active': player.id == globalVars.selectedPlayer}" (click)="setPlayer( player.id )" >
+      <div class="fnpc-profile-avatar">
+        <img src="../../assets/images/home-black.svg">
+      </div>
+      <div class="fnpc-profile-head">
+        <strong>#{{i + 1}} {{player.data.name}}</strong>
+        <span class="fnpc-pull-right"><strong>{{player.data.totalscore}} €</strong></span>
+      </div>
+      <div class="fnpc-profile-rebuy">Einsatz: {{player.data.totalbuyin}} € | Teilnahmen: {{player.data.participations}}</div>
     </div>
-    <div class="fnpc-profile-head">
-      <strong>#{{i + 1}} {{player.data.name}}</strong>
-      <span class="fnpc-pull-right"><strong>{{player.data.totalscore}} €</strong></span>
-    </div>
-    <div class="fnpc-profile-rebuy">Einsatz: {{player.data.totalbuyin}} € | Teilnahmen: {{player.data.participations}}</div>
   </div>
   <!--/-->
 </div>

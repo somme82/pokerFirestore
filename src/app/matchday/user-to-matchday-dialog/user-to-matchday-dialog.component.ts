@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {AngularFirestore, AngularFirestoreCollection} from 'angularfire2/firestore';
+import {AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument} from 'angularfire2/firestore';
 import {GlobalVars} from '../../../GlobalVars';
 import {Matchday} from '../../Matchday';
 import {Player} from '../../Player';
+import {Score} from '../../Score';
 
 @Component({
   selector: 'my-user-to-matchday-dialog',
@@ -13,6 +14,10 @@ export class UserToMatchdayDialogComponent implements OnInit {
 
   playersCollection: AngularFirestoreCollection<Player>;
   players: any;
+
+  selectedMatchday: AngularFirestoreDocument<Matchday>;
+  matchday: any;
+
 
   constructor(private firestore: AngularFirestore, private globalVars: GlobalVars) { }
 
@@ -26,16 +31,26 @@ export class UserToMatchdayDialogComponent implements OnInit {
           return {id, data};
         });
       });
+
+    this.selectedMatchday = this.firestore.doc("matchdays/" + this.globalVars.matchdayId);
+    this.matchday = this.selectedMatchday.valueChanges();
+    this.matchday.subscribe(value => {
+      this.matchday = value;
+      console.log(value);
+    });
+
   }
 
 
   insertPlayer(playerid){
+
     this.firestore.collection("scores").add({
       chips: 0,
       totalscore: 0,
       buyin: 10,
       player: playerid,
-      matchday: this.globalVars.matchdayId
+      matchday: this.globalVars.matchdayId,
+      matchdayDate: this.matchday.date
     });
   }
 

@@ -92,33 +92,32 @@ export class MatchdayComponent implements OnInit {
 
   public setMatchdays()
   {
-    this.matchdayCollection = this.firestore.collection('matchdays', ref => ref.orderBy('date', 'asc'));
+    console.log("setMatchdays");
+    console.log(this.globalVars.currentYear);
+
+    let start = new Date(this.globalVars.currentYear + '-01-01');
+    let end = new Date(this.globalVars.currentYear + '-12-31');
+
+    this.matchdayCollection = this.firestore.collection('matchdays', ref => ref
+      .where('date', '>', start)
+      .where('date', '<', end)
+      .orderBy('date', 'asc'));
     this.matchdays = this.matchdayCollection.snapshotChanges()
       .map(actions => {
         return actions.map( a => {
           const data = a.payload.doc.data() as Matchday;
-          const player_data = data.player_ref as Player;
           const id = a.payload.doc.id;
-          return {id, data, player_data};
+          return {id, data};
         });
       });
 
-    if (this.globalVars.matchdayId == '')
-    {
       this.matchdays.subscribe(md => {
         this.matchdays = md;
         if (this.matchdays && this.matchdays.length > 0) {
           this.globalVars.matchdayId = this.matchdays[this.matchdays.length - 1].id;
           this.getScoreOfMatchday();
-          this.matchdays.forEach(m=> {
-              console.log(m.player_data);
-            })
         }
       });
-    }else{
-      this.getScoreOfMatchday();
-    }
-
   }
 
   getScoreOfMatchday()

@@ -5,5 +5,6 @@ export class Score {
   matchday: string;
   buyin: number;
   totalscore: number;
+  matchdayDate: Date;
 }
 
