@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {AngularFirestore} from 'angularfire2/firestore';
 
 @Component({
   selector: 'my-user-dialog',
@@ -8,13 +9,15 @@ import { Component, OnInit } from '@angular/core';
 export class UserDialogComponent implements OnInit {
 
   userName: string;
-  constructor() { }
+  constructor(private firestore: AngularFirestore) {}
 
   ngOnInit() {
   }
 
   insertPlayer()
   {
-    console.log(this.userName);
+    this.firestore.collection("players").add({
+      name: this.userName
+    });
   }
 }

@@ -1,11 +1,11 @@
 export const environment = {
   production: true,
   firebase: {
-    apiKey: "AIzaSyAdmmjcckyobpJ781zBtjUdMdOUtejL_b8",
-    authDomain: "fnp-crew.firebaseapp.com",
-    databaseURL: "https://fnp-crew.firebaseio.com",
-    projectId: "fnp-crew",
+    apiKey: "AIzaSyDhKXrNvbsE5GoQ8WJ4EFyUOFGgfh89APc",
+    authDomain: "friday-night-poker.firebaseapp.com",
+    databaseURL: "https://friday-night-poker.firebaseio.com",
+    projectId: "friday-night-poker",
     storageBucket: "",
-    messagingSenderId: "389993943760"
+    messagingSenderId: "810251522245"
   }
 };

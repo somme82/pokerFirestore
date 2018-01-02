@@ -3,5 +3,6 @@ export class Player {
   name: string;
   totalscore: number;
   totalbuyin: number;
+  participations: number;
 }
 

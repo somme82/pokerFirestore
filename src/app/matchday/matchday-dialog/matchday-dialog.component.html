@@ -1,3 +1,18 @@
-<p>
-  matchday-dialog works!
-</p>
+<div class="fnpc-dialog-headline">Neuer Spieltag</div>
+<mat-dialog-content>
+  <div class="fnpc-table">
+
+    <div class="fnpc-table-row">
+      <div class="fnpc-table-cell">BuyIn:</div>
+      <div class="fnpc-table-cell">todo</div>
+    </div>
+    <div class="fnpc-table-row">
+      <div class="fnpc-table-cell">Chips im Umlauf:</div>
+      <div class="fnpc-table-cell">todo</div>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="true" (click)="deleteMatchday()">Spieltag Löschen</button>
+  <button mat-button [mat-dialog-close]="true">Abbrechen</button>
+</mat-dialog-actions>

@@ -12,8 +12,6 @@ import {Score} from '../Score';
   styleUrls: ['./scoretable.component.css']
 })
 export class ScoretableComponent implements OnInit {
-
-
   playersCollection: AngularFirestoreCollection<Player>;
   players: any
 
@@ -41,8 +39,8 @@ export class ScoretableComponent implements OnInit {
           if (this.playerResults.some(p=>p.id == id))  {
             data.totalscore = this.playerResults.find(p => p.id === id).totalscore;
             data.totalbuyin = this.playerResults.find(p => p.id === id).totalbuyin;
+            data.participations = this.playerResults.find(p => p.id === id).participations;
           }
-
           return {id, data};
         }).sort(function(a, b){
           return b.data.totalscore-a.data.totalscore;
@@ -92,11 +90,13 @@ export class ScoretableComponent implements OnInit {
           {
             this.playerResults.find(p => p.id === s.data.player).totalscore += s.data.totalscore;
             this.playerResults.find(p => p.id === s.data.player).totalbuyin += s.data.buyin;
+            this.playerResults.find(p => p.id === s.data.player).participations += 1;
           } else {
             var player = <Player>{};
             player.id = s.data.player;
             player.totalscore = s.data.totalscore;
             player.totalbuyin = s.data.buyin;
+            player.participations = 1;
             this.playerResults.push(player);
           }
         })

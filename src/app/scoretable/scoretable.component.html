@@ -6,15 +6,15 @@
 
 <div class="fnpc-content" >
   <!--div *ngIf="resultsInit == true"-->
-  <div [ngClass]="{'fnpc-profile': true, 'active': player.id == globalVars.selectedPlayer}" *ngFor="let player of players | async" (click)="setPlayer( player.id )">
+  <div [ngClass]="{'fnpc-profile': true, 'active': player.id == globalVars.selectedPlayer}" *ngFor="let player of players | async; let i = index" (click)="setPlayer( player.id )">
     <div class="fnpc-profile-avatar">
       <img src="../../assets/images/home-black.svg">
     </div>
     <div class="fnpc-profile-head">
-      <strong>{{player.data.name}}</strong>
+      <strong>#{{i + 1}} {{player.data.name}}</strong>
       <span class="fnpc-pull-right"><strong>{{player.data.totalscore}} €</strong></span>
     </div>
-    <div class="fnpc-profile-rebuy">rebuy {{player.data.totalbuyin}}</div>
+    <div class="fnpc-profile-rebuy">Einsatz: {{player.data.totalbuyin}} € | Teilnahmen: {{player.data.participations}}</div>
   </div>
   <!--/-->
 </div>

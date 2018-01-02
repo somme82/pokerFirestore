@@ -1,3 +1,18 @@
-<p>
-  score-dialog works!
-</p>
+<div class="fnpc-dialog-headline">Neuen Spielstand eintragen<div class="fnpc-pull-right">X</div></div>
+<mat-dialog-content>
+  <div class="fnpc-table">
+    <div class="fnpc-table-row">
+      <div class="fnpc-table-cell">Spielstand</div>
+      <div class="fnpc-table-cell"><input cdkFocusInitial type="text" [(ngModel)]="score.chips"/></div>
+    </div>
+    <div class="fnpc-table-row">
+      <div class="fnpc-table-cell">BuyIn</div>
+      <div class="fnpc-table-cell"><input type="text" [(ngModel)]="score.buyin"/></div>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="true" (click)="insertScore()">Ok</button>
+  <button mat-button [mat-dialog-close]="true" (click)="deleteScore()">Löschen</button>
+  <button mat-button [mat-dialog-close]="true">Abbrechen</button>
+</mat-dialog-actions>

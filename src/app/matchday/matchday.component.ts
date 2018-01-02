@@ -97,8 +97,9 @@ export class MatchdayComponent implements OnInit {
       .map(actions => {
         return actions.map( a => {
           const data = a.payload.doc.data() as Matchday;
+          const player_data = data.player_ref as Player;
           const id = a.payload.doc.id;
-          return {id, data};
+          return {id, data, player_data};
         });
       });
 
@@ -109,6 +110,9 @@ export class MatchdayComponent implements OnInit {
         if (this.matchdays && this.matchdays.length > 0) {
           this.globalVars.matchdayId = this.matchdays[this.matchdays.length - 1].id;
           this.getScoreOfMatchday();
+          this.matchdays.forEach(m=> {
+              console.log(m.player_data);
+            })
         }
       });
     }else{
@@ -133,8 +137,13 @@ export class MatchdayComponent implements OnInit {
     this.selectedMatchday = this.firestore.doc("matchdays/" + this.globalVars.matchdayId);
     this.matchday = this.selectedMatchday.snapshotChanges();
     this.matchday.subscribe(value => {
+      if (this.playersMap.has(value.payload.data().venue))
+      {
+        this.venue = this.playersMap.get(value.payload.data().venue);
+      }else{
+        this.venue = value.payload.data().venue;
+      }
 
-      this.venue = value.payload.data().venue;
       this.date = value.payload.data().date;
     });
   }
