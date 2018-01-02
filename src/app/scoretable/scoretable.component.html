@@ -1,0 +1,28 @@
+<div class="fnpc-headline">
+  <div class="fnpc-headline-item-left"><img src="../../assets/images/carat-l-white.svg"></div>
+  <div class="fnpc-headline-item-middle">Rangliste 2017</div>
+  <div class="fnpc-headline-item-right"><img src="../../assets/images/carat-r-white.svg"></div>
+</div>
+
+<div class="fnpc-content" >
+  <!--div *ngIf="resultsInit == true"-->
+  <div [ngClass]="{'fnpc-profile': true, 'active': player.id == globalVars.selectedPlayer}" *ngFor="let player of players | async" (click)="setPlayer( player.id )">
+    <div class="fnpc-profile-avatar">
+      <img src="../../assets/images/home-black.svg">
+    </div>
+    <div class="fnpc-profile-head">
+      <strong>{{player.data.name}}</strong>
+      <span class="fnpc-pull-right"><strong>{{player.data.totalscore}} €</strong></span>
+    </div>
+    <div class="fnpc-profile-rebuy">rebuy {{player.data.totalbuyin}}</div>
+  </div>
+  <!--/-->
+</div>
+<div class="fnpc-menu-bottom">
+  <a class="fnpc-menu-item" mat-button (click)="openDialog()"><img src="../../assets/images/plus-white.svg"></a>
+  <a class="fnpc-menu-item" mat-button (click)="openDatepicker()"><img src="../../assets/images/calendar-white.svg"></a>
+  <!--a class="fnpc-menu-item"><img src="../../assets/images/bars-white.svg"></a-->
+  <a class="fnpc-menu-item"><strong>Alle</strong></a>
+  <input type="hidden" [matDatepicker]="picker" [(ngModel)]="matchdayDate" (dateChange)="onDateChange($event)">
+</div>
+<mat-datepicker touchUi="true" #picker></mat-datepicker>

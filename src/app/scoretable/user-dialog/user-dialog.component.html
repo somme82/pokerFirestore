@@ -1,0 +1,14 @@
+<div class="fnpc-dialog-headline">Neuen Spieler anlegen</div>
+<mat-dialog-content>
+  <div class="fnpc-table">
+    <div class="fnpc-table-row">
+      <div class="fnpc-table-cell">Name</div>
+      <div class="fnpc-table-cell"><input cdkFocusInitial [(ngModel)]="userName"/></div>
+      <div>{{userName}}</div>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="true" (click)="insertPlayer()">Spieler anlegen</button>
+  <button mat-button [mat-dialog-close]="true">Abbrechen</button>
+</mat-dialog-actions>

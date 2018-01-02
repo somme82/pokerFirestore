@@ -1,0 +1,28 @@
+a.fnpc-menu-item:active{
+  background-color: #a38382 !important;
+}
+
+div.fnpc-menu-top {
+  height: 8% !important;
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+div.fnpc-menu-bottom,div.fnpc-menu-top a.fnpc-menu-item{
+  display: table-cell;
+  float: none!important;
+  height: 100%;
+  vertical-align: middle;
+  text-align: center;
+  cursor: hand !important;
+  background-color: white;
+}
+
+a.fnpc-menu-item:hover {
+  background-color: #ddd !important;
+}
+
+
+
+

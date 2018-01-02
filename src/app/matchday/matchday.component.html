@@ -1,0 +1,27 @@
+<div class="fnpc-headline">
+  <div class="fnpc-headline-item-left" (click)="getPreviousMatchday()"><img src="../../assets/images/carat-l-white.svg"></div>
+  <div class="fnpc-headline-item-middle">Bei {{venue}} am {{date | date: 'dd.MM.yyyy'}}</div>
+  <div class="fnpc-headline-item-right" (click)="getNextMatchday()"><img src="../../assets/images/carat-r-white.svg"></div>
+</div>
+<div class="fnpc-content">
+  <div [ngClass]="{'fnpc-profile': true, 'active': score.data.player == globalVars.selectedPlayer}" *ngFor="let score of scores | async; let i = index" (click)="getScore( score.data.player, score.id )">
+    <div class="fnpc-profile-avatar">
+      <img src="../../assets/images/home-black.svg">
+    </div>
+    <div class="fnpc-profile-head">
+      <strong>#{{i + 1}} {{score.playername}}</strong>
+      <span class="fnpc-pull-right"><strong>{{score.data.totalscore}}€</strong></span>
+    </div>
+    <div class="fnpc-profile-rebuy">BuyIn: {{score.data.buyin}} € | Chips: {{score.data.chips}} € </div>
+  </div>
+</div>
+
+
+<div class="fnpc-menu-bottom">
+  <a class="fnpc-menu-item" mat-button (click)="openScoreDialog()"><img src="../../assets/images/recycle-white.svg"></a>
+  <a class="fnpc-menu-item" mat-button (click)="openNewUserDialog()"><img src="../../assets/images/plus-white.svg"></a>
+  <a class="fnpc-menu-item" (click)="openMatchdayDialog()"><img src="../../assets/images/info-white.svg"></a>
+  <!--a class="fnpc-menu-item" mat-button (click)="openMatchdayDialog()" ><img src="../../assets/images/star-white.svg"></a-->
+  <!--a class="fnpc-menu-item"><img src="../../assets/images/edit-white.svg"></a-->
+  <!--a class="fnpc-menu-item"><img src="../../assets/images/mail-white.svg"></a-->
+</div>
