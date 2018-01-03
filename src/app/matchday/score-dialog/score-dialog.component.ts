@@ -18,7 +18,7 @@ export class ScoreDialogComponent implements OnInit {
   player: any;
 
 
-  constructor(private firestore: AngularFirestore, private globalVars: GlobalVars) { }
+  constructor(private firestore: AngularFirestore, public globalVars: GlobalVars) { }
 
   ngOnInit()
   {

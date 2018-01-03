@@ -1,15 +1,5 @@
-.mat-dialog-actions{
-  height: 10% !important;
-  padding: unset !important;
-  padding-top:4% !important;
-}
-
-.fnpc-dialog-headline{
-  height: 10% !important;
-  padding: unset !important;
-  margin-bottom: unset !important;
-}
-
-.mat-dialog-content{
-  max-height: 75% !important;
+.fnpc-userDialog-row{
+  height: 8%;
+  display: flex;
+  align-items: center;
 }

@@ -11,7 +11,7 @@ import {Score} from '../../Score';
 export class MatchdayDialogComponent implements OnInit {
   scoreCollection: AngularFirestoreCollection<Score>;
   score: any
-  constructor(private firestore: AngularFirestore, private globalVars: GlobalVars) { }
+  constructor(private firestore: AngularFirestore, public globalVars: GlobalVars) { }
 
   ngOnInit() {
   }
