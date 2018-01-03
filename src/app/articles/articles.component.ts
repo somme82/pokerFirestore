@@ -27,7 +27,8 @@ export class ArticlesComponent implements OnInit {
 
     this.articlesCollection = this.firestore.collection('articles', ref => ref
       .where('matchdayDate', '>', start)
-      .where('matchdayDate', '<', end));
+      .where('matchdayDate', '<', end)
+      .orderBy('matchdayDate', 'desc'));
     this.articles = this.articlesCollection.valueChanges();
   }
 
