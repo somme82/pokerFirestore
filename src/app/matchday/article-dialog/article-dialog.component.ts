@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {GlobalVars} from '../../../GlobalVars';
-import {AngularFirestore, AngularFirestoreDocument} from 'angularfire2/firestore';
+import {AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument} from 'angularfire2/firestore';
 import {MatchdayComponent} from '../matchday.component';
 import {Score} from '../../Score';
 import {Player} from '../../Player';
@@ -27,6 +27,12 @@ export class ArticleDialogComponent implements OnInit {
 
   article: Article = new Article();
 
+  articleCollection: AngularFirestoreCollection<Article>;
+  articleDoc: any
+
+  currentArticle: AngularFirestoreCollection<Article>;
+  currentArticleDoc: any
+
   constructor(private firestore: AngularFirestore, public globalVars: GlobalVars) {}
 
   ngOnInit() {
@@ -47,6 +53,24 @@ export class ArticleDialogComponent implements OnInit {
         this.venue.subscribe(v => {
           this.venue = v;
           this.article.matchdayVenue = v.name;
+
+          this.currentArticle = this.firestore.collection('articles', ref => ref.where('matchdayId', '==', this.globalVars.matchdayId))
+          this.currentArticleDoc = this.currentArticle.snapshotChanges()
+            .map(actions => {
+              return actions.map( a => {
+                const data = a.payload.doc.data() as Matchday;
+                const id = a.payload.doc.id;
+                return {id, data};
+              });
+            });
+          this.currentArticleDoc.subscribe(ca=>{
+            ca.forEach(c => {
+              
+            })
+          })
+
+
+
         })
       });
     });
@@ -59,9 +83,33 @@ export class ArticleDialogComponent implements OnInit {
       text: this.article.text,
       matchdayDate: this.article.matchdayDate,
       matchdayVenue: this.article.matchdayVenue,
-      player: this.article.player
+      matchdayId: this.globalVars.matchdayId,
+      player: this.article.player,
+
     })
     this.globalVars.closeDialog();
+  }
+
+  deleteArticle()
+  {
+    this.articleCollection = this.firestore.collection('articles', ref => ref.where('matchdayId', '==', this.globalVars.matchdayId));
+    this.articleDoc = this.articleCollection.snapshotChanges()
+      .map(actions => {
+        return actions.map( a => {
+          const data = a.payload.doc.data() as Score;
+          const id = a.payload.doc.id;
+          return {id, data};
+        });
+      });
+    this.articleDoc.subscribe(sc => {
+      this.articleDoc = sc;
+      if (this.articleDoc && this.articleDoc.length > 0) {
+        this.articleDoc.forEach(a =>{
+            this.firestore.doc('articles/' + a.id).delete();
+          }
+        );
+      }
+    });
   }
 
 }
