@@ -136,20 +136,18 @@ export class MatchdayComponent implements OnInit {
         this.imageExists(s);
       })
       this.scores = Observable.of(score);
-    });
 
-
-    this.selectedMatchday = this.firestore.doc("matchdays/" + this.globalVars.matchdayId);
-    this.matchday = this.selectedMatchday.snapshotChanges();
-    this.matchday.subscribe(value => {
-      if (this.playersMap.has(value.payload.data().venue))
-      {
-        this.venue = this.playersMap.get(value.payload.data().venue);
-      }else{
-        this.venue = value.payload.data().venue;
-      }
-
-      this.date = value.payload.data().date;
+      this.selectedMatchday = this.firestore.doc("matchdays/" + this.globalVars.matchdayId);
+      this.matchday = this.selectedMatchday.snapshotChanges();
+      this.matchday.subscribe(value => {
+        if (this.playersMap.has(value.payload.data().venue))
+        {
+          this.venue = this.playersMap.get(value.payload.data().venue);
+        }else{
+          this.venue = value.payload.data().venue;
+        }
+        this.date = value.payload.data().date;
+      });
     });
   }
 

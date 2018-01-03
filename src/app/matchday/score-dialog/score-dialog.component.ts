@@ -18,6 +18,7 @@ export class ScoreDialogComponent implements OnInit {
   player: any;
 
 
+
   constructor(private firestore: AngularFirestore, public globalVars: GlobalVars) { }
 
   ngOnInit()
@@ -42,6 +43,7 @@ export class ScoreDialogComponent implements OnInit {
       buyin: this.score.buyin,
       totalscore: (this.score.chips - this.score.buyin)
     });
+    this.globalVars.closeDialog();
   }
   deleteScore() {
     this.selectedScore.delete();

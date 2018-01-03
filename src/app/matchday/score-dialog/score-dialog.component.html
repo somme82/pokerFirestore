@@ -1,20 +1,20 @@
 <div class="fnpc-dialog-headline">Neuen Spielstand eintragen für {{player.name}}</div>
 <!--div class="fnpc-headline">Neuen Spielstand eintragen<div class="fnpc-pull-right">X</div></div-->
 <div class="fnpc-dialog-content">
-  <div class="fnpc-table">
+  <div class="fnpc-table" *ngIf="score">
     <div class="fnpc-table-row">
       <div class="fnpc-table-cell">BuyIn</div>
-      <div class="fnpc-table-cell"><input type="number" [(ngModel)]="score.buyin"/></div>
+      <div class="fnpc-table-cell"><input cdkFocusInitial type="number" [(ngModel)]="score.buyin"/></div>
     </div>
     <div class="fnpc-table-row">
       <div class="fnpc-table-cell">Spielstand</div>
-      <div class="fnpc-table-cell"><input cdkFocusInitial type="number" [(ngModel)]="score.chips"/></div>
+      <div class="fnpc-table-cell"><input type="number" [(ngModel)]="score.chips"/></div>
     </div>
   </div>
 </div>
 
 <div class="fnpc-menu-bottom">
-  <a class="fnpc-menu-item" mat-button (click)="insertScore()"><img src="../../assets/images/plus-white.svg"></a>
+  <a class="fnpc-menu-item" mat-button (click)="insertScore()"><img src="../../assets/images/check-white.svg"></a>
   <a class="fnpc-menu-item" mat-button (click)="deleteScore()"><img src="../../assets/images/minus-white.svg"></a>
   <a class="fnpc-menu-item" (click)="globalVars.closeDialog()"><img src="../../assets/images/delete-white.svg"></a>
   <!--a class="fnpc-menu-item" mat-button (click)="openMatchdayDialog()" ><img src="../../assets/images/star-white.svg"></a-->

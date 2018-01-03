@@ -143,6 +143,9 @@ export class ScoretableComponent implements OnInit {
             overAllRank ++
             this.imageExists(p);
           })
+          if (this.globalVars.selectedPlayer == '' && player.length > 0) {
+            this.globalVars.selectedPlayer = player[0].id;
+          }
           this.players = Observable.of(player);
         });
       });
