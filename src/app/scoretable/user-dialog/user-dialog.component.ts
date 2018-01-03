@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {AngularFirestore} from 'angularfire2/firestore';
+import {GlobalVars} from '../../../GlobalVars';
 
 @Component({
   selector: 'my-user-dialog',
@@ -9,7 +10,7 @@ import {AngularFirestore} from 'angularfire2/firestore';
 export class UserDialogComponent implements OnInit {
 
   userName: string;
-  constructor(private firestore: AngularFirestore) {}
+  constructor(private firestore: AngularFirestore, public globalVars: GlobalVars) {}
 
   ngOnInit() {
   }

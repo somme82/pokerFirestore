@@ -1,4 +1,4 @@
-<div class="fnpc-dialog-headline">Spieler hinzufügen</div>
+<!--div class="fnpc-dialog-headline">Spieler hinzufügen</div>
 <mat-dialog-content>
   <div class="fnpc-profile" (click)='insertPlayer(player.id)' *ngFor="let player of players | async">
     <div class="fnpc-profile-avatar">
@@ -10,6 +10,23 @@
   </div>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <!--button mat-button [mat-dialog-close]="true" (click)="insertScore()">Spieler anlegen</button-->
   <button mat-button [mat-dialog-close]="true">OK</button>
-</mat-dialog-actions>
+</mat-dialog-actions-->
+
+
+<div class="fnpc-dialog-headline">Spieler zu Spieltag hinzufügen</div>
+<div class="fnpc-dialog-content">
+  <div [ngClass]="{'fnpc-profile': true, 'oddRow': (i %2 !=0)}" (click)='insertPlayer(player.id)' *ngFor="let player of players | async; let i = index">
+    <div class="fnpc-profile-head">
+      <strong>{{player.data.name}}</strong>
+    </div>
+  </div>
+</div>
+
+<div class="fnpc-menu-bottom">
+  <a class="fnpc-menu-item" (click)="globalVars.closeDialog()"><img src="../../assets/images/check-white.svg"></a>
+</div>
+
+
+
+

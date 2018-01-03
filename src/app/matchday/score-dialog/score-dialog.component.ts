@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {AngularFirestore, AngularFirestoreDocument} from 'angularfire2/firestore';
 import {Score} from '../../Score';
 import {GlobalVars} from '../../../GlobalVars';
+import {Player} from '../../Player';
 
 @Component({
   selector: 'my-score-dialog',
@@ -13,19 +14,26 @@ export class ScoreDialogComponent implements OnInit {
   selectedScore: AngularFirestoreDocument<Score>;
   score: any;
 
+  selectedPlayer: AngularFirestoreDocument<Player>;
+  player: any;
+
 
   constructor(private firestore: AngularFirestore, private globalVars: GlobalVars) { }
 
   ngOnInit()
   {
-    this.selectedScore = this.firestore.doc("scores/" + this.globalVars.selectedScore);
-    this.score = this.selectedScore.valueChanges();
-    this.score.subscribe(value => {
-      this.score = value;
-      this.score.chips = value.chips;
-      this.score.buyin = value.buyin;
-    });
+      this.selectedScore = this.firestore.doc("scores/" + this.globalVars.selectedScore);
+      this.score = this.selectedScore.valueChanges();
+      this.score.subscribe(value => {
+        this.score = value;
+      });
 
+      this.selectedPlayer = this.firestore.doc("players/" + this.globalVars.selectedPlayer);
+      this.player = this.selectedPlayer.valueChanges();
+      this.player.subscribe(value =>{
+        this.player = value;
+        this.player.name = value.name;
+      })
   }
 
   insertScore() {
@@ -36,6 +44,8 @@ export class ScoreDialogComponent implements OnInit {
     });
   }
   deleteScore() {
-    this.firestore.doc("scores/" + this.globalVars.selectedScore).delete();
+    this.selectedScore.delete();
+    this.globalVars.selectedScore = '';
+    this.globalVars.closeDialog();
   }
 }

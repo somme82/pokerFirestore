@@ -37,9 +37,7 @@ export class UserToMatchdayDialogComponent implements OnInit {
     this.matchday.subscribe(value => {
       this.matchday = value;
     });
-
   }
-
 
   insertPlayer(playerid){
 

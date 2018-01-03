@@ -51,17 +51,22 @@ div.fnpc-dialog-headline {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #999999;
+  background-color: #555;
   color: white;
   text-shadow: none;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  margin-bottom: 20px;
+  height: 8%;
+}
+
+div.fnpc-dialog-content {
+  width: 100% !important;
+  height: 83% !important;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 div.fnpc-content {
   width: 100% !important;
-  height: 74% !important;
+  height: 73% !important;
   overflow: auto;
   -webkit-overflow-scrolling: touch;
 }
@@ -102,18 +107,20 @@ img.arrow {
   margin: 0px !important;
 }
 .fnpc-dialog, .mat-datepicker-dialog{
-  width: 80% !important;
-  height: 50% !important;
+  width: 100% !important;
+  height: 100% !important;
   background-color: white;
   position: absolute !important;
-  top: 20% !important;
-  left: 10%;
+  top: 0px !important;
+  left: 0px !important;
+  max-width: unset !important;
 }
 
 
 div.fnpc-table {
   display: table;
   border-collapse:collapse;
+  margin-top: 20px;
 }
 div.fnpc-table-row {
   display:table-row;
@@ -121,15 +128,6 @@ div.fnpc-table-row {
 div.fnpc-table-cell {
   display:table-cell;
   padding:5px;
-}
-
-
-.mat-dialog-container {
-  padding: 0px !important;
-  padding-left: 0px !important;
-  padding-top: 0px !important;
-  padding-right: 0px !important;
-  padding-bottom: 0px !important;
 }
 
 .mat-dialog-content{

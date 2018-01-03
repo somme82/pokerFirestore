@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import {MatDialog} from '@angular/material';
 
 @Injectable()
 export class GlobalVars {
@@ -7,5 +8,12 @@ export class GlobalVars {
   selectedScore: string = '';
   currentYear: number = new Date().getFullYear();
   showAllPlayers: boolean = false;
+
+
+  constructor(public dialog: MatDialog) { }
+
+  closeDialog() {
+    this.dialog.closeAll();
+  }
 
 }

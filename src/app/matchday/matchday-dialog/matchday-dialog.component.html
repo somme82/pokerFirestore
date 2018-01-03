@@ -1,7 +1,6 @@
 <div class="fnpc-dialog-headline">Neuer Spieltag</div>
-<mat-dialog-content>
+<div class="fnpc-dialog-content">
   <div class="fnpc-table">
-
     <div class="fnpc-table-row">
       <div class="fnpc-table-cell">BuyIn:</div>
       <div class="fnpc-table-cell">todo</div>
@@ -11,8 +10,12 @@
       <div class="fnpc-table-cell">todo</div>
     </div>
   </div>
-</mat-dialog-content>
-<mat-dialog-actions>
-  <button mat-button [mat-dialog-close]="true" (click)="deleteMatchday()">Spieltag Löschen</button>
-  <button mat-button [mat-dialog-close]="true">Abbrechen</button>
-</mat-dialog-actions>
+</div>
+
+<div class="fnpc-menu-bottom">
+  <a class="fnpc-menu-item" mat-button (click)="deleteMatchday()"><img src="../../assets/images/minus-white.svg"></a>
+  <a class="fnpc-menu-item" mat-button (click)="globalVars.closeDialog()"><img src="../../assets/images/delete-white.svg"></a>
+</div>
+
+
+
