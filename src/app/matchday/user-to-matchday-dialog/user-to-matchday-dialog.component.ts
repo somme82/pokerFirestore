@@ -36,7 +36,6 @@ export class UserToMatchdayDialogComponent implements OnInit {
     this.matchday = this.selectedMatchday.valueChanges();
     this.matchday.subscribe(value => {
       this.matchday = value;
-      console.log(value);
     });
 
   }

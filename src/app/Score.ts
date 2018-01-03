@@ -6,5 +6,6 @@ export class Score {
   buyin: number;
   totalscore: number;
   matchdayDate: Date;
+  hasImage: boolean;
 }
 

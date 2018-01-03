@@ -7,4 +7,5 @@ export class GlobalVars {
   selectedScore: string = '';
   currentYear: number = new Date().getFullYear();
   showAllPlayers: boolean = false;
+
 }

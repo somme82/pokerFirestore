@@ -4,6 +4,7 @@ html{
 
 body{
   font-family: "Arial" !important;
+  font-size: 12px !important;
   margin: 0px !important;
   height: 100%;
   line-height: 1 !important;
@@ -190,7 +191,7 @@ div.fnpc-profile-head{
 div.fnpc-profile-rebuy{
   color: #999;
   /*margin: 0 0 10px 0;*/
-  font-size: 90%;
+  font-size: 90% !important;
   float: left;
 }
 

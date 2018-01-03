@@ -7,5 +7,6 @@ export class Player {
   realRank: number;
   overAllRank: number;
   relevantForTotalScore: boolean = false;
+  hasImage: boolean = false;
 }
 

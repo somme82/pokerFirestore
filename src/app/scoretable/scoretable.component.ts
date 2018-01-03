@@ -36,7 +36,6 @@ export class ScoretableComponent implements OnInit {
   }
 
   ngOnInit() {
-
     this.getPlayerResults();
   }
 
@@ -62,7 +61,6 @@ export class ScoretableComponent implements OnInit {
 
 
   getPlayerResults() {
-    console.log(this.globalVars.currentYear);
     let start = new Date(this.globalVars.currentYear + '-01-01');
     let end = new Date(this.globalVars.currentYear + '-12-31');
     let matchdayCount = 0;
@@ -89,7 +87,6 @@ export class ScoretableComponent implements OnInit {
 
       this.scores.subscribe(s => {
         this.scores = s;
-        console.log(s);
         if (this.scores && this.scores.length > 0) {
           this.scores.forEach(s => {
             if (this.playerResults.some(p => p.id === s.data.player)) {
@@ -144,9 +141,9 @@ export class ScoretableComponent implements OnInit {
             }
             p.data.overAllRank = Number(overAllRank)
             overAllRank ++
+            this.imageExists(p);
           })
           this.players = Observable.of(player);
-          console.log(player);
         });
       });
     })
@@ -176,7 +173,17 @@ export class ScoretableComponent implements OnInit {
     } else{
       this.globalVars.showAllPlayers = true;
     }
-    console.log(this.globalVars.showAllPlayers);
+  }
+
+  imageExists(player) {
+    var image = new Image();
+    image.onload = function(){
+      player.hasImage = true;
+    };
+    image.onerror = function(){
+      player.hasImage = false;
+    };
+    image.src = "../../assets/avatar/" + player.data.name.toLowerCase() + ".jpg";
   }
 
 }

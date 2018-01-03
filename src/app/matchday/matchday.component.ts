@@ -8,6 +8,7 @@ import {GlobalVars} from '../../GlobalVars';
 import {MatchdayDialogComponent} from './matchday-dialog/matchday-dialog.component';
 import {UserToMatchdayDialogComponent} from './user-to-matchday-dialog/user-to-matchday-dialog.component';
 import {ScoreDialogComponent} from './score-dialog/score-dialog.component';
+import {Observable} from 'rxjs/Observable';
 
 @Component({
   selector: 'my-matchday',
@@ -92,9 +93,6 @@ export class MatchdayComponent implements OnInit {
 
   public setMatchdays()
   {
-    console.log("setMatchdays");
-    console.log(this.globalVars.currentYear);
-
     let start = new Date(this.globalVars.currentYear + '-01-01');
     let end = new Date(this.globalVars.currentYear + '-12-31');
 
@@ -132,6 +130,14 @@ export class MatchdayComponent implements OnInit {
           return {id, playername, data};
         });
       });
+
+    this.scores.subscribe(score=>{
+      score.forEach(s=>{
+        this.imageExists(s);
+      })
+      this.scores = Observable.of(score);
+    });
+
 
     this.selectedMatchday = this.firestore.doc("matchdays/" + this.globalVars.matchdayId);
     this.matchday = this.selectedMatchday.snapshotChanges();
@@ -199,6 +205,17 @@ export class MatchdayComponent implements OnInit {
           return {id, data};
         });
       });
+  }
+
+  imageExists(score) {
+    var image = new Image();
+    image.onload = function(){
+      score.hasImage = true;
+    };
+    image.onerror = function(){
+      score.hasImage = false;
+    };
+    image.src = "../../assets/avatar/" + score.playername.toLowerCase() + ".jpg";
   }
 
 
