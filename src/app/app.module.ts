@@ -17,6 +17,7 @@ import { MatchdayComponent } from './matchday/matchday.component';
 import { MatchdayDialogComponent } from './matchday/matchday-dialog/matchday-dialog.component';
 import { ScoreDialogComponent } from './matchday/score-dialog/score-dialog.component';
 import { UserToMatchdayDialogComponent } from './matchday/user-to-matchday-dialog/user-to-matchday-dialog.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 @NgModule({
   imports: [
@@ -29,7 +30,8 @@ import { UserToMatchdayDialogComponent } from './matchday/user-to-matchday-dialo
     MatDialogModule,
     BrowserAnimationsModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    ServiceWorkerModule.register('/ngsw-worker.js', {enabled: environment.production})
   ],
   declarations: [
     AppComponent,
