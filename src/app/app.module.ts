@@ -18,6 +18,8 @@ import { MatchdayDialogComponent } from './matchday/matchday-dialog/matchday-dia
 import { ScoreDialogComponent } from './matchday/score-dialog/score-dialog.component';
 import { UserToMatchdayDialogComponent } from './matchday/user-to-matchday-dialog/user-to-matchday-dialog.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { ArticleDialogComponent } from './matchday/article-dialog/article-dialog.component';
+import { ArticlesComponent } from './articles/articles.component';
 
 @NgModule({
   imports: [
@@ -40,11 +42,13 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     MatchdayComponent,
     MatchdayDialogComponent,
     ScoreDialogComponent,
-    UserToMatchdayDialogComponent
+    UserToMatchdayDialogComponent,
+    ArticleDialogComponent,
+    ArticlesComponent
 
   ],
   providers: [GlobalVars],
   bootstrap: [AppComponent],
-  entryComponents: [UserDialogComponent, MatchdayDialogComponent, ScoreDialogComponent, UserToMatchdayDialogComponent]
+  entryComponents: [UserDialogComponent, MatchdayDialogComponent, ScoreDialogComponent, UserToMatchdayDialogComponent, ArticleDialogComponent]
 })
 export class AppModule { }

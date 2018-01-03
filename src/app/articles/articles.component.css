@@ -1,0 +1,31 @@
+div.fnpc-article-table{
+  line-height: 1.5em;
+  padding-left: 10px;
+  padding-right: 10px;
+  height:87%;
+}
+
+div.fnpc-article{
+  border: 2px solid #555;
+  margin-top: 10px;
+//padding-left: 10px;
+}
+
+div.fnpc-article-headline{
+  color:white;
+  background-color: #555;
+  padding-left: 10px;
+  padding-bottom: 7px;
+  padding-top: 7px;
+  padding-right:10px;
+}
+
+div.fnpc-article-content{
+  padding: 10px 10px 10px 10px;
+}
+
+
+span.fnpc-article-headline-right{
+  float: right !important;
+  font-style: italic !important;
+}

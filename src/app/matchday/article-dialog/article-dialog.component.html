@@ -1,0 +1,14 @@
+<div class="fnpc-dialog-headline">{{date}} von {{playername}}</div>
+<div class="fnpc-dialog-content">
+  <div class="fnpc-textarea-wrap">
+    <textarea class="fnpc-textarea" rows="20" [(ngModel)]="articleText"></textarea>
+  </div>
+</div>
+
+<div class="fnpc-menu-bottom">
+  <a class="fnpc-menu-item" mat-button (click)="addArticle()"><img src="../../assets/images/minus-white.svg"></a>
+  <a class="fnpc-menu-item" mat-button (click)="globalVars.closeDialog()"><img src="../../assets/images/delete-white.svg"></a>
+</div>
+
+
+

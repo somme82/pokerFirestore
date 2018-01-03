@@ -1,0 +1,16 @@
+<div class="fnpc-dialog-headline">Berichte {{globalVars.currentYear}}</div>
+<div class="fnpc-dialog-content">
+
+
+  <div class="fnpc-article-table">
+    <div class="fnpc-article" *ngFor="let article of articles | async; let i = index">
+      <div class="fnpc-article-headline">{{article.matchdayDate | date: 'dd.MM.yyyy'}} bei {{article.matchdayVenue}}<span class="fnpc-article-headline-right"> von {{article.player}}</span></div>
+      <div class="fnpc-article-content"><pre>{{article.text}}</pre></div>
+    </div>
+  </div>
+
+</div>
+
+<div class="fnpc-menu-bottom">
+  <a class="fnpc-menu-item" (click)="globalVars.closeDialog()"><img src="../../assets/images/check-white.svg"></a>
+</div>

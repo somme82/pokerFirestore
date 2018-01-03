@@ -9,6 +9,7 @@ import {MatchdayDialogComponent} from './matchday-dialog/matchday-dialog.compone
 import {UserToMatchdayDialogComponent} from './user-to-matchday-dialog/user-to-matchday-dialog.component';
 import {ScoreDialogComponent} from './score-dialog/score-dialog.component';
 import {Observable} from 'rxjs/Observable';
+import {ArticleDialogComponent} from './article-dialog/article-dialog.component';
 
 @Component({
   selector: 'my-matchday',
@@ -35,8 +36,6 @@ export class MatchdayComponent implements OnInit {
   matchdays: any;
 
   playersMap: Map<string, string> = new Map<string, string>();
-
-
 
   constructor(private firestore: AngularFirestore, public globalVars: GlobalVars, public dialog: MatDialog) { }
 
@@ -82,6 +81,12 @@ export class MatchdayComponent implements OnInit {
 
   openMatchdayDialog() {
     this.dialog.open(MatchdayDialogComponent, {
+      panelClass: 'fnpc-dialog',
+    });
+  }
+
+  openArticleDialog() {
+    this.dialog.open(ArticleDialogComponent, {
       panelClass: 'fnpc-dialog',
     });
   }
@@ -135,6 +140,14 @@ export class MatchdayComponent implements OnInit {
       score.forEach(s=>{
         this.imageExists(s);
       })
+
+      if (score && score.length > 0)
+      {
+        this.globalVars.matchdayLeadingPlayer = score[0].data.player;
+      }
+
+      console.log(this.globalVars.matchdayLeadingPlayer);
+
       this.scores = Observable.of(score);
 
       this.selectedMatchday = this.firestore.doc("matchdays/" + this.globalVars.matchdayId);
