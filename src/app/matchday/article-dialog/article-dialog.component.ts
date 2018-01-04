@@ -33,9 +33,12 @@ export class ArticleDialogComponent implements OnInit {
   currentArticle: AngularFirestoreCollection<Article>;
   currentArticleDoc: any
 
+  articleId: string = '';
+
   constructor(private firestore: AngularFirestore, public globalVars: GlobalVars) {}
 
   ngOnInit() {
+    this.article.text = '';
     this.playerDoc = this.firestore.doc('players/' + this.globalVars.matchdayLeadingPlayer);
     this.player = this.playerDoc.valueChanges();
     this.player.subscribe(value => {
@@ -65,12 +68,10 @@ export class ArticleDialogComponent implements OnInit {
             });
           this.currentArticleDoc.subscribe(ca=>{
             ca.forEach(c => {
-              
+              this.articleId = c.id;
+              this.articleText = c.data.text;
             })
           })
-
-
-
         })
       });
     });
@@ -78,8 +79,16 @@ export class ArticleDialogComponent implements OnInit {
 
   addArticle()
   {
+    var id = '';
+    if (this.articleId == '')
+    {
+      id = this.firestore.createId();
+    } else {
+      id = this.articleId;
+    }
+    console.log(id);
     this.article.text = this.articleText;
-    this.firestore.collection('articles').add({
+    this.firestore.collection('articles').doc(id).set({
       text: this.article.text,
       matchdayDate: this.article.matchdayDate,
       matchdayVenue: this.article.matchdayVenue,
@@ -110,6 +119,7 @@ export class ArticleDialogComponent implements OnInit {
         );
       }
     });
+    this.globalVars.closeDialog(); 
   }
 
 }
