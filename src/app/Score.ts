@@ -7,5 +7,6 @@ export class Score {
   totalscore: number;
   matchdayDate: Date;
   hasImage: boolean;
+  playername: string;
 }
 

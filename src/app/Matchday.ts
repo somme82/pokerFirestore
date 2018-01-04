@@ -4,5 +4,5 @@ export class Matchday{
   id: string;
   date: Date;
   venue: string;
-  player_ref: Player;
+  playerName: string;
 }

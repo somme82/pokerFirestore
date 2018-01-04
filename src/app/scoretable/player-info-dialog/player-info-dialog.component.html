@@ -11,7 +11,7 @@
         </div>
         <div [ngClass]="{'fnpc-table-row': true, 'oddRow':(i %2 !=0)}" *ngFor="let score of scores | async; let i = index">
           <div class="fnpc-table-cell">#{{i + 1}} {{score.data.matchdayDate | date: 'dd.MM.yyyy'}}</div>
-          <div class="fnpc-table-cell"></div>
+          <div class="fnpc-table-cell">{{score.playername}}</div>
           <div class="fnpc-table-cell">{{score.data.buyin}}</div>
           <div class="fnpc-table-cell">{{score.data.chips}}</div>
           <div class="fnpc-table-cell">{{score.data.totalscore}}</div>
