@@ -87,7 +87,7 @@ export class UserToMatchdayDialogComponent implements OnInit {
   insertPlayer(playerid){
     const pushkey = this.firestore.createId();
     this.firestore.collection("scores").doc(pushkey).set({
-      chips: 0,
+      chips: 10,
       totalscore: 0,
       buyin: 10,
       player: playerid,
