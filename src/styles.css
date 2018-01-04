@@ -129,6 +129,7 @@ div.fnpc-table {
   display: table;
   border-collapse:collapse;
   margin-top: 20px;
+  width: 100% !important;
 }
 div.fnpc-table-row {
   display:table-row;
