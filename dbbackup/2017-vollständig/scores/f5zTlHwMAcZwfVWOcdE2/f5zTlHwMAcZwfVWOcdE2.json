@@ -1,8 +1,8 @@
 {
-  "matchdayDate": "2017-03-30T22:00:00.000Z",
-  "totalscore": 5,
   "buyin": 10,
   "matchday": "clTUBI7OK5fJAU9Cr6oD",
   "player": "pXEIpOs0ud5DjQ4e8bXj",
-  "chips": "15"
+  "chips": "15",
+  "matchdayDate": "2017-03-30T22:00:00.000Z",
+  "totalscore": 5
 }

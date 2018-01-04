@@ -1,8 +1,8 @@
 {
-  "buyin": "30",
-  "matchday": "6tBLVwPIyTqAtZKecQ4U",
   "player": "H1AG0wbr3QhnLlKgHPvd",
   "chips": "56",
   "matchdayDate": "2017-01-26T23:00:00.000Z",
-  "totalscore": 26
+  "totalscore": 26,
+  "buyin": "30",
+  "matchday": "6tBLVwPIyTqAtZKecQ4U"
 }
