@@ -56,13 +56,22 @@ export class PlayerInfoDialogComponent implements OnInit {
         ref.where('date', '>', start)
           .where('date', '<', end)
           .orderBy('date', 'asc'));
-      this.matchdays = this.matchdayCollection.valueChanges();
+      this.matchdays = this.matchdayCollection.snapshotChanges()
+        .map(actions => {
+          return actions.map(a => {
+            const data = a.payload.doc.data() as Score;
+            const id = a.payload.doc.id;
+            return {id, data};
+          });
+        });
       this.matchdays.subscribe(matchday => {
         matchday.forEach(m=>{
-          if (this.playersMap.has(m.venue)){
-            this.matchdayMap.set(m.venue, this.playersMap.get(m.venue))
+          if (this.playersMap.has(m.data.venue)){
+            this.matchdayMap.set(m.id, this.playersMap.get(m.data.venue))
           }
         })
+        console.log(matchday)
+        console.log(this.matchdayMap)
       })
 
 
@@ -81,14 +90,15 @@ export class PlayerInfoDialogComponent implements OnInit {
           });
         });
 
-      this.scores.subscribe(score=>{
+      this.scores.subscribe(score=>{ 
         if (score && score.length > 0){
           score.forEach(s=>{
             if (this.matchdayMap.has(s.data.matchday)){
-              score.playername = this.matchdayMap.get(s.data.matchday);
+              s.playername = this.matchdayMap.get(s.data.matchday);
             }
           })
         }
+        console.log(score);
         this.scores = Observable.of(score);
       })
     });
