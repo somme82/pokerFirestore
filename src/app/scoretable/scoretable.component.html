@@ -19,7 +19,7 @@
         <strong *ngIf="!globalVars.showAllPlayers">#{{player.data.realRank}} {{player.data.name}}</strong>
         <span class="fnpc-pull-right"><strong>{{player.data.totalscore}} €</strong></span>
       </div>
-      <div class="fnpc-profile-rebuy">Einsatz: {{player.data.totalbuyin}} € | Teilnahmen: {{player.data.participations}}</div>
+      <div class="fnpc-profile-rebuy">Einsatz: {{player.data.totalbuyin}} € | Teilnahmen: {{player.data.participations}} von {{matchdayCount}}</div>
     </div>
   </div>
   <!--/-->
@@ -27,7 +27,7 @@
 <div class="fnpc-menu-bottom">
   <a class="fnpc-menu-item" mat-button (click)="openDialog()"><img src="../../assets/images/plus-white.svg"></a>
   <a class="fnpc-menu-item" mat-button (click)="openDatepicker()"><img src="../../assets/images/calendar-white.svg"></a>
-  <!--a class="fnpc-menu-item"><img src="../../assets/images/bars-white.svg"></a-->
+  <a class="fnpc-menu-item" mat-button (click)="openPlayerInfoDialog()"><img src="../../assets/images/info-white.svg"></a>
   <a class="fnpc-menu-item" (click)="showAllPlayers()" [ngClass]="{'lineThrough': !globalVars.showAllPlayers}">Alle</a>
   <input type="hidden" [matDatepicker]="picker" [(ngModel)]="matchdayDate" (dateChange)="onDateChange($event)">
 </div>

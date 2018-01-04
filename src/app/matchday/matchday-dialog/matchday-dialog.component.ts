@@ -13,10 +13,12 @@ export class MatchdayDialogComponent implements OnInit {
   score: any
   constructor(private firestore: AngularFirestore, public globalVars: GlobalVars) { }
 
-  ngOnInit() {
-  }
+  scoresOfMatchday: Array<Score> = new Array;
 
-  deleteMatchday(){
+  totalChips: number = 0;
+  totalBuyIn: number = 0;
+
+  ngOnInit() {
     this.scoreCollection = this.firestore.collection('scores', ref => ref.where('matchday', '==', this.globalVars.matchdayId));
     this.score = this.scoreCollection.snapshotChanges()
       .map(actions => {
@@ -31,13 +33,32 @@ export class MatchdayDialogComponent implements OnInit {
       this.score = sc;
       if (this.score && this.score.length > 0) {
         this.score.forEach(s =>{
-            this.firestore.doc('scores/' + s.id).delete();
+            let score = new Score();
+            score.id = s.id;
+            score.buyin = s.data.buyin;
+            score.chips = s.data.chips;
+            console.log(s)
+            this.totalBuyIn = Number(Number(this.totalBuyIn) + Number(s.data.buyin));
+            this.totalChips = Number(Number(this.totalChips) + Number(s.data.chips));
+            this.scoresOfMatchday.push(score);
           }
         );
       }
     });
+    console.log(this.totalBuyIn)
+    console.log(this.totalChips)
+  }
+
+  deleteMatchday(){
+
+    if ( this.scoresOfMatchday && this.scoresOfMatchday.length > 0){
+      this.scoresOfMatchday.forEach(s => {
+        this.firestore.doc('scores/' + s.id).delete();
+      })
+    }
+
     this.firestore.doc('matchdays/' + this.globalVars.matchdayId).delete();
-    this.globalVars.closeDialog();0
+    this.globalVars.closeDialog();
 
   }
 

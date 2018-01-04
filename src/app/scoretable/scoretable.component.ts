@@ -8,6 +8,7 @@ import {Score} from '../Score';
 import {Matchday} from '../Matchday';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
+import {PlayerInfoDialogComponent} from './player-info-dialog/player-info-dialog.component';
 
 @Component({
   selector: 'my-scoretable',
@@ -29,6 +30,9 @@ export class ScoretableComponent implements OnInit {
   newMatchday: any;
 
   playerResults: Player[] = new Array<Player>();
+
+  matchdayCount: number = 0
+
 
   @ViewChild(MatDatepicker) datepicker: MatDatepicker<Date>;
 
@@ -63,14 +67,13 @@ export class ScoretableComponent implements OnInit {
   getPlayerResults() {
     let start = new Date(this.globalVars.currentYear + '-01-01');
     let end = new Date(this.globalVars.currentYear + '-12-31');
-    let matchdayCount = 0;
 
     this.matchdayCollection = this.firestore.collection('matchdays', ref => ref
       .where('date', '>', start)
       .where('date', '<', end));
     this.matchdays = this.matchdayCollection.valueChanges();
     this.matchdays.subscribe( m => {
-      matchdayCount = m.length;
+      this.matchdayCount = m.length;
 
       this.playerResults = new Array<Player>()
       this.scoreCollection = this.firestore.collection('scores', ref => ref
@@ -136,7 +139,7 @@ export class ScoretableComponent implements OnInit {
         var overAllRank: number = 1;
         this.players.subscribe(player=>{
           player.forEach(p=>{
-            if(p.data.participations > 14){
+            if(p.data.participations >= (this.matchdayCount / 3)){
               p.data.relevantForTotalScore = true;
               p.data.realRank = realRank;
               realRank ++;
@@ -156,6 +159,12 @@ export class ScoretableComponent implements OnInit {
 
   openDialog() {
     this.dialog.open(UserDialogComponent, {
+      panelClass: 'fnpc-dialog'
+    });
+  }
+
+  openPlayerInfoDialog(){
+    this.dialog.open(PlayerInfoDialogComponent, {
       panelClass: 'fnpc-dialog'
     });
   }

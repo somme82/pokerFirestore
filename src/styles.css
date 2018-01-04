@@ -106,13 +106,21 @@ div.fnpc-menu-bottom a.fnpc-menu-item {
 img.arrow {
   margin: 0px !important;
 }
-.fnpc-dialog, .mat-datepicker-dialog{
+.fnpc-dialog{
   width: 100% !important;
   height: 100% !important;
   background-color: white;
   position: absolute !important;
   top: 0px !important;
   left: 0px !important;
+  max-width: unset !important;
+}
+
+.mat-datepicker-dialog{
+  background-color: white;
+  position: absolute !important;
+  top: 20% !important;
+  left: 10% !important;
   max-width: unset !important;
 }
 
