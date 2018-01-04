@@ -75,7 +75,9 @@ export class ScoretableComponent implements OnInit {
       this.playerResults = new Array<Player>()
       this.scoreCollection = this.firestore.collection('scores', ref => ref
         .where('matchdayDate', '>', start)
-        .where('matchdayDate', '<', end));
+        .where('matchdayDate', '<', end)
+        .orderBy('matchdayDate', 'asc')
+      );
       this.scores = this.scoreCollection.snapshotChanges()
         .map(actions => {
           return actions.map(a => {
@@ -134,7 +136,7 @@ export class ScoretableComponent implements OnInit {
         var overAllRank: number = 1;
         this.players.subscribe(player=>{
           player.forEach(p=>{
-            if(p.data.participations > 3){
+            if(p.data.participations > 14){
               p.data.relevantForTotalScore = true;
               p.data.realRank = realRank;
               realRank ++;
