@@ -21,6 +21,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { ArticleDialogComponent } from './matchday/article-dialog/article-dialog.component';
 import { ArticlesComponent } from './articles/articles.component';
 import { PlayerInfoDialogComponent } from './scoretable/player-info-dialog/player-info-dialog.component';
+import { ServerToolsComponent } from './server-tools/server-tools.component';
 
 @NgModule({
   imports: [
@@ -46,7 +47,8 @@ import { PlayerInfoDialogComponent } from './scoretable/player-info-dialog/playe
     UserToMatchdayDialogComponent,
     ArticleDialogComponent,
     ArticlesComponent,
-    PlayerInfoDialogComponent
+    PlayerInfoDialogComponent,
+    ServerToolsComponent
 
   ],
   providers: [GlobalVars],
