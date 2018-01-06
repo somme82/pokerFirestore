@@ -52,7 +52,7 @@ import { ServerToolsComponent } from './server-tools/server-tools.component';
     ServerToolsComponent
 
   ],
-  providers: [GlobalVars],
+  providers: [GlobalVars, ServerToolsComponent],
   bootstrap: [AppComponent],
   entryComponents: [UserDialogComponent, MatchdayDialogComponent, ScoreDialogComponent, UserToMatchdayDialogComponent, ArticleDialogComponent, PlayerInfoDialogComponent]
 })

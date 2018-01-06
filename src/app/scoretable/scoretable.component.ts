@@ -9,6 +9,7 @@ import {Matchday} from '../Matchday';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import {PlayerInfoDialogComponent} from './player-info-dialog/player-info-dialog.component';
+import {ServerToolsComponent} from "../server-tools/server-tools.component";
 
 @Component({
   selector: 'my-scoretable',
@@ -36,7 +37,7 @@ export class ScoretableComponent implements OnInit {
 
   @ViewChild(MatDatepicker) datepicker: MatDatepicker<Date>;
 
-  constructor(private firestore: AngularFirestore, public dialog: MatDialog, public globalVars: GlobalVars) {
+  constructor(private firestore: AngularFirestore, public dialog: MatDialog, public globalVars: GlobalVars, public serverTools: ServerToolsComponent) {
   }
 
   ngOnInit() {
@@ -50,6 +51,11 @@ export class ScoretableComponent implements OnInit {
       date: this.matchdayDate,
       venue: this.globalVars.selectedPlayer
     });
+
+    if ((this.matchdayCount + 1) % 4 == 0){
+      this.serverTools.doBackup();
+    }
+
     this.newMatchdayDoc = this.firestore.doc('matchdays/' + pushkey);
     this.newMatchday = this.newMatchdayDoc.snapshotChanges();
     this.globalVars.matchdayId = pushkey;
