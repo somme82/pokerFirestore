@@ -1,0 +1,18 @@
+[debug] [2018-01-05T16:04:46.669Z] ----------------------------------------------------------------------
+[debug] [2018-01-05T16:04:46.669Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Micha\AppData\Roaming\npm\node_modules\firebase-tools\bin\firebase deploy --only functions
+[debug] [2018-01-05T16:04:46.669Z] CLI Version:   3.16.0
+[debug] [2018-01-05T16:04:46.669Z] Platform:      win32
+[debug] [2018-01-05T16:04:46.669Z] Node Version:  v8.9.3
+[debug] [2018-01-05T16:04:46.669Z] Time:          Fri Jan 05 2018 17:04:46 GMT+0100 (Mitteleuropäische Zeit)
+[debug] [2018-01-05T16:04:46.669Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-01-05T16:04:46.685Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-01-05T16:04:46.685Z] > authorizing via signed-in user
+[debug] [2018-01-05T16:04:46.685Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/friday-night-poker  
+  
+ Fri Jan 05 2018 17:04:46 GMT+0100 (Mitteleuropäische Zeit)
+[debug] [2018-01-05T16:04:47.498Z] <<< HTTP RESPONSE 200
+[debug] [2018-01-05T16:04:47.498Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/friday-night-poker/tokens  
+  
+ Fri Jan 05 2018 17:04:47 GMT+0100 (Mitteleuropäische Zeit)
+[debug] [2018-01-05T16:04:48.122Z] <<< HTTP RESPONSE 200

@@ -28,7 +28,6 @@
     "@angular/upgrade": "^5.1.2",
     "angularfire2": "^5.0.0-rc.5-next",
     "core-js": "^2.5.3",
-    "cors": "^2.8.4",
     "firebase": "^4.8.0",
     "hammerjs": "^2.0.8",
     "nodemailer": "^4.4.1",

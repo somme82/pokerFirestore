@@ -43,7 +43,7 @@ testem.log
 Thumbs.db
 
 #firestore-stuff
-/functions
+functions/node_modules
 .firebaserc
 firebase.json
 firestore.indexes.json
