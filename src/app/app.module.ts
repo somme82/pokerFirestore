@@ -35,7 +35,8 @@ import { ServerToolsComponent } from './server-tools/server-tools.component';
     BrowserAnimationsModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    ServiceWorkerModule.register('/ngsw-worker.js', {enabled: environment.production})
+    ServiceWorkerModule.register('/ngsw-worker.js', {enabled: environment.production}),
+    HttpModule
   ],
   declarations: [
     AppComponent,
