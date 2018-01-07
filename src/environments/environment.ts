@@ -6,11 +6,11 @@
 export const environment = {
   production: false,
   firebase: {
-    apiKey: "AIzaSyDhKXrNvbsE5GoQ8WJ4EFyUOFGgfh89APc",
-    authDomain: "friday-night-poker.firebaseapp.com",
-    databaseURL: "https://friday-night-poker.firebaseio.com",
-    projectId: "friday-night-poker",
-    storageBucket: "",
-    messagingSenderId: "810251522245"
+    apiKey: "AIzaSyAGEPphOhxncNGIuFyGrtEt9886MV_KvkE",
+    authDomain: "friday-night-poker-crew.firebaseapp.com",
+    databaseURL: "https://friday-night-poker-crew.firebaseio.com",
+    projectId: "friday-night-poker-crew",
+    storageBucket: "friday-night-poker-crew.appspot.com",
+    messagingSenderId: "944744993714"
   }
 };

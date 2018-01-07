@@ -48,7 +48,7 @@ export class UserToMatchdayDialogComponent implements OnInit {
         }
       })
 
-      this.scoresCollection = this.firestore.collection('scores', ref => ref.where('matchday', '==', this.globalVars.matchdayId));
+      this.scoresCollection = this.firestore.collection('userscores', ref => ref.where('matchday', '==', this.globalVars.matchdayId));
       this.scores = this.scoresCollection.snapshotChanges()
         .map(actions => {
           return actions.map(a => {

@@ -52,7 +52,7 @@ export class PlayerInfoDialogComponent implements OnInit {
       }
       let start = new Date(this.globalVars.currentYear + '-01-01');
       let end = new Date(this.globalVars.currentYear + '-12-31');
-      this.matchdayCollection = this.firestore.collection('matchdays', ref =>
+      this.matchdayCollection = this.firestore.collection('gamedays', ref =>
         ref.where('date', '>', start)
           .where('date', '<', end)
           .orderBy('date', 'asc'));
@@ -75,7 +75,7 @@ export class PlayerInfoDialogComponent implements OnInit {
       })
 
 
-      this.scoreCollection = this.firestore.collection('scores', ref =>
+      this.scoreCollection = this.firestore.collection('userscores', ref =>
         ref.where('player', '==', this.globalVars.selectedPlayer)
           .where('matchdayDate', '>', start)
           .where('matchdayDate', '<', end)
@@ -90,7 +90,7 @@ export class PlayerInfoDialogComponent implements OnInit {
           });
         });
 
-      this.scores.subscribe(score=>{ 
+      this.scores.subscribe(score=>{
         if (score && score.length > 0){
           score.forEach(s=>{
             if (this.matchdayMap.has(s.data.matchday)){

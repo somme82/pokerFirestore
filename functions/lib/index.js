@@ -40,6 +40,7 @@ exports.sendMail = functions.https.onRequest((req, res) => {
         mailTransport.sendMail(mailOptions)
             .then(() => console.log(`New ${''}subscription confirmation email sent to:`, 'somme82@gmail.com'))
             .catch(error => console.error('There was an error while sending the email:', error));
+        res.status(200).send('email erfolgreich gesendet!');
     });
 });
 //# sourceMappingURL=index.js.map

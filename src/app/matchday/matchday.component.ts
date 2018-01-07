@@ -101,7 +101,7 @@ export class MatchdayComponent implements OnInit {
     let start = new Date(this.globalVars.currentYear + '-01-01');
     let end = new Date(this.globalVars.currentYear + '-12-31');
 
-    this.matchdayCollection = this.firestore.collection('matchdays', ref => ref
+    this.matchdayCollection = this.firestore.collection('gamedays', ref => ref
       .where('date', '>', start)
       .where('date', '<', end)
       .orderBy('date', 'asc'));
@@ -125,7 +125,7 @@ export class MatchdayComponent implements OnInit {
 
   getScoreOfMatchday()
   {
-    this.scoreCollection = this.firestore.collection('scores', ref => ref.where('matchday', '==', this.globalVars.matchdayId).orderBy('totalscore', 'desc'));
+    this.scoreCollection = this.firestore.collection('userscores', ref => ref.where('matchday', '==', this.globalVars.matchdayId).orderBy('totalscore', 'desc'));
     this.scores = this.scoreCollection.snapshotChanges()
       .map(actions => {
         return actions.map( a => {
@@ -150,7 +150,7 @@ export class MatchdayComponent implements OnInit {
 
       this.scores = Observable.of(score);
 
-      this.selectedMatchday = this.firestore.doc("matchdays/" + this.globalVars.matchdayId);
+      this.selectedMatchday = this.firestore.doc("gamedays/" + this.globalVars.matchdayId);
       this.matchday = this.selectedMatchday.snapshotChanges();
       this.matchday.subscribe(value => {
         if (this.playersMap.has(value.payload.data().venue))

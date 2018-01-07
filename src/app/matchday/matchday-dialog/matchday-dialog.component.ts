@@ -19,7 +19,7 @@ export class MatchdayDialogComponent implements OnInit {
   totalBuyIn: number = 0;
 
   ngOnInit() {
-    this.scoreCollection = this.firestore.collection('scores', ref => ref.where('matchday', '==', this.globalVars.matchdayId));
+    this.scoreCollection = this.firestore.collection('userscores', ref => ref.where('matchday', '==', this.globalVars.matchdayId));
     this.score = this.scoreCollection.snapshotChanges()
       .map(actions => {
         return actions.map( a => {
@@ -53,11 +53,11 @@ export class MatchdayDialogComponent implements OnInit {
 
     if ( this.scoresOfMatchday && this.scoresOfMatchday.length > 0){
       this.scoresOfMatchday.forEach(s => {
-        this.firestore.doc('scores/' + s.id).delete();
+        this.firestore.doc('userscores/' + s.id).delete();
       })
     }
 
-    this.firestore.doc('matchdays/' + this.globalVars.matchdayId).delete();
+    this.firestore.doc('gamedays/' + this.globalVars.matchdayId).delete();
     this.globalVars.closeDialog();
 
   }

@@ -45,7 +45,7 @@ export class ArticleDialogComponent implements OnInit {
       this.player = value;
       this.article.player = value.name;
 
-      this.matchdayDoc = this.firestore.doc('matchdays/' + this.globalVars.matchdayId);
+      this.matchdayDoc = this.firestore.doc('gamedays/' + this.globalVars.matchdayId);
       this.matchday = this.matchdayDoc.valueChanges();
       this.matchday.subscribe(md => {
         this.matchday = md;
@@ -57,7 +57,7 @@ export class ArticleDialogComponent implements OnInit {
           this.venue = v;
           this.article.matchdayVenue = v.name;
 
-          this.currentArticle = this.firestore.collection('articles', ref => ref.where('matchdayId', '==', this.globalVars.matchdayId))
+          this.currentArticle = this.firestore.collection('matchdayarticles', ref => ref.where('matchdayId', '==', this.globalVars.matchdayId))
           this.currentArticleDoc = this.currentArticle.snapshotChanges()
             .map(actions => {
               return actions.map( a => {
@@ -88,7 +88,7 @@ export class ArticleDialogComponent implements OnInit {
     }
     console.log(id);
     this.article.text = this.articleText;
-    this.firestore.collection('articles').doc(id).set({
+    this.firestore.collection('matchdayarticles').doc(id).set({
       text: this.article.text,
       matchdayDate: this.article.matchdayDate,
       matchdayVenue: this.article.matchdayVenue,
@@ -101,7 +101,7 @@ export class ArticleDialogComponent implements OnInit {
 
   deleteArticle()
   {
-    this.articleCollection = this.firestore.collection('articles', ref => ref.where('matchdayId', '==', this.globalVars.matchdayId));
+    this.articleCollection = this.firestore.collection('matchdayarticles', ref => ref.where('matchdayId', '==', this.globalVars.matchdayId));
     this.articleDoc = this.articleCollection.snapshotChanges()
       .map(actions => {
         return actions.map( a => {
@@ -114,12 +114,12 @@ export class ArticleDialogComponent implements OnInit {
       this.articleDoc = sc;
       if (this.articleDoc && this.articleDoc.length > 0) {
         this.articleDoc.forEach(a =>{
-            this.firestore.doc('articles/' + a.id).delete();
+            this.firestore.doc('matchdayarticles/' + a.id).delete();
           }
         );
       }
     });
-    this.globalVars.closeDialog(); 
+    this.globalVars.closeDialog();
   }
 
 }

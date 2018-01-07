@@ -56,7 +56,7 @@ export class ScoretableComponent implements OnInit {
       this.serverTools.doBackup();
     }
 
-    this.newMatchdayDoc = this.firestore.doc('matchdays/' + pushkey);
+    this.newMatchdayDoc = this.firestore.doc('gamedays/' + pushkey);
     this.newMatchday = this.newMatchdayDoc.snapshotChanges();
     this.globalVars.matchdayId = pushkey;
   }
@@ -74,15 +74,16 @@ export class ScoretableComponent implements OnInit {
     let start = new Date(this.globalVars.currentYear + '-01-01');
     let end = new Date(this.globalVars.currentYear + '-12-31');
 
-    this.matchdayCollection = this.firestore.collection('matchdays', ref => ref
+    this.matchdayCollection = this.firestore.collection('gamedays', ref => ref
       .where('date', '>', start)
       .where('date', '<', end));
+
     this.matchdays = this.matchdayCollection.valueChanges();
     this.matchdays.subscribe( m => {
       this.matchdayCount = m.length;
-
+      console.log(m);
       this.playerResults = new Array<Player>()
-      this.scoreCollection = this.firestore.collection('scores', ref => ref
+      this.scoreCollection = this.firestore.collection('userscores', ref => ref
         .where('matchdayDate', '>', start)
         .where('matchdayDate', '<', end)
         .orderBy('matchdayDate', 'asc')

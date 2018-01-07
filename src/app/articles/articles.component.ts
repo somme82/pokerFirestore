@@ -25,7 +25,7 @@ export class ArticlesComponent implements OnInit {
     let start = new Date(this.globalVars.currentYear + '-01-01');
     let end = new Date(this.globalVars.currentYear + '-12-31');
 
-    this.articlesCollection = this.firestore.collection('articles', ref => ref
+    this.articlesCollection = this.firestore.collection('matchdayarticles', ref => ref
       .where('matchdayDate', '>', start)
       .where('matchdayDate', '<', end)
       .orderBy('matchdayDate', 'desc'));

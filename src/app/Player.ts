@@ -8,5 +8,6 @@ export class Player {
   overAllRank: number;
   relevantForTotalScore: boolean = false;
   hasImage: boolean = false;
+  imported = false;
 }
 
