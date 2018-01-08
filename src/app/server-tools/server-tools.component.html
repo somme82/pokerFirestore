@@ -7,12 +7,45 @@
     </div>
     <div class="fnpc-table-row">
       <div class="fnpc-table-cell">Import</div>
-      <div class="fnpc-table-cell"><button (click)="doImport()">Import</button></div>
+      <div class="fnpc-table-cell">
+        <button (click)="doImportFirestoreData()">Import Firestore backup</button>
+      </div>
     </div>
     <div class="fnpc-table-row">
       <div class="fnpc-table-cell">Import</div>
-      <div class="fnpc-table-cell"><button (click)="doImportFirestoreData()">Import Firestore Backup</button></div>
+      <div class="fnpc-table-cell"><button (click)="setPlayersMap()">Set players map</button><button (click)="importPlayers()">import</button></div>
     </div>
+    <div class="fnpc-table-row">
+      <div class="fnpc-table-cell">Import</div>
+      <div class="fnpc-table-cell"><button (click)="setMatchdaysMap()">Set matchdays map</button><button (click)="importMatchdays()">import</button></div>
+    </div>
+    <div class="fnpc-table-row">
+      <div class="fnpc-table-cell">Import</div>
+      <div class="fnpc-table-cell"><button (click)="setScoresMap()">Set scores map</button><button (click)="importScores()">import</button></div>
+    </div>
+    <div class="fnpc-table-row">
+      <div class="fnpc-table-cell">Import</div>
+      <div class="fnpc-table-cell"><button (click)="setArticlesMap()">Set articles map</button></div>
+    </div>
+
+    <div class="fnpc-table-row">
+      <div class="fnpc-table-cell">TestPromise</div>
+      <div class="fnpc-table-cell"><button (click)="testPromise()">Test Promise</button></div>
+    </div>
+
+    <div class="fnpc-table-row">
+      <div class="fnpc-table-cell">getDataCount</div>
+      <div class="fnpc-table-cell"><button (click)="getDataCount()">Count Data</button></div>
+    </div>
+    <div class="fnpc-table-row">
+      <div class="fnpc-table-cell">getDataCount</div>
+      <div class="fnpc-table-cell"><button (click)="deleteMatchdays()">Delete Matchdays before 2013</button></div>
+    </div>
+    <div class="fnpc-table-row">
+      <div class="fnpc-table-cell">getDataCount</div>
+      <div class="fnpc-table-cell"><button (click)="deleteScores()">Delete Scores before 2013</button></div>
+    </div>
+
   </div>
 </div>
 

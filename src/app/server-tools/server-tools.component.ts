@@ -32,11 +32,14 @@ export class ServerToolsComponent implements OnInit {
 
   backup: Array<any> = new Array<any>();
 
+  playersMap: Map<string, any> = new Map<string, any>();
+  matchdayMap: Map<string, any> = new Map<string, any> ();
+  scoresMap: Map<string, any> = new Map<string, any> ();
+  articlesMap: Map<string, any> = new Map<string, any> ();
+
   constructor(private globalVars: GlobalVars, private http: Http, private firestore: AngularFirestore) { }
 
   ngOnInit() {
-
-
   }
 
   doBackup(){
@@ -120,190 +123,210 @@ export class ServerToolsComponent implements OnInit {
     })
   }
 
-
-  doImport(){
-
-    var matchdays = this.globalVars.matchdays;
+  setPlayersMap(){
     var user = this.globalVars.user;
-    var scores = this.globalVars.scores;
-    var articles = this.globalVars.articles;
-
-    console.log('##### user #####');
-    console.log(user);
 
     var existingPlayers: AngularFirestoreCollection<Player>;
     var players: any;
-    var playersMap: Map<string, any> = new Map<string, any>();
+    var count = 0;
+
 
     existingPlayers = this.firestore.collection('players');
     players = existingPlayers.snapshotChanges()
       .map(actions => {
         return actions.map(a => {
-          const data = a.payload.doc.data() as Score;
-          data.id = a.payload.doc.id;
+          const data ={
+              data: a.payload.doc.data() as Score,
+              id: a.payload.doc.id
+          }
           return {data};
         });
       });
 
     players.subscribe(player=>{
       player.forEach(p=>{
-        if (!playersMap.has(p.data.name.toLowerCase())){
-          playersMap.set(p.data.name.toLowerCase(), p.data);
+        if (!this.playersMap.has(p.data.data.name.toLowerCase())){
+          this.playersMap.set(p.data.data.name.toLowerCase(), p.data);
         }
       })
-
-      console.log('###### playersMap #####');
-      console.log(playersMap);
 
       user.forEach(u=>{
         if (u.username.toLowerCase() == 'dominik')
         {
           u.username = 'Dome';
         }
-        if (!playersMap.has(u.username.toLowerCase())){
+
+        if (u.username.toLowerCase() == 'siggi')
+        {
+          u.username = 'Sigi';
+        }
+        if (u.username.toLowerCase() == 'tobias')
+        {
+          u.username = 'Tobse';
+        }
+
+        if (!this.playersMap.has(u.username.toLowerCase())){
           var pushkey = this.firestore.createId();
-          this.firestore.collection('players').doc(pushkey).set({
-            name: u.username,
-          })
-
-          var importedUser = new Player();
-          importedUser.name = u.username;
-          importedUser.id = pushkey;
-          importedUser.imported = true;
-          playersMap.set(u.username.toLowerCase(), importedUser)
+          var importedUser = {
+            data: {
+              name: u.username,
+              imported: true
+            },
+            id: pushkey
+          }
+          this.playersMap.set(u.username.toLowerCase(), importedUser)
+          count ++;
 
         } else{
-          console.log(u.username + ' bereits angelegt!')
+
         }
       })
+    })
 
 
+    console.log('###### playersMap #####');
+    console.log('Neu anzulegen: ' + count);
+    console.log(this.playersMap);
+  }
 
-      var matchdayMap: Map<string, any> = new Map<string, any> ();
 
+  setMatchdaysMap(){
+    var matchdays = this.globalVars.matchdays;
+    var count = 0;
 
-      matchdays.forEach(m => {
-        var pushkey = this.firestore.createId();
-        var venue = '';
+    matchdays.filter(md=> new Date(md.date) > new Date("2013-01-01")).forEach(m => {
+      var pushkey = this.firestore.createId();
+      var venue = '';
 
-        if (m.venue == 'Tobias'){
-          m.venue = 'Tobse'
+      if (m.venue == 'Tobias'){
+        m.venue = 'Tobse'
+      }
+      if (m.venue == 'Dominik') {
+        m.venue = 'Dome';
+      }
+
+      if (m.venue == 'Siggi') {
+        m.venue = 'Sigi';
+      }
+      if (!this.playersMap.has(m.venue.toLowerCase())){
+
+      } else{
+        venue = this.playersMap.get(m.venue.toLowerCase()).id;
+      }
+
+      var matchday = {
+        data: {
+          venue: venue,
+          date: new Date(m.date),
+        },
+        id: pushkey
+      }
+      count ++;
+      this.matchdayMap.set(m.id, matchday);
+    })
+
+    console.log('###### matchdayMap #####');
+    console.log('Neu anzulegen: ' + count);
+    console.log(this.matchdayMap);
+  }
+
+  setScoresMap(){
+    var scores = this.globalVars.scores;
+    var count = 0;
+
+    scores.sort(function (a, b) {
+      return a.id - b.id;
+    }).forEach(score => {
+
+      if (this.scoresMap.has(score.matchday_id)){
+
+        if (score.user_name.toLowerCase() == 'dominik'){
+          score.user_name = 'Dome';
         }
-        if (m.venue == 'Dominik') {
-          m.venue = 'Dome';
-        }
-        if (! playersMap.has(m.venue.toLowerCase())){
-          //console.log(m);
-        } else{
-          venue = playersMap.get(m.venue.toLowerCase()).id;
+
+        if (score.user_name.toLowerCase() == 'siggi'){
+          score.user_name = 'Sigi';
         }
 
-        var matchday = {
-          data: {
-            venue: venue,
-            date: new Date(m.date),
-          },
-          id: pushkey
-        }
-        this.firestore.collection('gamedays').doc(pushkey).set(matchday.data);
-        matchdayMap.set(m.id, matchday);
-      })
-
-      var scoresMap: Map<string, any> = new Map<string, any>();
-
-
-      scores.sort(function (a, b) {
-        return a.id - b.id;
-      }).forEach(score => {
-
-        if (scoresMap.has(score.matchday_id)){
-
-          if (score.user_name.toLowerCase() == 'dominik'){
-            score.user_name = 'Dome';
+        if (this.scoresMap.get(score.matchday_id).some(p=>p.username == score.user_name)){
+          if (score.isRebuy == '1') {
+            this.scoresMap.get(score.matchday_id).find(p=>p.username == score.user_name).buyIn =
+              Number(Number(this.scoresMap.get(score.matchday_id).find(p=>p.username ==score.user_name).buyIn) + Number(score.chipcount));
+          }else{
+            this.scoresMap.get(score.matchday_id).find(p=>p.username == score.user_name).chips = Number(score.chipcount);
+            this.scoresMap.get(score.matchday_id).find(p=>p.username == score.user_name).totalscore = Number(Number(score.chipcount) - this.scoresMap.get(score.matchday_id).find(p=>p.username == score.user_name).buyIn)
           }
-          //console.log(score.user_name.toLowerCase())
-
-          //if (scoresMap.get(score.matchday_id).some(p=>p.username == playersMap.get(score.user_name.toLowerCase()).id)){
-          if (scoresMap.get(score.matchday_id).some(p=>p.username == score.user_name)){
-            if (score.isRebuy == '1') {
-              //scoresMap.get(score.matchday_id).find(p=>p.username == playersMap.get(score.user_name.toLowerCase()).id).buyIn =
-              //  Number(scoresMap.get(score.matchday_id).find(p=>p.username == playersMap.get(score.user_name.toLowerCase()).id).buyIn) + Number(score.buyIn);
-              scoresMap.get(score.matchday_id).find(p=>p.username == score.user_name).buyIn =
-                Number(Number(scoresMap.get(score.matchday_id).find(p=>p.username ==score.user_name).buyIn) + Number(score.chipcount));
-
-            }else{
-              //scoresMap.get(score.matchday_id).find(p=>p.username == playersMap.get(score.user_name.toLowerCase()).id).chips = Number(score.chips);
-              scoresMap.get(score.matchday_id).find(p=>p.username == score.user_name).chips = Number(score.chipcount);
-              scoresMap.get(score.matchday_id).find(p=>p.username == score.user_name).totalscore = Number(Number(score.chipcount) - scoresMap.get(score.matchday_id).find(p=>p.username == score.user_name).buyIn)
-            }
-          }else {
-            scoresMap.get(score.matchday_id).push({
-              //username: playersMap.get(score.user_name.toLowerCase()).id,
-              username: score.user_name,
-              chips: Number(score.chipcount),
-              buyIn: Number(score.chipcount),
-              totalscore: 0,
-              rebuy: score.isRebuy
-            });
-          }
-        } else {
-          var users = new Array<any>();
-          users.push({
-            //username: playersMap.get(score.user_name.toLowerCase()).id,
+        }else {
+          this.scoresMap.get(score.matchday_id).push({
             username: score.user_name,
             chips: Number(score.chipcount),
             buyIn: Number(score.chipcount),
             totalscore: 0,
             rebuy: score.isRebuy
-          })
-          scoresMap.set(score.matchday_id, users);
+          });
+          count ++;
         }
-      })
-
-      scoresMap.forEach(sc=>{
-        sc.sort(function (a, b) {
-          return b.totalscore - a.totalscore;
+      } else {
+        var users = new Array<any>();
+        users.push({
+          username: score.user_name,
+          chips: Number(score.chipcount),
+          buyIn: Number(score.chipcount),
+          totalscore: 0,
+          rebuy: score.isRebuy
         })
+        count ++;
+        this.scoresMap.set(score.matchday_id, users);
+      }
+    })
+
+    this.scoresMap.forEach(sc=>{
+      sc.sort(function (a, b) {
+        return b.totalscore - a.totalscore;
       })
+    })
 
-      var finalScoreMap: Map<string, any> = new Map<string, any>();
-      scoresMap.forEach((sc, key)=>{
-        finalScoreMap.set(key, new Array<any>());
-        sc.forEach(userScore=>{
-
+    var finalScoreMap: Map<string, any> = new Map<string, any>();
+    this.scoresMap.forEach((sc, key)=>{
+      finalScoreMap.set(key, new Array<any>());
+      sc.forEach(userScore=>{
+        if (this.matchdayMap.has(key)){
+          console.log(userScore.username)
           var score = {
-            player: playersMap.get(userScore.username.toLowerCase()).id,
+            player: this.playersMap.get(userScore.username.toLowerCase()).id,
             chips: Number(userScore.chips),
             buyin: Number(userScore.buyIn),
             totalscore: Number(userScore.totalscore),
-            matchdayDate: new Date(matchdayMap.get(key).data.date),
-            matchday: matchdayMap.get(key).id
+            matchdayDate: new Date(this.matchdayMap.get(key).data.date),
+            matchday: this.matchdayMap.get(key).id
           }
           finalScoreMap.get(key).push(score);
-          this.firestore.collection('userscores').add(score);
-        })
+        }
       })
-
-      articles.forEach(a=>{
-
-        var article: any = {
-          text: a.text,
-          matchdayDate: new Date(matchdayMap.get(a.matchday_id).data.date),
-          matchdayVenue: playersMap.get(a.user_name.toLowerCase()).id,
-          matchdayId: this.globalVars.matchdayId,
-          player: matchdayMap.get(a.matchday_id).id
-        };
-
-        this.firestore.collection('matchdayarticles').add(article)
-      })
-
-
-
-      console.log('##### scoresMap #####')
-      console.log(scoresMap);
-      console.log('##### matchdayMap #####')
-      console.log(matchdayMap);
+      this.scoresMap = finalScoreMap;
     })
+    console.log('###### scoresMap #####');
+    console.log('Neu anzulegen: ' + count);
+    console.log(this.scoresMap)
+  }
+
+  setArticlesMap(){
+    var articles = this.globalVars.articles;
+    var count = 0;
+    articles.forEach(a=>{
+      var article: any = {
+        text: a.text,
+        matchdayDate: new Date(this.matchdayMap.get(a.matchday_id).data.date),
+        matchdayVenue: this.playersMap.get(a.user_name.toLowerCase()).id,
+        matchdayId: this.globalVars.matchdayId,
+        player: this.matchdayMap.get(a.matchday_id).id
+      };
+      this.articlesMap.set(this.globalVars.matchdayId, article);
+      count ++
+    })
+    console.log('###### articlesMap #####');
+    console.log('Neu anzulegen: ' + count);
+    console.log(this.articlesMap)
   }
 
 
@@ -341,6 +364,86 @@ export class ServerToolsComponent implements OnInit {
     firestore_data[3].articles.forEach(article=>{
       this.firestore.collection('matchdayarticles').doc(article.id).set(article.data);
     })
+  }
+
+  importPlayers(){
+    this.playersMap.forEach(p=>{
+      console.log('trying to import player with id ' + p.id + '(' + p.data.name + ')');
+      console.log(p.data);
+      this.firestore.collection('players').doc(p.id).set(p.data);
+      //this.firestore.collection('players', p.data.data);
+    })
+  }
+
+  importMatchdays(){
+    this.matchdayMap.forEach(md=>{
+      console.log('trying to import matchday with id ' + md.id)
+      this.firestore.collection('gamedays').doc(md.id).set(md.data);
+      console.log(md.data);
+    })
+  }
+
+  importScores(){
+    var count = 0;
+    console.log()
+    this.scoresMap.forEach(sc=>{
+      sc.forEach(userscore=>{
+        console.log('trying to import score ')
+        console.log(userscore );
+        this.firestore.collection('userscores').add(userscore);
+        count ++;
+      })
+    })
+    console.log('inserted ' + count + ' scores');
+  }
+
+  getDataCount(){
+    let start = new Date('2013-01-01');
+
+    this.firestore.collection('players').valueChanges().subscribe(p => {
+      console.log('players: ' +p.length);
+    })
+    this.firestore.collection('gamedays').valueChanges().subscribe(p => {
+      console.log('gamedays: ' +p.length);
+      console.log(p);
+    })
+    this.firestore.collection('userscores').valueChanges().subscribe(p => {
+      console.log('userscores: ' +p.length);
+    })
+  }
+
+  deleteScores() {
+
+  }
+
+  deleteMatchdays(){
+    /*let start = new Date('2013-01-01');
+    var gamedays: Array<any> = new Array<any>();
+    this.firestore.collection('gamedays', ref=>ref.where('date', '<', start)).snapshotChanges().map(actions => {
+      return actions.map(a => {
+        const data = a.payload.doc.data() as Score;
+        const id = a.payload.doc.id;
+        return {id, data};
+      })
+    }).subscribe(p => {
+      gamedays = p;
+      console.log(gamedays);
+      gamedays.forEach(gd => {
+        console.log('delete')
+        console.log(gd);
+        this.firestore.doc('gamedays/' + gd.id).delete();
+      })
+    });*/
+
+
+
+
+
+
+  }
+
+
+  importArticles(){
 
   }
 
