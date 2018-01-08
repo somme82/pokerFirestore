@@ -114,12 +114,12 @@ export class ServerToolsComponent implements OnInit {
             options.headers.append('content-type', 'application/json');
             console.log('send to function');
             this.http
-              .post('https://us-central1-friday-night-poker.cloudfunctions.net/sendMail', body, options).toPromise()
+              .post('https://us-central1-friday-night-poker-crew.cloudfunctions.net/sendMail', body, options).toPromise()
               .then(res => res)
               .catch(this.handleError)
           })
         });
-      })
+      }) 
     })
   }
 
