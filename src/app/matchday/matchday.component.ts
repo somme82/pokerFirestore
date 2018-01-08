@@ -102,8 +102,8 @@ export class MatchdayComponent implements OnInit {
     let end = new Date(this.globalVars.currentYear + '-12-31');
 
     this.matchdayCollection = this.firestore.collection('gamedays', ref => ref
-      .where('date', '>', start)
-      .where('date', '<', end)
+      .where('date', '>=', start)
+      .where('date', '<=', end)
       .orderBy('date', 'asc'));
     this.matchdays = this.matchdayCollection.snapshotChanges()
       .map(actions => {

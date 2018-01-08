@@ -45,12 +45,15 @@ export class ScoretableComponent implements OnInit {
   }
 
   onDateChange = (e: MatDatepickerInputEvent<Date>) => {
+
     this.matchdayDate = e.value;
     const pushkey = this.firestore.createId();
-    this.firestore.collection("matchdays").doc(pushkey).set({
+    var matchday = {
       date: this.matchdayDate,
       venue: this.globalVars.selectedPlayer
-    });
+    }
+
+    this.firestore.collection("gamedays").doc(pushkey).set(matchday);
 
     if ((this.matchdayCount + 1) % 4 == 0){
       this.serverTools.doBackup();
@@ -75,17 +78,17 @@ export class ScoretableComponent implements OnInit {
     let end = new Date(this.globalVars.currentYear + '-12-31');
 
     this.matchdayCollection = this.firestore.collection('gamedays', ref => ref
-      .where('date', '>', start)
-      .where('date', '<', end));
+      .where('date', '>=', start)
+      .where('date', '<=', end));
 
     this.matchdays = this.matchdayCollection.valueChanges();
     this.matchdays.subscribe( m => {
       this.matchdayCount = m.length;
-      console.log(m);
+      
       this.playerResults = new Array<Player>()
       this.scoreCollection = this.firestore.collection('userscores', ref => ref
-        .where('matchdayDate', '>', start)
-        .where('matchdayDate', '<', end)
+        .where('matchdayDate', '>=', start)
+        .where('matchdayDate', '<=', end)
         .orderBy('matchdayDate', 'asc')
       );
       this.scores = this.scoreCollection.snapshotChanges()
@@ -99,6 +102,8 @@ export class ScoretableComponent implements OnInit {
 
       this.scores.subscribe(s => {
         this.scores = s;
+
+
         if (this.scores && this.scores.length > 0) {
           this.scores.forEach(s => {
             if (this.playerResults.some(p => p.id === s.data.player)) {
