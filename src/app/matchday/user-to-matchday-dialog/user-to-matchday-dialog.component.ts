@@ -77,7 +77,7 @@ export class UserToMatchdayDialogComponent implements OnInit {
       this.players = Observable.of(player);
     })
 
-    this.selectedMatchday = this.firestore.doc("matchdays/" + this.globalVars.matchdayId);
+    this.selectedMatchday = this.firestore.doc("gamedays/" + this.globalVars.matchdayId);
     this.matchday = this.selectedMatchday.valueChanges();
     this.matchday.subscribe(value => {
       this.matchday = value;
@@ -86,7 +86,7 @@ export class UserToMatchdayDialogComponent implements OnInit {
 
   insertPlayer(playerid){
     const pushkey = this.firestore.createId();
-    this.firestore.collection("scores").doc(pushkey).set({
+    this.firestore.collection("userscores").doc(pushkey).set({
       chips: 10,
       totalscore: 0,
       buyin: 10,

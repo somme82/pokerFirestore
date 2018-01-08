@@ -23,7 +23,7 @@ export class ScoreDialogComponent implements OnInit {
 
   ngOnInit()
   {
-      this.selectedScore = this.firestore.doc("scores/" + this.globalVars.selectedScore);
+      this.selectedScore = this.firestore.doc("userscores/" + this.globalVars.selectedScore);
       this.score = this.selectedScore.valueChanges();
       this.score.subscribe(value => {
         this.score = value;
@@ -38,7 +38,7 @@ export class ScoreDialogComponent implements OnInit {
   }
 
   insertScore() {
-    this.firestore.doc("scores/" + this.globalVars.selectedScore).update({
+    this.firestore.doc("userscores/" + this.globalVars.selectedScore).update({
       chips: this.score.chips,
       buyin: this.score.buyin,
       totalscore: (this.score.chips - this.score.buyin)
