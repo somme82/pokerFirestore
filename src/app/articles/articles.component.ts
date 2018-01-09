@@ -21,7 +21,6 @@ export class ArticlesComponent implements OnInit {
 
   ngOnInit() {
 
-
     let start = new Date(this.globalVars.currentYear + '-01-01');
     let end = new Date(this.globalVars.currentYear + '-12-31');
 

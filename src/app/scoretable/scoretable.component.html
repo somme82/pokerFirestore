@@ -7,7 +7,7 @@
 <div class="fnpc-content" >
   <!--div *ngIf="resultsInit == true"-->
   <div *ngFor="let player of players | async; let i = index">
-    <div *ngIf="(player.data.participations > 0) && (player.data.relevantForTotalScore || globalVars.showAllPlayers)" [ngClass]="{'fnpc-profile': true, 'active': player.id == globalVars.selectedPlayer, 'oddRow': ((player.data.overAllRank -1) % 2 != 0 && globalVars.showAllPlayers) || ((player.data.realRank -1) %2 !=0 && !globalVars.showAllPlayers)}" (click)="setPlayer( player.id )" >
+    <div *ngIf="(player.data.participations > 0) && (player.data.relevantForTotalScore || globalVars.showAllPlayers)" [ngClass]="{'fnpc-profile': true, 'active': player.id == globalVars.selectedPlayer, 'oddRow': ((player.data.overAllRank -1) % 2 != 0 && globalVars.showAllPlayers) || ((player.data.realRank -1) %2 !=0 && !globalVars.showAllPlayers)}" (click)="globalVars.setSelectedPlayer( player.id )" >
       <div class="fnpc-profile-avatar" *ngIf="player.hasImage">
         <img src="../../assets/avatar/{{player.data.name | lowercase}}.jpg">
       </div>
@@ -25,10 +25,10 @@
   <!--/-->
 </div>
 <div class="fnpc-menu-bottom">
-  <a class="fnpc-menu-item" mat-button (click)="openDialog()"><img src="../../assets/images/plus-white.svg"></a>
+  <a class="fnpc-menu-item" mat-button (click)="openUserDialog()"><img src="../../assets/images/plus-white.svg"></a>
   <a class="fnpc-menu-item" mat-button (click)="openDatepicker()"><img src="../../assets/images/calendar-white.svg"></a>
   <a class="fnpc-menu-item" mat-button (click)="openPlayerInfoDialog()"><img src="../../assets/images/info-white.svg"></a>
-  <a class="fnpc-menu-item" (click)="showAllPlayers()" [ngClass]="{'lineThrough': !globalVars.showAllPlayers}">Alle</a>
+  <a class="fnpc-menu-item" (click)="globalVars.toggleshowAllPlayersFlag()" [ngClass]="{'lineThrough': !globalVars.showAllPlayers}">Alle</a>
   <input type="hidden" [matDatepicker]="picker" [(ngModel)]="matchdayDate" (dateChange)="onDateChange($event)">
 </div>
 <mat-datepicker touchUi="true" #picker></mat-datepicker>

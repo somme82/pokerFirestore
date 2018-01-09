@@ -22,6 +22,7 @@ import { ArticleDialogComponent } from './matchday/article-dialog/article-dialog
 import { ArticlesComponent } from './articles/articles.component';
 import { PlayerInfoDialogComponent } from './scoretable/player-info-dialog/player-info-dialog.component';
 import { ServerToolsComponent } from './server-tools/server-tools.component';
+import {GlobalData} from "../GlobalData";
 
 @NgModule({
   imports: [
@@ -52,7 +53,7 @@ import { ServerToolsComponent } from './server-tools/server-tools.component';
     ServerToolsComponent
 
   ],
-  providers: [GlobalVars, ServerToolsComponent],
+  providers: [GlobalVars, ServerToolsComponent, GlobalData],
   bootstrap: [AppComponent],
   entryComponents: [UserDialogComponent, MatchdayDialogComponent, ScoreDialogComponent, UserToMatchdayDialogComponent, ArticleDialogComponent, PlayerInfoDialogComponent],
 

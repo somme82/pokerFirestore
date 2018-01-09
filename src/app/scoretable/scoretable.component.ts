@@ -44,35 +44,6 @@ export class ScoretableComponent implements OnInit {
     this.getPlayerResults();
   }
 
-  onDateChange = (e: MatDatepickerInputEvent<Date>) => {
-
-    this.matchdayDate = e.value;
-    const pushkey = this.firestore.createId();
-    var matchday = {
-      date: this.matchdayDate,
-      venue: this.globalVars.selectedPlayer
-    }
-
-    this.firestore.collection("gamedays").doc(pushkey).set(matchday);
-
-    if ((this.matchdayCount + 1) % 4 == 0){
-      this.serverTools.doBackup();
-    }
-
-    this.newMatchdayDoc = this.firestore.doc('gamedays/' + pushkey);
-    this.newMatchday = this.newMatchdayDoc.snapshotChanges();
-    this.globalVars.matchdayId = pushkey;
-  }
-
-  openDatepicker() {
-    this.datepicker.open();
-  }
-
-  setPlayer(name) {
-    this.globalVars.selectedPlayer = name;
-  }
-
-
   getPlayerResults() {
     let start = new Date(this.globalVars.currentYear + '-01-01');
     let end = new Date(this.globalVars.currentYear + '-12-31');
@@ -84,7 +55,7 @@ export class ScoretableComponent implements OnInit {
     this.matchdays = this.matchdayCollection.valueChanges();
     this.matchdays.subscribe( m => {
       this.matchdayCount = m.length;
-      
+
       this.playerResults = new Array<Player>()
       this.scoreCollection = this.firestore.collection('userscores', ref => ref
         .where('matchdayDate', '>=', start)
@@ -169,17 +140,26 @@ export class ScoretableComponent implements OnInit {
     })
   }
 
-  openDialog() {
-    this.dialog.open(UserDialogComponent, {
-      panelClass: 'fnpc-dialog'
-    });
+  onDateChange = (e: MatDatepickerInputEvent<Date>) => {
+
+    this.matchdayDate = e.value;
+    const pushkey = this.firestore.createId();
+    var matchday = {
+      date: this.matchdayDate,
+      venue: this.globalVars.selectedPlayer
+    }
+
+    this.firestore.collection("gamedays").doc(pushkey).set(matchday);
+
+    if ((this.matchdayCount + 1) % 4 == 0){
+      this.serverTools.doBackup();
+    }
+
+    this.newMatchdayDoc = this.firestore.doc('gamedays/' + pushkey);
+    this.newMatchday = this.newMatchdayDoc.snapshotChanges();
+    this.globalVars.matchdayId = pushkey;
   }
 
-  openPlayerInfoDialog(){
-    this.dialog.open(PlayerInfoDialogComponent, {
-      panelClass: 'fnpc-dialog'
-    });
-  }
 
   previousYear()
   {
@@ -191,14 +171,6 @@ export class ScoretableComponent implements OnInit {
   {
     this.globalVars.currentYear++;
     this.getPlayerResults();
-  }
-  showAllPlayers()
-  {
-    if(this.globalVars.showAllPlayers){
-      this.globalVars.showAllPlayers = false;
-    } else{
-      this.globalVars.showAllPlayers = true;
-    }
   }
 
   imageExists(player) {
@@ -212,4 +184,19 @@ export class ScoretableComponent implements OnInit {
     image.src = "../../assets/avatar/" + player.data.name.toLowerCase() + ".jpg";
   }
 
+  openUserDialog() {
+    this.dialog.open(UserDialogComponent, {
+      panelClass: 'fnpc-dialog'
+    });
+  }
+
+  openPlayerInfoDialog(){
+    this.dialog.open(PlayerInfoDialogComponent, {
+      panelClass: 'fnpc-dialog'
+    });
+  }
+
+  openDatepicker() {
+    this.datepicker.open();
+  }
 }

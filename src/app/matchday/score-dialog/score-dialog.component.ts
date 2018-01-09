@@ -43,11 +43,11 @@ export class ScoreDialogComponent implements OnInit {
       buyin: this.score.buyin,
       totalscore: (this.score.chips - this.score.buyin)
     });
-    this.globalVars.closeDialog();
+    this.globalVars.closeAllDialogs();
   }
   deleteScore() {
     this.selectedScore.delete();
     this.globalVars.selectedScore = '';
-    this.globalVars.closeDialog();
+    this.globalVars.closeAllDialogs();
   }
 }

@@ -58,7 +58,7 @@ export class MatchdayDialogComponent implements OnInit {
     }
 
     this.firestore.doc('gamedays/' + this.globalVars.matchdayId).delete();
-    this.globalVars.closeDialog();
+    this.globalVars.closeAllDialogs();
 
   }
 

@@ -96,7 +96,7 @@ export class ArticleDialogComponent implements OnInit {
       player: this.article.player,
 
     })
-    this.globalVars.closeDialog();
+    this.globalVars.closeAllDialogs();
   }
 
   deleteArticle()
@@ -119,7 +119,7 @@ export class ArticleDialogComponent implements OnInit {
         );
       }
     });
-    this.globalVars.closeDialog();
+    this.globalVars.closeAllDialogs();
   }
 
 }

@@ -20,6 +20,6 @@ export class UserDialogComponent implements OnInit {
     this.firestore.collection("players").add({
       name: this.userName
     });
-    this.globalVars.closeDialog();
+    this.globalVars.closeAllDialogs();
   }
 }
