@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {MatDialog} from '@angular/material';
 import {Email} from "./app/Email";
 import {Headers, Http, RequestOptions, Response} from '@angular/http';
+import {Matchday} from "./app/Matchday";
 
 @Injectable()
 export class GlobalVars {
@@ -11,6 +12,14 @@ export class GlobalVars {
   currentYear: number = new Date().getFullYear();
   showAllPlayers: boolean = false;
   matchdayLeadingPlayer: string;
+
+
+  matchdaysInitialized = false;
+  matchdayResults: any;
+  matchdayResultsByYear: any;
+  matchdaysByYear: Map<number, Array<Matchday>> = new Map<number, Array<Matchday>>()
+  matchdayCount: number = 0
+
 
 
   user: any = []

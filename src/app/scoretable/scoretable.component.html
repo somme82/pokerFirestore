@@ -7,7 +7,7 @@
 
 <div class="fnpc-content" >
   <!--div *ngIf="resultsInit == true"-->
-  <div *ngFor="let player of results | async; let i = index">
+  <div *ngFor="let player of globalVars.matchdayResults | async; let i = index">
     <div *ngIf="(player.participations > 0) && (player.relevantForTotalScore || globalVars.showAllPlayers)" [ngClass]="{'fnpc-profile': true, 'active': player.id == globalVars.selectedPlayer, 'oddRow': ((player.overAllRank -1) % 2 != 0 && globalVars.showAllPlayers) || ((player.realRank -1) %2 !=0 && !globalVars.showAllPlayers)}" (click)="globalVars.setSelectedPlayer( player.id )" >
       <div class="fnpc-profile-avatar" *ngIf="player.hasImage">
         <img src="../../assets/avatar/{{player.name | lowercase}}.jpg">
@@ -20,7 +20,8 @@
         <strong *ngIf="!globalVars.showAllPlayers">#{{player.realRank}} {{player.name}}</strong>
         <span class="fnpc-pull-right"><strong>{{player.totalscore}} €</strong></span>
       </div>
-      <div class="fnpc-profile-rebuy">Einsatz: {{player.totalbuyin}} € | Teilnahmen: {{player.participations}} von {{matchdayCount}}</div>
+      <div *ngIf="!showOverAllScoreTable" class="fnpc-profile-rebuy">Einsatz: {{player.totalbuyin}} € | Teilnahmen: {{player.participations}} von {{globalVars.matchdayCount}}</div>
+      <div *ngIf="showOverAllScoreTable" class="fnpc-profile-rebuy">Einsatz: {{player.totalbuyin}} €</div>
     </div>
   </div>
   <!--/-->
