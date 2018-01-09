@@ -246,12 +246,15 @@ export class ScoretableComponent implements OnInit {
 
   previousYear()
   {
-    this.showOverAllScoreTable = false;
     if (this.globalVars.matchdaysByYear.has(this.globalVars.currentYear - 1)){
-      this.globalVars.currentYear--;
+      if(this.showOverAllScoreTable == false){
+        this.globalVars.currentYear--;
+      }
       this.globalVars.matchdayResults = Observable.of(this.globalVars.matchdayResultsByYear.get(this.globalVars.currentYear))
       this.globalVars.matchdayCount = this.globalVars.matchdaysByYear.get(this.globalVars.currentYear).length
     }
+    this.showOverAllScoreTable = false;
+
   }
 
   nextYear()
