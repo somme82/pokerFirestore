@@ -32,6 +32,8 @@ export class ScoretableComponent implements OnInit {
   results: any;
   resultsByYear: any;
 
+  showOverAllScoreTable = false;
+
 
   playerResults: Player[] = new Array<Player>();
 
@@ -191,6 +193,7 @@ export class ScoretableComponent implements OnInit {
                   newUser.totalbuyin = user.totalbuyin;
                   newUser.participations = 1;
                   newUser.overAllRank = 0;
+                  newUser.relevantForTotalScore = true;
                   playerResultsByYear.get(999).push(newUser)
                 }
               }
@@ -240,12 +243,12 @@ export class ScoretableComponent implements OnInit {
 
   previousYear()
   {
+    this.showOverAllScoreTable = false;
     if (this.matchdaysByYear.has(this.globalVars.currentYear - 1)){
       this.globalVars.currentYear--;
       this.results = Observable.of(this.resultsByYear.get(this.globalVars.currentYear))
       this.matchdayCount = this.matchdaysByYear.get(this.globalVars.currentYear).length
     }
-
   }
 
   nextYear()
@@ -255,6 +258,7 @@ export class ScoretableComponent implements OnInit {
       this.results = Observable.of(this.resultsByYear.get(this.globalVars.currentYear))
       this.matchdayCount = this.matchdaysByYear.get(this.globalVars.currentYear).length
     } else{
+      this.showOverAllScoreTable = true;
       this.results = Observable.of(this.resultsByYear.get(999))
       console.log(this.resultsByYear.size - 1);
       this.matchdayCount = this.resultsByYear.size - 1;

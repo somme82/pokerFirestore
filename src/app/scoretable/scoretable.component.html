@@ -1,6 +1,7 @@
 <div class="fnpc-headline">
   <div class="fnpc-headline-item-left" (click)="previousYear()"><img src="../../assets/images/carat-l-white.svg"></div>
-  <div class="fnpc-headline-item-middle">Rangliste {{globalVars.currentYear}}</div>
+  <div *ngIf="showOverAllScoreTable" class="fnpc-headline-item-middle">All Time Rangliste</div>
+  <div *ngIf="!showOverAllScoreTable" class="fnpc-headline-item-middle">Rangliste {{globalVars.currentYear}}</div>
   <div class="fnpc-headline-item-right"(click)="nextYear()"><img src="../../assets/images/carat-r-white.svg"></div>
 </div>
 
