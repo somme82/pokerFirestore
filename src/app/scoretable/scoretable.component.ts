@@ -160,13 +160,14 @@ export class ScoretableComponent implements OnInit {
               }
             })
           }
-
+          playerResultsByYear.set(999, new Array<Player>())
           playerResultsByYear.forEach((year, key)=>{
             year.sort(function (a, b) {
               return b.totalscore - a.totalscore;
             });
             var realRank: number = 1;
             var overAllRank: number = 1;
+
             year.forEach(user=>{
               if(user.relevantForTotalScore){
                 user.realRank = realRank;
@@ -175,10 +176,33 @@ export class ScoretableComponent implements OnInit {
               user.overAllRank = overAllRank;
               overAllRank ++;
               this.imageExists(user);
+
+              if (key != 999){
+                if(playerResultsByYear.get(999).some(p=>p.id == user.id)){
+                  playerResultsByYear.get(999).find(p=>p.id==user.id).totalscore = playerResultsByYear.get(999).find(p=>p.id==user.id).totalscore + user.totalscore,
+                    playerResultsByYear.get(999).find(p=>p.id==user.id).totalbuyin = playerResultsByYear.get(999).find(p=>p.id==user.id).totalbuyin + user.totalbuyin
+                  playerResultsByYear.get(999).find(p=>p.id==user.id).participations = playerResultsByYear.get(999).find(p=>p.id==user.id).participations + 1
+                  playerResultsByYear.get(999).find(p=>p.id==user.id).overAllRank =  playerResultsByYear.get(999).find(p=>p.id==user.id).overAllRank + 1
+                }else{
+                  var newUser = <Player>{};
+                  newUser.name = user.name;
+                  newUser.id = user.id;
+                  newUser.totalscore = user.totalscore;
+                  newUser.totalbuyin = user.totalbuyin;
+                  newUser.participations = 1;
+                  newUser.overAllRank = 0;
+                  playerResultsByYear.get(999).push(newUser)
+                }
+              }
+
             })
           })
+          playerResultsByYear.get(999).sort(function (a, b) {
+            return b.totalscore - a.totalscore;
+          });
           console.log(playerResultsByYear)
 
+          console.log('set results by year')
           this.resultsByYear = playerResultsByYear;
           this.matchdayCount = this.matchdaysByYear.get(this.globalVars.currentYear).length;
           console.log(this.matchdaysByYear.get(this.globalVars.currentYear));
@@ -230,6 +254,10 @@ export class ScoretableComponent implements OnInit {
       this.globalVars.currentYear++;
       this.results = Observable.of(this.resultsByYear.get(this.globalVars.currentYear))
       this.matchdayCount = this.matchdaysByYear.get(this.globalVars.currentYear).length
+    } else{
+      this.results = Observable.of(this.resultsByYear.get(999))
+      console.log(this.resultsByYear.size - 1);
+      this.matchdayCount = this.resultsByYear.size - 1;
     }
   }
 
