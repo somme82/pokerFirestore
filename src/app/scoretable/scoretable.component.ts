@@ -29,10 +29,14 @@ export class ScoretableComponent implements OnInit {
   matchdayDate: Date;
   newMatchdayDoc: AngularFirestoreDocument<Score>;
   newMatchday: any;
+  results: any;
+  resultsByYear: any;
+
 
   playerResults: Player[] = new Array<Player>();
 
   matchdayCount: number = 0
+  matchdaysByYear: Map<number, Array<Matchday>> = new Map<number, Array<Matchday>>()
 
 
   @ViewChild(MatDatepicker) datepicker: MatDatepicker<Date>;
@@ -45,99 +49,148 @@ export class ScoretableComponent implements OnInit {
   }
 
   getPlayerResults() {
-    let start = new Date(this.globalVars.currentYear + '-01-01');
-    let end = new Date(this.globalVars.currentYear + '-12-31');
-
-    this.matchdayCollection = this.firestore.collection('gamedays', ref => ref
-      .where('date', '>=', start)
-      .where('date', '<=', end));
-
-    this.matchdays = this.matchdayCollection.valueChanges();
-    this.matchdays.subscribe( m => {
-      this.matchdayCount = m.length;
-
-      this.playerResults = new Array<Player>()
-      this.scoreCollection = this.firestore.collection('userscores', ref => ref
-        .where('matchdayDate', '>=', start)
-        .where('matchdayDate', '<=', end)
-        .orderBy('matchdayDate', 'asc')
-      );
-      this.scores = this.scoreCollection.snapshotChanges()
-        .map(actions => {
-          return actions.map(a => {
-            const data = a.payload.doc.data() as Score;
-            const id = a.payload.doc.id;
-            return {id, data};
-          });
-        });
-
-      this.scores.subscribe(s => {
-        this.scores = s;
 
 
-        if (this.scores && this.scores.length > 0) {
-          this.scores.forEach(s => {
-            if (this.playerResults.some(p => p.id === s.data.player)) {
-              var p = this.playerResults.find(p => p.id === s.data.player);
-              this.playerResults.find(p => p.id === s.data.player).totalscore = Number((Number(p.totalscore) + Number(s.data.totalscore)));
-              this.playerResults.find(p => p.id === s.data.player).totalbuyin = Number((Number(p.totalbuyin) + Number(s.data.buyin)));
-              this.playerResults.find(p => p.id === s.data.player).participations += 1;
-            } else {
-              var player = <Player>{};
-              player.id = s.data.player;
-              player.totalscore = s.data.totalscore;
-              player.totalbuyin = s.data.buyin;
-              player.participations = 1;
-              this.playerResults.push(player);
-            }
-          })
-        }
-
-        this.playerResults = this.playerResults.sort(function (a, b) {
-          return b.totalscore - a.totalscore;
-        });
-
-        this.playersCollection = this.firestore.collection('players');
-        this.players = this.playersCollection.snapshotChanges()
-          .map(actions => {
-            return actions.map((a, index) => {
-              const data = a.payload.doc.data() as Player;
-              const id = a.payload.doc.id;
-              if (this.playerResults.some(p => p.id == id)) {
-                var player = this.playerResults.find(p => p.id === id);
-                data.totalscore = player.totalscore;
-                data.totalbuyin = player.totalbuyin;
-                data.participations = player.participations;
-                data.relevantForTotalScore = false;
-              } else{
-                data.participations = 0;
-              }
-              return {id, data};
-            }).filter(p => p.data.participations > 0).sort(function (a, b) {
-              return b.data.totalscore - a.data.totalscore;
-            })
-          });
-
-        var realRank: number = 1;
-        var overAllRank: number = 1;
-        this.players.subscribe(player=>{
-          player.forEach(p=>{
-            if(p.data.participations >= (this.matchdayCount / 3)){
-              p.data.relevantForTotalScore = true;
-              p.data.realRank = realRank;
-              realRank ++;
-            }
-            p.data.overAllRank = Number(overAllRank)
-            overAllRank ++
-            this.imageExists(p);
-          })
-          if (this.globalVars.selectedPlayer == '' && player.length > 0) {
-            this.globalVars.selectedPlayer = player[0].id;
-          }
-          this.players = Observable.of(player);
-        });
+    var playersMap: Map<string, string> = new Map<string, string>();
+    this.playersCollection = this.firestore.collection('players');
+    this.players = this.playersCollection.snapshotChanges()
+      .map(actions => {
+        return actions.map((a) => {
+          const data = a.payload.doc.data();
+          const id = a.payload.doc.id;
+          return {id, data};
+        })
       });
-    })
+
+    this.players.subscribe( pl =>{
+      this.players = pl;
+      if(pl && pl.length > 0){
+        pl.forEach(p=>{
+
+          if(!playersMap.has(p.id)){
+            playersMap.set(p.id, p.data.name)
+          }
+        })
+      }
+
+      this.matchdayCollection = this.firestore.collection('gamedays');
+      this.matchdays = this.matchdayCollection.valueChanges();
+      this.matchdays.subscribe( m => {
+        this.matchdaysByYear = new Map<number, Array<Matchday>>();
+        console.log('====> Gamedays changed')
+        m.forEach(md=>{
+          if (this.matchdaysByYear.has(Number(new Date(md.date).getFullYear()))){
+            this.matchdaysByYear.get(Number(new Date(md.date).getFullYear())).push(md);
+          } else{
+            var newMd = new Array<Matchday>();
+            newMd.push(md);
+            this.matchdaysByYear.set(new Date(md.date).getFullYear(), newMd)
+          }
+        })
+
+
+        this.playerResults = new Array<Player>()
+        this.scoreCollection = this.firestore.collection('userscores', ref => ref
+          .orderBy('matchdayDate', 'asc')
+        );
+        this.scores = this.scoreCollection.snapshotChanges()
+          .map(actions => {
+            return actions.map(a => {
+              const data = a.payload.doc.data() as Score;
+              const id = a.payload.doc.id;
+              return {id, data};
+            });
+          });
+
+        this.scores.subscribe(s => {
+          console.log('====> Scores changed!')
+          this.scores = s;
+          var playerResultsByYear: Map<number, Player[]> = new Map<number, Player[]>();
+
+          if (this.scores && this.scores.length > 0) {
+            this.scores.forEach(s => {
+              if (!playerResultsByYear.has(new Date(s.data.matchdayDate).getFullYear())){
+                var player = <Player>{};
+                if(playersMap.has(s.data.player)){
+                  player.name = playersMap.get(s.data.player);
+                }else{
+                  player.name = '?';
+                }
+
+                player.id = s.data.player;
+                player.totalscore = s.data.totalscore;
+                player.totalbuyin = s.data.buyin;
+                player.participations = 1;
+                if(player.participations >= (this.matchdaysByYear.get(new Date(s.data.matchdayDate).getFullYear()).length / 3)){
+                  player.relevantForTotalScore = true;
+                }
+                player.realRank = 1;
+                player.overAllRank = 1;
+                var players = new Array<Player>();
+                players.push(player);
+
+                playerResultsByYear.set(new Date(s.data.matchdayDate).getFullYear(), players);
+              } else{
+                if (playerResultsByYear.get(new Date(s.data.matchdayDate).getFullYear()).some(p => p.id === s.data.player)) {
+                  var p = playerResultsByYear.get(new Date(s.data.matchdayDate).getFullYear()).find(p => p.id === s.data.player);
+                  playerResultsByYear.get(new Date(s.data.matchdayDate).getFullYear()).find(p => p.id === s.data.player).totalscore = Number((Number(p.totalscore) + Number(s.data.totalscore)));
+                  playerResultsByYear.get(new Date(s.data.matchdayDate).getFullYear()).find(p => p.id === s.data.player).totalbuyin = Number((Number(p.totalbuyin) + Number(s.data.buyin)));
+                  playerResultsByYear.get(new Date(s.data.matchdayDate).getFullYear()).find(p => p.id === s.data.player).participations += 1;
+                  if(playerResultsByYear.get(new Date(s.data.matchdayDate).getFullYear()).find(p => p.id === s.data.player).participations >= (this.matchdaysByYear.get(new Date(s.data.matchdayDate).getFullYear()).length / 3)){
+                    playerResultsByYear.get(new Date(s.data.matchdayDate).getFullYear()).find(p => p.id === s.data.player).relevantForTotalScore = true;
+                  }
+                } else {
+                  var player = <Player>{};
+                  if(playersMap.has(s.data.player)){
+                    player.name = playersMap.get(s.data.player);
+                  }else{
+                    player.name = '?';
+                  }
+                  player.id = s.data.player;
+                  player.totalscore = s.data.totalscore;
+                  player.totalbuyin = s.data.buyin;
+                  player.participations = 1;
+                  player.realRank = 1;
+                  player.overAllRank = 1;
+                  if(player.participations >= (this.matchdaysByYear.get(new Date(s.data.matchdayDate).getFullYear()).length / 3)){
+                    player.relevantForTotalScore = true;
+                  }
+                  playerResultsByYear.get(new Date(s.data.matchdayDate).getFullYear()).push(player);
+                }
+              }
+            })
+          }
+
+          playerResultsByYear.forEach((year, key)=>{
+            year.sort(function (a, b) {
+              return b.totalscore - a.totalscore;
+            });
+            var realRank: number = 1;
+            var overAllRank: number = 1;
+            year.forEach(user=>{
+              if(user.relevantForTotalScore){
+                user.realRank = realRank;
+                realRank ++;
+              }
+              user.overAllRank = overAllRank;
+              overAllRank ++;
+              this.imageExists(user);
+            })
+          })
+          console.log(playerResultsByYear)
+
+          this.resultsByYear = playerResultsByYear;
+          this.matchdayCount = this.matchdaysByYear.get(this.globalVars.currentYear).length;
+          console.log(this.matchdaysByYear.get(this.globalVars.currentYear));
+          if (this.globalVars.selectedPlayer == '' && playerResultsByYear.get(this.globalVars.currentYear).length > 0) {
+            this.globalVars.selectedPlayer = playerResultsByYear.get(this.globalVars.currentYear)[0].id;
+          }
+          this.results = Observable.of(playerResultsByYear.get(this.globalVars.currentYear));
+        });
+      })
+
+
+    });
   }
 
   onDateChange = (e: MatDatepickerInputEvent<Date>) => {
@@ -151,7 +204,7 @@ export class ScoretableComponent implements OnInit {
 
     this.firestore.collection("gamedays").doc(pushkey).set(matchday);
 
-    if ((this.matchdayCount + 1) % 4 == 0){
+    if ((this.matchdaysByYear.get(this.globalVars.currentYear).length + 1) % 4 == 0){
       this.serverTools.doBackup();
     }
 
@@ -163,14 +216,21 @@ export class ScoretableComponent implements OnInit {
 
   previousYear()
   {
-    this.globalVars.currentYear--;
-    this.getPlayerResults();
+    if (this.matchdaysByYear.has(this.globalVars.currentYear - 1)){
+      this.globalVars.currentYear--;
+      this.results = Observable.of(this.resultsByYear.get(this.globalVars.currentYear))
+      this.matchdayCount = this.matchdaysByYear.get(this.globalVars.currentYear).length
+    }
+
   }
 
   nextYear()
   {
-    this.globalVars.currentYear++;
-    this.getPlayerResults();
+    if (this.matchdaysByYear.has(this.globalVars.currentYear + 1)) {
+      this.globalVars.currentYear++;
+      this.results = Observable.of(this.resultsByYear.get(this.globalVars.currentYear))
+      this.matchdayCount = this.matchdaysByYear.get(this.globalVars.currentYear).length
+    }
   }
 
   imageExists(player) {
@@ -181,7 +241,7 @@ export class ScoretableComponent implements OnInit {
     image.onerror = function(){
       player.hasImage = false;
     };
-    image.src = "../../assets/avatar/" + player.data.name.toLowerCase() + ".jpg";
+    image.src = "../../assets/avatar/" + player.name.toLowerCase() + ".jpg";
   }
 
   openUserDialog() {

@@ -6,20 +6,20 @@
 
 <div class="fnpc-content" >
   <!--div *ngIf="resultsInit == true"-->
-  <div *ngFor="let player of players | async; let i = index">
-    <div *ngIf="(player.data.participations > 0) && (player.data.relevantForTotalScore || globalVars.showAllPlayers)" [ngClass]="{'fnpc-profile': true, 'active': player.id == globalVars.selectedPlayer, 'oddRow': ((player.data.overAllRank -1) % 2 != 0 && globalVars.showAllPlayers) || ((player.data.realRank -1) %2 !=0 && !globalVars.showAllPlayers)}" (click)="globalVars.setSelectedPlayer( player.id )" >
+  <div *ngFor="let player of results | async; let i = index">
+    <div *ngIf="(player.participations > 0) && (player.relevantForTotalScore || globalVars.showAllPlayers)" [ngClass]="{'fnpc-profile': true, 'active': player.id == globalVars.selectedPlayer, 'oddRow': ((player.overAllRank -1) % 2 != 0 && globalVars.showAllPlayers) || ((player.realRank -1) %2 !=0 && !globalVars.showAllPlayers)}" (click)="globalVars.setSelectedPlayer( player.id )" >
       <div class="fnpc-profile-avatar" *ngIf="player.hasImage">
-        <img src="../../assets/avatar/{{player.data.name | lowercase}}.jpg">
+        <img src="../../assets/avatar/{{player.name | lowercase}}.jpg">
       </div>
       <div class="fnpc-profile-avatar" *ngIf="!player.hasImage">
         <img src="../../assets/avatar/empty.jpg">
       </div>
       <div class="fnpc-profile-head">
-        <strong *ngIf="globalVars.showAllPlayers">#{{player.data.overAllRank}} {{player.data.name}}</strong>
-        <strong *ngIf="!globalVars.showAllPlayers">#{{player.data.realRank}} {{player.data.name}}</strong>
-        <span class="fnpc-pull-right"><strong>{{player.data.totalscore}} €</strong></span>
+        <strong *ngIf="globalVars.showAllPlayers">#{{player.overAllRank}} {{player.name}}</strong>
+        <strong *ngIf="!globalVars.showAllPlayers">#{{player.realRank}} {{player.name}}</strong>
+        <span class="fnpc-pull-right"><strong>{{player.totalscore}} €</strong></span>
       </div>
-      <div class="fnpc-profile-rebuy">Einsatz: {{player.data.totalbuyin}} € | Teilnahmen: {{player.data.participations}} von {{matchdayCount}}</div>
+      <div class="fnpc-profile-rebuy">Einsatz: {{player.totalbuyin}} € | Teilnahmen: {{player.participations}} von {{matchdayCount}}</div>
     </div>
   </div>
   <!--/-->
