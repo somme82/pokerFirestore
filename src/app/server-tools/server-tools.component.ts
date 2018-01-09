@@ -7,6 +7,7 @@ import {AngularFirestore, AngularFirestoreCollection} from "angularfire2/firesto
 import {Player} from "../Player";
 import {Matchday} from "../Matchday";
 import {Article} from "../Article";
+import * as moment from 'moment';
 
 
 
@@ -43,8 +44,6 @@ export class ServerToolsComponent implements OnInit {
   }
 
   doBackup(){
-    var playerJson: string;
-
     this.playerCollection = this.firestore.collection('players', ref => ref
       .orderBy('name', 'asc')
     );
@@ -57,7 +56,8 @@ export class ServerToolsComponent implements OnInit {
         });
       });
     this.player.subscribe(p=>{
-
+      console.log('adding players to backup...');
+      console.log(p);
       this.backup.push({
         players: p
       })
@@ -72,6 +72,8 @@ export class ServerToolsComponent implements OnInit {
           });
         });
       this.matchday.subscribe(m=>{
+        console.log('adding matchdays to backup...');
+        console.log(m);
         this.backup.push({
           matchdays: m
         })
@@ -85,7 +87,10 @@ export class ServerToolsComponent implements OnInit {
               return {id, data};
             });
           });
+
         this.score.subscribe(s=>{
+          console.log('adding scores to backup...');
+          console.log(s);
           this.backup.push({
             scores: s
           })
@@ -100,14 +105,19 @@ export class ServerToolsComponent implements OnInit {
               });
             });
           this.article.subscribe(a=>{
+            console.log('adding articles to backup...');
+            console.log(a);
             this.backup.push({
               articles: a
             })
 
-
+            let date =  moment();
             var body = {
-              text: JSON.stringify(this.backup)
+              text: JSON.stringify(this.backup),
+              name: 'fnpc-backup-' + date.format('YYYY-MM-DD') + '.json'
             }
+            console.log('backup ready to send...');
+            console.log(this.backup);
 
             var options: RequestOptions = new RequestOptions();
             options.headers = new Headers();
@@ -119,7 +129,7 @@ export class ServerToolsComponent implements OnInit {
               .catch(this.handleError)
           })
         });
-      }) 
+      })
     })
   }
 
@@ -411,42 +421,6 @@ export class ServerToolsComponent implements OnInit {
       console.log('userscores: ' +p.length);
     })
   }
-
-  deleteScores() {
-
-  }
-
-  deleteMatchdays(){
-    /*let start = new Date('2013-01-01');
-    var gamedays: Array<any> = new Array<any>();
-    this.firestore.collection('gamedays', ref=>ref.where('date', '<', start)).snapshotChanges().map(actions => {
-      return actions.map(a => {
-        const data = a.payload.doc.data() as Score;
-        const id = a.payload.doc.id;
-        return {id, data};
-      })
-    }).subscribe(p => {
-      gamedays = p;
-      console.log(gamedays);
-      gamedays.forEach(gd => {
-        console.log('delete')
-        console.log(gd);
-        this.firestore.doc('gamedays/' + gd.id).delete();
-      })
-    });*/
-
-
-
-
-
-
-  }
-
-
-  importArticles(){
-
-  }
-
   private handleError(error: any): Promise<any> {
     console.error('An error occurred', error);
     return Promise.reject(error.message || error);

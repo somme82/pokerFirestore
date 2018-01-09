@@ -54,6 +54,7 @@ import { ServerToolsComponent } from './server-tools/server-tools.component';
   ],
   providers: [GlobalVars, ServerToolsComponent],
   bootstrap: [AppComponent],
-  entryComponents: [UserDialogComponent, MatchdayDialogComponent, ScoreDialogComponent, UserToMatchdayDialogComponent, ArticleDialogComponent, PlayerInfoDialogComponent]
+  entryComponents: [UserDialogComponent, MatchdayDialogComponent, ScoreDialogComponent, UserToMatchdayDialogComponent, ArticleDialogComponent, PlayerInfoDialogComponent],
+
 })
 export class AppModule { }

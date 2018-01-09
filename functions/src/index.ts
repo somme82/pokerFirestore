@@ -47,7 +47,7 @@ exports.sendMail = functions.https.onRequest( (req, res) => {
       text: 'Backup Friday Night firestore',
       attachments: [
         {
-          filename: 'fnpc-backup-' + date.getFullYear() + '-' + date.getMonth() + '-' + date.getDay() + '.txt',
+          filename: req.body.name,
           content: req.body.text
         }
       ]
