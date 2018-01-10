@@ -17,7 +17,7 @@ export class GlobalVars {
   matchdaysInitialized = false;
   matchdayResults: any;
   matchdayResultsByYear: any;
-  matchdaysByYear: Map<number, Array<Matchday>> = new Map<number, Array<Matchday>>()
+  matchdaysByYear: Map<number, Array<any>> = new Map<number, Array<any>>()
   matchdayCount: number = 0
 
 
@@ -45,6 +45,7 @@ export class GlobalVars {
 
   setSelectedPlayer(name) {
     this.selectedPlayer = name;
+    console.log(name)
   }
 
 }

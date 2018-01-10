@@ -37,10 +37,6 @@ export class ScoretableComponent implements OnInit {
 
   playerResults: Player[] = new Array<Player>();
 
-  matchdayCount: number = 0
-  matchdaysByYear: Map<number, Array<Matchday>> = new Map<number, Array<Matchday>>()
-
-
   @ViewChild(MatDatepicker) datepicker: MatDatepicker<Date>;
 
   constructor(private firestore: AngularFirestore, public dialog: MatDialog, public globalVars: GlobalVars, public serverTools: ServerToolsComponent) {
@@ -78,17 +74,24 @@ export class ScoretableComponent implements OnInit {
       }
 
       this.matchdayCollection = this.firestore.collection('gamedays');
-      this.matchdays = this.matchdayCollection.valueChanges();
+      this.matchdays = this.matchdayCollection.snapshotChanges()
+        .map(actions => {
+          return actions.map(a => {
+            const data = a.payload.doc.data() as Score;
+            const id = a.payload.doc.id;
+            var results = new Array<any>();
+            return {id, results, data};
+          });
+        });
       this.matchdays.subscribe( m => {
         this.globalVars.matchdaysByYear = new Map<number, Array<Matchday>>();
-        console.log('====> Gamedays changed')
         m.forEach(md=>{
-          if (this.globalVars.matchdaysByYear.has(Number(new Date(md.date).getFullYear()))){
-            this.globalVars.matchdaysByYear.get(Number(new Date(md.date).getFullYear())).push(md);
+          if (this.globalVars.matchdaysByYear.has(Number(new Date(md.data.date).getFullYear()))){
+            this.globalVars.matchdaysByYear.get(Number(new Date(md.data.date).getFullYear())).push(md);
           } else{
             var newMd = new Array<Matchday>();
             newMd.push(md);
-            this.globalVars.matchdaysByYear.set(new Date(md.date).getFullYear(), newMd)
+            this.globalVars.matchdaysByYear.set(Number(new Date(md.data.date).getFullYear()), newMd)
           }
         })
 
@@ -107,12 +110,13 @@ export class ScoretableComponent implements OnInit {
           });
 
         this.scores.subscribe(s => {
-          console.log('====> Scores changed!')
           this.scores = s;
           var playerResultsByYear: Map<number, Player[]> = new Map<number, Player[]>();
 
           if (this.scores && this.scores.length > 0) {
             this.scores.forEach(s => {
+              this.globalVars.matchdaysByYear.get(new Date(s.data.matchdayDate).getFullYear()).find(m=>m.id == s.data.matchday).results.push(s);
+
               if (!playerResultsByYear.has(new Date(s.data.matchdayDate).getFullYear())){
                 var player = <Player>{};
                 if(playersMap.has(s.data.player)){
@@ -205,12 +209,9 @@ export class ScoretableComponent implements OnInit {
           playerResultsByYear.get(999).sort(function (a, b) {
             return b.totalscore - a.totalscore;
           });
-          console.log(playerResultsByYear)
 
-          console.log('set results by year')
           this.globalVars.matchdayResultsByYear = playerResultsByYear;
           this.globalVars.matchdayCount = this.globalVars.matchdaysByYear.get(this.globalVars.currentYear).length;
-          console.log(this.globalVars.matchdaysByYear.get(this.globalVars.currentYear));
           if (this.globalVars.selectedPlayer == '' && playerResultsByYear.get(this.globalVars.currentYear).length > 0) {
             this.globalVars.selectedPlayer = playerResultsByYear.get(this.globalVars.currentYear)[0].id;
           }
@@ -266,7 +267,6 @@ export class ScoretableComponent implements OnInit {
     } else{
       this.showOverAllScoreTable = true;
       this.globalVars.matchdayResults = Observable.of(this.globalVars.matchdayResultsByYear.get(999))
-      console.log(this.globalVars.matchdayResultsByYear.size - 1);
       this.globalVars.matchdayCount = this.globalVars.matchdayResultsByYear.size - 1;
     }
   }
