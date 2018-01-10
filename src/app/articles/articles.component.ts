@@ -20,13 +20,7 @@ export class ArticlesComponent implements OnInit {
   constructor(private firestore: AngularFirestore, public dialog: MatDialog, public globalVars: GlobalVars) { }
 
   ngOnInit() {
-
-    let start = new Date(this.globalVars.currentYear + '-01-01');
-    let end = new Date(this.globalVars.currentYear + '-12-31');
-
     this.articlesCollection = this.firestore.collection('matchdayarticles', ref => ref
-      .where('matchdayDate', '>=', start)
-      .where('matchdayDate', '<=', end)
       .orderBy('matchdayDate', 'desc'));
     this.articles = this.articlesCollection.valueChanges();
   }
