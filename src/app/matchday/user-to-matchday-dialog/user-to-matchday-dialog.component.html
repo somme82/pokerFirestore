@@ -1,6 +1,6 @@
 <div class="fnpc-dialog-headline">Spieler zu Spieltag hinzufügen</div>
 <div class="fnpc-dialog-content">
-  <div [ngClass]="{'fnpc-userDialog-row': true, 'oddRow': (i %2 !=0), 'active': player.data.name == selectedPlayer, 'active': player.hasScore}" (click)='insertPlayer(player.id)' *ngFor="let player of players | async; let i = index">
+  <div [ngClass]="{'fnpc-userDialog-row': true, 'oddRow': (i %2 !=0), 'active': player.data.name == selectedPlayer, 'active': player.markForScore}" (click)='markPlayer(player.id)' *ngFor="let player of players | async; let i = index">
     <strong>{{player.data.name}}</strong>
 
 
@@ -8,7 +8,8 @@
 </div>
 
 <div class="fnpc-menu-bottom">
-  <a class="fnpc-menu-item" (click)="globalVars.closeAllDialogs()">Schließen</a>
+  <a class="fnpc-menu-item" mat-button (click)="insertPlayerToMatchday()">Speichern</a>
+  <a class="fnpc-menu-item" mat-button (click)="globalVars.closeAllDialogs()">Abbrechen</a>
 </div>
 
 
