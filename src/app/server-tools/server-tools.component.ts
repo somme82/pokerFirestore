@@ -41,6 +41,7 @@ export class ServerToolsComponent implements OnInit {
   constructor(private globalVars: GlobalVars, private http: Http, private firestore: AngularFirestore) { }
 
   ngOnInit() {
+
   }
 
   doBackup(){
@@ -130,6 +131,35 @@ export class ServerToolsComponent implements OnInit {
           })
         });
       })
+    })
+  }
+
+  setAvatars(){
+    this.playerCollection = this.firestore.collection('players');
+    this.player = this.playerCollection.snapshotChanges()
+      .map(actions => {
+        return actions.map((a) => {
+          const data = a.payload.doc.data();
+          const id = a.payload.doc.id;
+          return {id, data};
+        })
+      });
+
+    var availableAvatars = ['adil', 'andi hartmann', 'andi', 'chris', 'dirk', 'heiko', 'markus', 'sebastian batho', 'steff', 'tim', 'tobse'];
+    this.player.subscribe( pl =>{
+      this.player = pl;
+      if(pl && pl.length > 0){
+        pl.forEach(p=>{
+          console.log(p);  
+          if (availableAvatars.some(a => a == p.data.name.toLowerCase())){
+
+            /*this.firestore.doc('players/' + p.id).update({
+              avatar: p.data.name.toLowerCase() + '.jpg'
+            })*/
+          }
+
+        })
+      }
     })
   }
 

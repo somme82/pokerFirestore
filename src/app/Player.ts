@@ -9,5 +9,6 @@ export class Player {
   relevantForTotalScore: boolean = false;
   hasImage: boolean = false;
   imported = false;
+  avatar: string;
 }
 

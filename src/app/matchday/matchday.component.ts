@@ -18,52 +18,17 @@ import {ArticleDialogComponent} from './article-dialog/article-dialog.component'
 })
 export class MatchdayComponent implements OnInit {
 
-  playersCollection: AngularFirestoreCollection<Player>;
   players: any;
 
-  venue: string = '';
-  date: Date;
-
-  scoreCollection: AngularFirestoreCollection<Score>;
   scores: any;
 
-
-  selectedMatchday: AngularFirestoreDocument<Matchday>;
   matchday: any;
-
-
   matchdayCollection: AngularFirestoreCollection<Matchday>;
   matchdays: any;
-
-  playersMap: Map<string, string> = new Map<string, string>();
 
   constructor(private firestore: AngularFirestore, public globalVars: GlobalVars, public dialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.playersCollection = this.firestore.collection('players', ref => ref.orderBy('name', 'asc'));
-    this.players = this.playersCollection.snapshotChanges()
-      .map(actions => {
-        return actions.map(a => {
-          const data = a.payload.doc.data() as Matchday;
-          const id = a.payload.doc.id;
-          return {id, data};
-        });
-      });
-
-    this.players.subscribe( p => {
-      this.players = p;
-      if (this.players && this.players.length > 0) {
-        this.players.forEach(player => {
-          if (!this.playersMap.has(player.data.name))
-          {
-            this.playersMap.set(player.id, player.data.name);
-          }
-        });
-      }
-    });
-    this.setMatchdays();
-
-
 
   }
 
@@ -91,143 +56,31 @@ export class MatchdayComponent implements OnInit {
     });
   }
 
-  getScore( playerid, scoreid ) {
-    this.globalVars.selectedPlayer = playerid;
-    this.globalVars.selectedScore = scoreid;
-  }
-
-  public setMatchdays()
-  {
-    let start = new Date(this.globalVars.currentYear + '-01-01');
-    let end = new Date(this.globalVars.currentYear + '-12-31');
-
-    this.matchdayCollection = this.firestore.collection('gamedays', ref => ref
-      .where('date', '>=', start)
-      .where('date', '<=', end)
-      .orderBy('date', 'asc'));
-    this.matchdays = this.matchdayCollection.snapshotChanges()
-      .map(actions => {
-        return actions.map( a => {
-          const data = a.payload.doc.data() as Matchday;
-          const id = a.payload.doc.id;
-          return {id, data};
-        });
-      });
-
-      this.matchdays.subscribe(md => {
-        this.matchdays = md;
-        if (this.matchdays && this.matchdays.length > 0) {
-          this.globalVars.matchdayId = this.matchdays[this.matchdays.length - 1].id;
-          this.getScoreOfMatchday();
-        }
-      });
-  }
-
-  getScoreOfMatchday()
-  {
-    this.scoreCollection = this.firestore.collection('userscores', ref => ref.where('matchday', '==', this.globalVars.matchdayId).orderBy('totalscore', 'desc'));
-    this.scores = this.scoreCollection.snapshotChanges()
-      .map(actions => {
-        return actions.map( a => {
-          const data = a.payload.doc.data() as Score;
-          const playername = this.playersMap.get(data.player);
-          const id = a.payload.doc.id;
-          return {id, playername, data};
-        });
-      });
-
-    this.scores.subscribe(score=>{
-      score.forEach(s=>{
-        this.imageExists(s);
-      })
-
-      if (score && score.length > 0)
-      {
-        this.globalVars.matchdayLeadingPlayer = score[0].data.player;
-      }
-
-      console.log(this.globalVars.matchdayLeadingPlayer);
-
-      this.scores = Observable.of(score);
-
-      this.selectedMatchday = this.firestore.doc("gamedays/" + this.globalVars.matchdayId);
-      this.matchday = this.selectedMatchday.snapshotChanges();
-      this.matchday.subscribe(value => {
-        if (this.playersMap.has(value.payload.data().venue))
-        {
-          this.venue = this.playersMap.get(value.payload.data().venue);
-        }else{
-          this.venue = value.payload.data().venue;
-        }
-        this.date = value.payload.data().date;
-      });
-    });
-  }
-
   getNextMatchday(){
-    this.matchdays = this.getMatchdaySnapshotChanges();
-    this.matchdays.subscribe(md => {
-      this.matchdays = md;
-      if (this.matchdays && this.matchdays.length > 0) {
-        var index = 0;
+    var index = this.globalVars.matchdaysByYear.get(this.globalVars.currentYear).findIndex(m=>m.id == this.globalVars.matchdayId) + 1;
+    if ((this.globalVars.matchdaysByYear.get(this.globalVars.currentYear).length -1) >= index){
+      var nextMatchday = this.globalVars.matchdaysByYear.get(this.globalVars.currentYear)[index];
 
-        this.matchdays.forEach(matchday => {
-          if (matchday.id == this.globalVars.matchdayId && index !== this.matchdays.length -1)
-          {
-            this.globalVars.matchdayId = this.matchdays[index +1].id;
-          } else{
-            index ++;
-          }
-        });
-      }
-      this.getScoreOfMatchday();
-
-    });
+      this.globalVars.currentMatchdayResultsObservable =
+        Observable.of(nextMatchday.results)
+      this.globalVars.matchdayId = nextMatchday.id;
+      this.globalVars.venue = this.globalVars.matchdaysMap.get(this.globalVars.matchdayId).data.playername;
+      this.globalVars.date = this.globalVars.matchdaysMap.get(this.globalVars.matchdayId).data.date;
+    }
 
   }
 
   getPreviousMatchday(){
-    this.matchdays = this.getMatchdaySnapshotChanges();
-    this.matchdays.subscribe(md => {
-      this.matchdays = md;
-      if (this.matchdays && this.matchdays.length > 0) {
-        var index = 0;
+    var index = this.globalVars.matchdaysByYear.get(this.globalVars.currentYear).findIndex(m=>m.id == this.globalVars.matchdayId) - 1
+    if (index >= 0) {
+      var previousMatchday = this.globalVars.matchdaysByYear.get(this.globalVars.currentYear)
+        [index];
 
-        this.matchdays.forEach(matchday => {
-          if (matchday.id == this.globalVars.matchdayId && index !== 0)
-          {
-            this.globalVars.matchdayId = this.matchdays[index -1].id;
-          }
-          index ++;
-        });
-      }
-      this.getScoreOfMatchday();
-
-    });
+      this.globalVars.currentMatchdayResultsObservable =
+        Observable.of(previousMatchday.results)
+      this.globalVars.matchdayId = previousMatchday.id;
+      this.globalVars.venue = this.globalVars.matchdaysMap.get(this.globalVars.matchdayId).data.playername;
+      this.globalVars.date = this.globalVars.matchdaysMap.get(this.globalVars.matchdayId).data.date;
+    }
   }
-
-  getMatchdaySnapshotChanges()
-  {
-    return this.matchdayCollection.snapshotChanges()
-      .map(actions => {
-        return actions.map( a => {
-          const data = a.payload.doc.data() as Matchday;
-          const id = a.payload.doc.id;
-          return {id, data};
-        });
-      });
-  }
-
-  imageExists(score) {
-    var image = new Image();
-    image.onload = function(){
-      score.hasImage = true;
-    };
-    image.onerror = function(){
-      score.hasImage = false;
-    };
-    image.src = "../../assets/avatar/" + score.playername.toLowerCase() + ".jpg";
-  }
-
-
 }

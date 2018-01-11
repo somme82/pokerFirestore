@@ -85,6 +85,8 @@ export class UserToMatchdayDialogComponent implements OnInit {
         matchday: this.globalVars.matchdayId,
         matchdayDate: this.matchday.date
       });
+      this.globalVars.selectedPlayer = p.id;
+      this.globalVars.selectedScore = pushkey;
     })
 
 

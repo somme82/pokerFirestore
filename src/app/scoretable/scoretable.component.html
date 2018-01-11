@@ -7,13 +7,10 @@
 
 <div class="fnpc-content" >
   <!--div *ngIf="resultsInit == true"-->
-  <div *ngFor="let player of globalVars.matchdayResults | async; let i = index">
-    <div *ngIf="(player.participations > 0) && (player.relevantForTotalScore || globalVars.showAllPlayers)" [ngClass]="{'fnpc-profile': true, 'active': player.id == globalVars.selectedPlayer, 'oddRow': ((player.overAllRank -1) % 2 != 0 && globalVars.showAllPlayers) || ((player.realRank -1) %2 !=0 && !globalVars.showAllPlayers)}" (click)="globalVars.setSelectedPlayer( player.id )" >
-      <div class="fnpc-profile-avatar" *ngIf="player.hasImage">
-        <img src="../../assets/avatar/{{player.name | lowercase}}.jpg">
-      </div>
-      <div class="fnpc-profile-avatar" *ngIf="!player.hasImage">
-        <img src="../../assets/avatar/empty.jpg">
+  <div *ngFor="let player of globalVars.matchdayResultsObservable | async; let i = index">
+    <div *ngIf="(player.participations > 0) && (player.relevantForTotalScore || globalVars.showAllPlayers)" [ngClass]="{'fnpc-profile': true, 'active': player.id == globalVars.selectedPlayer, 'oddRow': ((player.overAllRank -1) % 2 != 0 && globalVars.showAllPlayers) || ((player.realRank -1) %2 !=0 && !globalVars.showAllPlayers)}" (click)="globalVars.setSelection( player.id, '' )" >
+      <div class="fnpc-profile-avatar">
+        <img src="../../assets/avatar/{{player.avatar}}">
       </div>
       <div class="fnpc-profile-head">
         <strong *ngIf="globalVars.showAllPlayers">#{{player.overAllRank}} {{player.name}}</strong>
