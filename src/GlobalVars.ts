@@ -69,6 +69,7 @@ export class GlobalVars {
   setGlobalVariables(){
     this.matchdayId = this.matchdaysByYear.get(this.currentYear)[this.matchdaysByYear.get(this.currentYear).length - 1].id;
     this.currentMatchdayResults = this.matchdaysByYear.get(this.currentYear).find(m=>m.id==this.matchdayId);
+    console.log(this.currentMatchdayResults)
     this.currentMatchdayResultsObservable = Observable.of(this.currentMatchdayResults.results)
     this.currentMatchday = this.matchdaysMap.get(this.matchdayId);
     this.venue = this.matchdaysMap.get(this.matchdayId).data.playername;

@@ -37,7 +37,6 @@ export class MatchdayDialogComponent implements OnInit {
             score.id = s.id;
             score.buyin = s.data.buyin;
             score.chips = s.data.chips;
-            console.log(s)
             this.totalBuyIn = Number(Number(this.totalBuyIn) + Number(s.data.buyin));
             this.totalChips = Number(Number(this.totalChips) + Number(s.data.chips));
             this.scoresOfMatchday.push(score);

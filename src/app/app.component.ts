@@ -93,14 +93,27 @@ export class AppComponent implements OnInit{
             });
           });
         this.scores.subscribe(s => {
+          console.log('scores changed!')
           this.scores = s;
           var playerResultsByYear: Map<number, Player[]> = new Map<number, Player[]>();
 
           if (this.scores && this.scores.length > 0) {
             var scoreBefore = this.scores[0];
+            if (this.globalVars.matchdaysByYear.get(new Date(scoreBefore.data.matchdayDate).getFullYear()).some(m=>m.id == scoreBefore.data.matchday))
+            {
+              this.globalVars.matchdaysByYear.get(new Date(scoreBefore.data.matchdayDate).getFullYear()).find(m=>m.id == scoreBefore.data.matchday).results = new Array<any>();
+            }
             this.scores.forEach(s => {
+
+
+
               if (s.data.matchday != scoreBefore.data.matchday)
               {
+                if (this.globalVars.matchdaysByYear.get(new Date(s.data.matchdayDate).getFullYear()).some(m=>m.id == s.data.matchday))
+                {
+                  this.globalVars.matchdaysByYear.get(new Date(s.data.matchdayDate).getFullYear()).find(m=>m.id == s.data.matchday).results = new Array<any>();
+                }
+
                 this.globalVars.matchdaysByYear.get(new Date(scoreBefore.data.matchdayDate).getFullYear()).find(m=>m.id == scoreBefore.data.matchday).results =
                   this.globalVars.matchdaysByYear.get(new Date(scoreBefore.data.matchdayDate).getFullYear()).find(m=>m.id == scoreBefore.data.matchday).results.sort(function (a, b) {
                   return b.data.totalscore - a.data.totalscore;
@@ -193,20 +206,20 @@ export class AppComponent implements OnInit{
             })
           })
 
-          console.log(this.globalVars.matchdaysByYear)
           playerResultsByYear.get(999).sort(function (a, b) {
             return b.totalscore - a.totalscore;
           });
-          console.log(playerResultsByYear);
           this.globalVars.matchdayResultsByYear = playerResultsByYear;
           this.globalVars.matchdayCount = this.globalVars.matchdaysByYear.get(this.globalVars.currentYear).length;
           if (this.globalVars.selectedPlayer == '' && playerResultsByYear.get(this.globalVars.currentYear).length > 0) {
             this.globalVars.selectedPlayer = playerResultsByYear.get(this.globalVars.currentYear)[0].id;
           }
           this.globalVars.matchdayResultsObservable = Observable.of(playerResultsByYear.get(this.globalVars.currentYear));
+
+          this.globalVars.setGlobalVariables()
+
         });
 
-        this.globalVars.setGlobalVariables()
 
       })
 

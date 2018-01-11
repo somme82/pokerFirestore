@@ -73,9 +73,7 @@ export class UserToMatchdayDialogComponent implements OnInit {
   }
 
   insertPlayerToMatchday(){
-    console.log(this.playersAsArray.filter(p=>(p.markForScore && !p.hasScore)))
     this.playersAsArray.filter(p=>(p.markForScore && !p.hasScore)).forEach(p=>{
-      console.log('added score for ' + p.data.name)
       const pushkey = this.firestore.createId();
       this.firestore.collection("userscores").doc(pushkey).set({
         chips: 10,
@@ -92,10 +90,11 @@ export class UserToMatchdayDialogComponent implements OnInit {
 
     this.playersAsArray.filter(p=>(!p.markForScore && p.hasScore)).forEach(p=>{
       if (p.scoreId != ''){
-        console.log('delete score of ' + p.name)
         this.firestore.doc("userscores/" + p.scoreId).delete();
       }
     })
+    console.log(this.globalVars.currentMatchdayResults)
+    this.globalVars.setGlobalVariables();
     this.globalVars.closeAllDialogs()
   }
 
