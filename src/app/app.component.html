@@ -3,5 +3,6 @@
   <a class="fnpc-menu-item" routerLink="/scoretable"><img src="./assets/images/bullets-black.svg"></a>
   <a class="fnpc-menu-item" routerLink="/articles"><img src="./assets/images/comment-black.svg"></a>
 </div>
-<div class="loadingdata" *ngIf="!globalVars.dataInitialized">Lade Daten...</div>
+<div class="loadingdata" *ngIf="!globalVars.dataInitialized"><img src="./assets/images/preloaders/bullets_white.gif"></div>
+<!--div class="loadingdata"  ><img src="./assets/images/preloaders/bullets_white.gif"></div-->
 <router-outlet></router-outlet>

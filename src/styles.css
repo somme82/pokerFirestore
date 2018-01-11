@@ -235,6 +235,4 @@ div.loadingdata{
   justify-content: center;
   color: white;
   font-size: 16px !important;
-  opacity: 0.6;
-  filter: alpha(opacity=60); /* For IE8 and earlier */
 }
