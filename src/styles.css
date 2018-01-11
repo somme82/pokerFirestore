@@ -226,7 +226,7 @@ input {
   border: 1px solid #bbb;
 }
 
-div.loadingdata{
+div.fnpc-preload{
   display: flex;
   width: 100%;
   height: 100%;
@@ -235,4 +235,8 @@ div.loadingdata{
   justify-content: center;
   color: white;
   font-size: 16px !important;
+}
+
+.centered{
+  text-align: center;
 }

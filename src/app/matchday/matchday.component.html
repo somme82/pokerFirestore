@@ -1,9 +1,9 @@
-<div class="fnpc-headline">
+<div class="fnpc-headline" *ngIf="globalVars.dataInitialized">
   <div class="fnpc-headline-item-left" (click)="getPreviousMatchday()"><img src="../../assets/images/carat-l-white.svg"></div>
   <div class="fnpc-headline-item-middle">Bei {{globalVars.venue}} am {{globalVars.date | date: 'dd.MM.yyyy'}}</div>
   <div class="fnpc-headline-item-right" (click)="getNextMatchday()"><img src="../../assets/images/carat-r-white.svg"></div>
 </div>
-<div class="fnpc-content">
+<div class="fnpc-content" *ngIf="globalVars.dataInitialized">
   <div [ngClass]="{'fnpc-profile': true, 'active': score.data.player == globalVars.selectedPlayer, 'oddRow':(i %2 !=0)}" *ngFor="let score of globalVars.currentMatchdayResultsObservable | async; let i = index" (click)="globalVars.setSelection( score.data.player, score.id )">
 
     <div class="fnpc-profile-avatar">
@@ -18,7 +18,7 @@
 </div>
 
 
-<div class="fnpc-menu-bottom">
+<div class="fnpc-menu-bottom" *ngIf="globalVars.dataInitialized">
   <a class="fnpc-menu-item" mat-button (click)="openScoreDialog()"><img src="../../assets/images/recycle-white.svg"></a>
   <a class="fnpc-menu-item" mat-button (click)="openNewUserDialog()"><img src="../../assets/images/plus-white.svg"></a>
   <a class="fnpc-menu-item" mat-button (click)="openMatchdayDialog()"><img src="../../assets/images/info-white.svg"></a>

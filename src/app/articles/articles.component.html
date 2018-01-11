@@ -1,9 +1,9 @@
-<div class="fnpc-headline">
+<div class="fnpc-headline" *ngIf="globalVars.dataInitialized">
   <div class="fnpc-headline-item-left"></div>
   <div class="fnpc-headline-item-middle">Berichte</div>
   <div class="fnpc-headline-item-right"></div>
 </div>
-<div class="fnpc-dialog-content">
+<div class="fnpc-dialog-content" *ngIf="globalVars.dataInitialized">
 
 
   <div class="fnpc-article-table">

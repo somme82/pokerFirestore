@@ -1,12 +1,12 @@
 
-<div class="fnpc-headline">
+<div class="fnpc-headline" *ngIf="globalVars.dataInitialized">
   <div class="fnpc-headline-item-left" (click)="previousYear()"><img src="../../assets/images/carat-l-white.svg"></div>
   <div *ngIf="showOverAllScoreTable" class="fnpc-headline-item-middle">All Time Rangliste</div>
   <div *ngIf="!showOverAllScoreTable" class="fnpc-headline-item-middle">Rangliste {{globalVars.currentYear}}</div>
   <div class="fnpc-headline-item-right"(click)="nextYear()"><img src="../../assets/images/carat-r-white.svg"></div>
 </div>
 
-<div class="fnpc-content">
+<div class="fnpc-content" *ngIf="globalVars.dataInitialized">
   <!--div *ngIf="resultsInit == true"-->
   <div *ngFor="let player of globalVars.matchdayResultsObservable | async; let i = index">
     <div *ngIf="(player.participations > 0) && (player.relevantForTotalScore || globalVars.showAllPlayers)" [ngClass]="{'fnpc-profile': true, 'active': player.id == globalVars.selectedPlayer, 'oddRow': ((player.overAllRank -1) % 2 != 0 && globalVars.showAllPlayers) || ((player.realRank -1) %2 !=0 && !globalVars.showAllPlayers)}" (click)="globalVars.setSelection( player.id, '' )" >
@@ -24,7 +24,7 @@
   </div>
   <!--/-->
 </div>
-<div class="fnpc-menu-bottom">
+<div class="fnpc-menu-bottom" *ngIf="globalVars.dataInitialized">
   <a class="fnpc-menu-item" mat-button (click)="openUserDialog()"><img src="../../assets/images/plus-white.svg"></a>
   <a class="fnpc-menu-item" mat-button (click)="openDatepicker()"><img src="../../assets/images/calendar-white.svg"></a>
   <a class="fnpc-menu-item" mat-button (click)="openPlayerInfoDialog()"><img src="../../assets/images/info-white.svg"></a>
