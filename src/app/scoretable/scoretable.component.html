@@ -6,7 +6,7 @@
   <div class="fnpc-headline-item-right"(click)="nextYear()"><img src="../../assets/images/carat-r-white.svg"></div>
 </div>
 
-<div class="fnpc-content" *ngIf="globalVars.dataInitialized">
+<div class="fnpc-content" *ngIf="globalVars.dataInitialized" (touchstart)="swipe($event, 'start')" (touchend)="swipe($event, 'end')">
   <!--div *ngIf="resultsInit == true"-->
   <div *ngFor="let player of globalVars.matchdayResultsObservable | async; let i = index">
     <div *ngIf="(player.participations > 0) && (player.relevantForTotalScore || globalVars.showAllPlayers)" [ngClass]="{'fnpc-profile': true, 'active': player.id == globalVars.selectedPlayer, 'oddRow': ((player.overAllRank -1) % 2 != 0 && globalVars.showAllPlayers) || ((player.realRank -1) %2 !=0 && !globalVars.showAllPlayers)}" (click)="globalVars.setSelection( player.id, '' )" >

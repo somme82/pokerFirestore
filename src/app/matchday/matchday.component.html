@@ -3,7 +3,7 @@
   <div class="fnpc-headline-item-middle">Bei {{globalVars.venue}} am {{globalVars.date | date: 'dd.MM.yyyy'}}</div>
   <div class="fnpc-headline-item-right" (click)="getNextMatchday()"><img src="../../assets/images/carat-r-white.svg"></div>
 </div>
-<div class="fnpc-content" *ngIf="globalVars.dataInitialized">
+<div class="fnpc-content" *ngIf="globalVars.dataInitialized" (touchstart)="swipe($event, 'start')" (touchend)="swipe($event, 'end')">
   <div [ngClass]="{'fnpc-profile': true, 'active': score.data.player == globalVars.selectedPlayer, 'oddRow':(i %2 !=0)}" *ngFor="let score of globalVars.currentMatchdayResultsObservable | async; let i = index" (click)="globalVars.setSelection( score.data.player, score.id )">
 
     <div class="fnpc-profile-avatar">

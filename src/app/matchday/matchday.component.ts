@@ -83,4 +83,35 @@ export class MatchdayComponent implements OnInit {
       this.globalVars.date = this.globalVars.matchdaysMap.get(this.globalVars.matchdayId).data.date;
     }
   }
+
+  private swipeCoord?: [number, number];
+  private swipeTime?: number;
+
+  swipe(e: TouchEvent, when: string): void {
+    const coord: [number, number] = [e.changedTouches[0].pageX, e.changedTouches[0].pageY];
+    const time = new Date().getTime();
+
+    if (when === 'start') {
+      console.log('start')
+      this.swipeCoord = coord;
+      this.swipeTime = time;
+    }
+
+    else if (when === 'end') {
+      const direction = [coord[0] - this.swipeCoord[0], coord[1] - this.swipeCoord[1]];
+      const duration = time - this.swipeTime;
+
+      if (duration < 1000 //Short enough
+        && Math.abs(direction[1]) < Math.abs(direction[0]) //Horizontal enough
+        && Math.abs(direction[0]) > 30) {  //Long enough
+        const swipe = direction[0] < 0 ? 'next' : 'previous';
+        if(swipe == 'next'){
+          this.getNextMatchday();
+        } else{
+          this.getPreviousMatchday();
+        }
+      }
+    }
+  }
+
 }
