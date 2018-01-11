@@ -20,6 +20,7 @@ export class GlobalVars {
   }
   venue: string = '';
   date: Date;
+  dataInitialized = false;
 
   //Behaviour variables
   showAllPlayers = false;
@@ -74,6 +75,7 @@ export class GlobalVars {
     this.currentMatchday = this.matchdaysMap.get(this.matchdayId);
     this.venue = this.matchdaysMap.get(this.matchdayId).data.playername;
     this.date = this.matchdaysMap.get(this.matchdayId).data.date;
+    this.dataInitialized = true;
   }
 
   getPlayerNameById(id){
