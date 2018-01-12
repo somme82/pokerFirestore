@@ -4,11 +4,19 @@
   <div class="fnpc-headline-item-right"></div>
 </div>
 <div class="fnpc-dialog-content" *ngIf="globalVars.dataInitialized">
-
-
   <div class="fnpc-article-table">
     <div class="fnpc-article" *ngFor="let article of articles | async; let i = index">
-      <div class="fnpc-article-headline">{{article.data.matchdayDate | date: 'dd.MM.yyyy'}} bei {{article.venuePlayer}}<span class="fnpc-article-headline-right"> von {{article.playerName}}</span></div>
+      <div class="fnpc-profile fnpc-article-headline">
+
+        <div class="fnpc-profile-avatar">
+          <img src="../../assets/avatar/{{article.avatar}}">
+        </div>
+        <div class="fnpc-profile-head">
+          <strong>{{article.data.matchdayDate | date: 'dd.MM.yyyy'}} bei {{article.venuePlayer}}</strong>
+        </div>
+        <div class="">Von {{article.playerName}}</div>
+      </div>
+      <!--div class="fnpc-article-headline">{{article.data.matchdayDate | date: 'dd.MM.yyyy'}} bei {{article.venuePlayer}}<span class="fnpc-article-headline-right"> von {{article.playerName}}</span></div-->
       <div *ngIf="article.data.imported == true"><div class="fnpc-article-content" [innerHTML]="article.data.text"></div></div>
       <div *ngIf="article.data.imported == false"><div class="fnpc-article-content"><pre>{{article.data.text}}</pre></div></div>
     </div>

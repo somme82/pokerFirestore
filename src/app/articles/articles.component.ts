@@ -38,8 +38,9 @@ export class ArticlesComponent implements OnInit {
           if(this.globalVars.playersMap.get(data.matchdayVenue)){
             venuePlayer = this.globalVars.playersMap.get(data.matchdayVenue).data.name
           }
+          var avatar = this.globalVars.getPlayerAvatarById(data.player)
 
-          return {id, playerName, venuePlayer, data};
+          return {id, playerName, venuePlayer, avatar, data};
         });
       });
 
