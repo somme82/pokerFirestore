@@ -5,6 +5,8 @@ import {AngularFirestore, AngularFirestoreCollection} from 'angularfire2/firesto
 import {Matchday} from '../Matchday';
 import {Article} from '../Article';
 import {Player} from '../Player';
+import {Observable} from "rxjs/Observable";
+import {Score} from "../Score";
 
 @Component({
   selector: 'my-articles',
@@ -20,9 +22,27 @@ export class ArticlesComponent implements OnInit {
   constructor(private firestore: AngularFirestore, public dialog: MatDialog, public globalVars: GlobalVars) { }
 
   ngOnInit() {
+    console.log(this.globalVars.playersMap )
     this.articlesCollection = this.firestore.collection('matchdayarticles', ref => ref
       .orderBy('matchdayDate', 'desc'));
-    this.articles = this.articlesCollection.valueChanges();
+    this.articles = this.articlesCollection.snapshotChanges()
+      .map(actions => {
+        return actions.map(a => {
+          const data = a.payload.doc.data();
+          const id = a.payload.doc.id;
+          var playerName = '?';
+          if(this.globalVars.playersMap.has(data.player)){
+            playerName = this.globalVars.playersMap.get(data.player).data.name
+          }
+          var venuePlayer = '?';
+          if(this.globalVars.playersMap.get(data.matchdayVenue)){
+            venuePlayer = this.globalVars.playersMap.get(data.matchdayVenue).data.name
+          }
+
+          return {id, playerName, venuePlayer, data};
+        });
+      });
+
   }
 
 }

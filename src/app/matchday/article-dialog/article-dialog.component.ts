@@ -38,43 +38,21 @@ export class ArticleDialogComponent implements OnInit {
   constructor(private firestore: AngularFirestore, public globalVars: GlobalVars) {}
 
   ngOnInit() {
-    this.article.text = '';
-    this.playerDoc = this.firestore.doc('players/' + this.globalVars.matchdayLeadingPlayer);
-    this.player = this.playerDoc.valueChanges();
-    this.player.subscribe(value => {
-      this.player = value;
-      this.article.player = value.name;
-
-      this.matchdayDoc = this.firestore.doc('gamedays/' + this.globalVars.matchdayId);
-      this.matchday = this.matchdayDoc.valueChanges();
-      this.matchday.subscribe(md => {
-        this.matchday = md;
-        this.article.matchdayDate = md.date;
-
-        this.venueDoc = this.firestore.doc('players/' + md.venue);
-        this.venue = this.venueDoc.valueChanges();
-        this.venue.subscribe(v => {
-          this.venue = v;
-          this.article.matchdayVenue = v.name;
-
-          this.currentArticle = this.firestore.collection('matchdayarticles', ref => ref.where('matchdayId', '==', this.globalVars.matchdayId))
-          this.currentArticleDoc = this.currentArticle.snapshotChanges()
-            .map(actions => {
-              return actions.map( a => {
-                const data = a.payload.doc.data() as Matchday;
-                const id = a.payload.doc.id;
-                return {id, data};
-              });
-            });
-          this.currentArticleDoc.subscribe(ca=>{
-            ca.forEach(c => {
-              this.articleId = c.id;
-              this.articleText = c.data.text;
-            })
-          })
-        })
+    this.currentArticle = this.firestore.collection('matchdayarticles', ref => ref.where('matchdayId', '==', this.globalVars.matchdayId))
+    this.currentArticleDoc = this.currentArticle.snapshotChanges()
+      .map(actions => {
+        return actions.map( a => {
+          const data = a.payload.doc.data() as Matchday;
+          const id = a.payload.doc.id;
+          return {id, data};
+        });
       });
-    });
+    this.currentArticleDoc.subscribe(ca=>{
+      ca.forEach(c => {
+        this.articleId = c.id;
+        this.articleText = c.data.text;
+      })
+    })
   }
 
   addArticle()
@@ -86,16 +64,16 @@ export class ArticleDialogComponent implements OnInit {
     } else {
       id = this.articleId;
     }
-    console.log(id);
-    this.article.text = this.articleText;
-    this.firestore.collection('matchdayarticles').doc(id).set({
-      text: this.article.text,
-      matchdayDate: this.article.matchdayDate,
-      matchdayVenue: this.article.matchdayVenue,
+    var newArticle = {
+      text: this.articleText,
+      player: this.globalVars.matchdaysMap.get(this.globalVars.matchdayId).results[0].data.player,
+      matchdayDate: this.globalVars.matchdaysMap.get(this.globalVars.matchdayId).data.date,
+      matchdayVenue: this.globalVars.matchdaysMap.get(this.globalVars.matchdayId).data.venue,
       matchdayId: this.globalVars.matchdayId,
-      player: this.article.player,
+      imported: false
+    }
 
-    })
+    this.firestore.collection('matchdayarticles').doc(id).set(newArticle)
     this.globalVars.closeAllDialogs();
   }
 

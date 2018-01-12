@@ -8,9 +8,11 @@
 
   <div class="fnpc-article-table">
     <div class="fnpc-article" *ngFor="let article of articles | async; let i = index">
-      <div class="fnpc-article-headline">{{article.matchdayDate | date: 'dd.MM.yyyy'}} bei {{article.matchdayVenue}}<span class="fnpc-article-headline-right"> von {{article.player}}</span></div>
-      <div class="fnpc-article-content"><pre>{{article.text}}</pre></div>
+      <div class="fnpc-article-headline">{{article.data.matchdayDate | date: 'dd.MM.yyyy'}} bei {{article.venuePlayer}}<span class="fnpc-article-headline-right"> von {{article.playerName}}</span></div>
+      <div *ngIf="article.data.imported == true"><div class="fnpc-article-content" [innerHTML]="article.data.text"></div></div>
+      <div *ngIf="article.data.imported == false"><div class="fnpc-article-content"><pre>{{article.data.text}}</pre></div></div>
     </div>
   </div>
 
 </div>
+
