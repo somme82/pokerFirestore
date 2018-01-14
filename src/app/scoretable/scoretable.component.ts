@@ -32,6 +32,10 @@ export class ScoretableComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this.globalVars.dataInitialized == true){
+      console.log("setGlobalVariables()")
+      this.globalVars.setGlobalVariables();
+    }
   }
 
   onDateChange = (e: MatDatepickerInputEvent<Date>) => {
@@ -65,7 +69,7 @@ export class ScoretableComponent implements OnInit {
       this.globalVars.matchdayCount = this.globalVars.matchdaysByYear.get(this.globalVars.currentYear).length
     }
     this.showOverAllScoreTable = false;
-    this.globalVars.setGlobalVariables();
+    //this.globalVars.setGlobalVariables();
 
   }
 
@@ -110,7 +114,7 @@ export class ScoretableComponent implements OnInit {
       this.globalVars.matchdayResultsObservable = Observable.of(this.globalVars.matchdayResultsByYear.get(999))
       this.globalVars.matchdayCount = this.globalVars.matchdayResultsByYear.size - 1;
     }
-    this.globalVars.setGlobalVariables();
+    //this.globalVars.setGlobalVariables();
   }
 
   openUserDialog() {

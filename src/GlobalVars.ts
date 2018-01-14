@@ -70,14 +70,19 @@ export class GlobalVars {
     }
     console.log(playerId)
   }
-
+ 
   setGlobalVariables(){
+    console.log(this.currentYear);
+    console.log(this.matchdayResultsByYear.get(this.currentYear))
     this.matchdayId = this.matchdaysByYear.get(this.currentYear)[this.matchdaysByYear.get(this.currentYear).length - 1].id;
     this.currentMatchdayResults = this.matchdaysByYear.get(this.currentYear).find(m=>m.id==this.matchdayId);
     this.currentMatchdayResults.results = this.currentMatchdayResults.results.sort(function (a, b) {
       return b.data.totalscore - a.data.totalscore;
     });
-    console.log(this.currentMatchdayResults)
+
+    this.matchdayResultsObservable = Observable.of(this.matchdayResultsByYear.get(this.currentYear))
+    this.matchdayCount = this.matchdaysByYear.get(this.currentYear).length
+
     this.currentMatchdayResultsObservable = Observable.of(this.currentMatchdayResults.results)
     this.currentMatchday = this.matchdaysMap.get(this.matchdayId);
     this.venue = this.matchdaysMap.get(this.matchdayId).data.playername;
