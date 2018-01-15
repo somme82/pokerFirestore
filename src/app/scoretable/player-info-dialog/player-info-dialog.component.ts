@@ -29,7 +29,6 @@ export class PlayerInfoDialogComponent implements OnInit {
   constructor(private firestore: AngularFirestore, public globalVars: GlobalVars) { }
 
   ngOnInit() {
-
     this.playersCollection = this.firestore.collection('players', ref => ref.orderBy('name', 'asc'));
     this.players = this.playersCollection.snapshotChanges()
       .map(actions => {

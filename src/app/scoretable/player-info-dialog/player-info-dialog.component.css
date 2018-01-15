@@ -1,0 +1,27 @@
+.playerinfo-head{
+    margin: unset !important;
+    width: 100% !important;
+    display:table;
+    background-color: #eeeeee;
+    height:5%;
+}
+.playerinfo-date{
+width: 26% !important;
+vertical-align:middle;
+}
+.playerinfo-venue{
+width: 20% !important;
+vertical-align:middle;
+}
+.playerinfo-buyin{
+width: 18% !important;
+vertical-align:middle;
+}
+.playerinfo-chips{
+width: 18% !important;
+vertical-align:middle;
+}
+.playerinfo-result{
+width: 18% !important;
+vertical-align:middle;
+}
