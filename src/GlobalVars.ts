@@ -21,6 +21,7 @@ export class GlobalVars {
   venue: string = '';
   date: Date;
   dataInitialized = false;
+  page = ''
 
   //Behaviour variables
   showAllPlayers = false;
@@ -72,8 +73,7 @@ export class GlobalVars {
   }
  
   setGlobalVariables(){
-    console.log(this.currentYear);
-    console.log(this.matchdayResultsByYear.get(this.currentYear))
+    
     this.matchdayId = this.matchdaysByYear.get(this.currentYear)[this.matchdaysByYear.get(this.currentYear).length - 1].id;
     this.currentMatchdayResults = this.matchdaysByYear.get(this.currentYear).find(m=>m.id==this.matchdayId);
     this.currentMatchdayResults.results = this.currentMatchdayResults.results.sort(function (a, b) {

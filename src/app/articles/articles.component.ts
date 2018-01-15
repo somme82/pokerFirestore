@@ -19,9 +19,12 @@ export class ArticlesComponent implements OnInit {
   articlesCollection: AngularFirestoreCollection<Article>;
   articles: any;
 
-  constructor(private firestore: AngularFirestore, public dialog: MatDialog, public globalVars: GlobalVars) { }
+  constructor(private firestore: AngularFirestore, public dialog: MatDialog, public globalVars: GlobalVars) {
+    this.globalVars.page='articles'
+   }
 
   ngOnInit() {
+    
     console.log(this.globalVars.playersMap )
     this.articlesCollection = this.firestore.collection('matchdayarticles', ref => ref
       .orderBy('matchdayDate', 'desc'));

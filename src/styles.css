@@ -90,6 +90,9 @@ div.fnpc-menu-bottom a.fnpc-menu-item {
   text-align: center;
   cursor: hand !important;
 }
+.a.fnpc-menu-item selected {
+  background-color: #eee !important;
+}
 
 .fnpc-pull-left{
   float: left!important;
@@ -133,6 +136,7 @@ div.fnpc-table {
 }
 div.fnpc-table-row {
   display:table-row;
+  color: black !important;
 }
 div.fnpc-table-cell {
   display:table-cell;

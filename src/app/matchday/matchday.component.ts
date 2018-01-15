@@ -26,10 +26,12 @@ export class MatchdayComponent implements OnInit {
   matchdayCollection: AngularFirestoreCollection<Matchday>;
   matchdays: any;
 
-  constructor(private firestore: AngularFirestore, public globalVars: GlobalVars, public dialog: MatDialog) { }
+  constructor(private firestore: AngularFirestore, public globalVars: GlobalVars, public dialog: MatDialog) { 
+    this.globalVars.page='matchdays'
+  }
 
   ngOnInit(): void {
-
+    
   }
 
   openScoreDialog() {

@@ -1,7 +1,3 @@
-a.fnpc-menu-item:active{
-  background-color: #a38382 !important;
-}
-
 div.fnpc-menu-top {
   height: 8% !important;
   display: table;
@@ -19,8 +15,8 @@ div.fnpc-menu-bottom,div.fnpc-menu-top a.fnpc-menu-item{
   background-color: white;
 }
 
-a.fnpc-menu-item:hover {
-  background-color: #ddd !important;
+a.active{
+  background-color: #eee !important;
 }
 
 
