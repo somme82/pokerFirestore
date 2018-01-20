@@ -1,31 +1,32 @@
-<div class="fnpc-headline">
+<div class="fnpc-headline" *ngIf="globalVars.dataInitialized">
   <div class="fnpc-headline-item-middle">Spieler Details</div>
 </div>
-
-
-<div class="fnpc-table-row playerinfo-head">
-  <div class="fnpc-table-cell playerinfo-date"><strong>Wann</strong></div>
-  <div class="fnpc-table-cell playerinfo-venue"><strong>Wo</strong></div>
-  <div class="fnpc-table-cell playerinfo-buyin"><strong>BuyIn</strong></div>
-  <div class="fnpc-table-cell playerinfo-chips"><strong>Chips</strong></div>
-  <div class="fnpc-table-cell playerinfo-result"><strong>Ergebnis</strong></div>
-</div>
-<div class="fnpc-content">
-
-        
-  <div [ngClass]="{'fnpc-table-row': true, 'oddRow':(i %2 !=0)}" *ngFor="let score of scores | async; let i = index">
-    <div class="fnpc-table-cell playerinfo-date">#{{i + 1}} {{score.data.matchdayDate | date: 'dd.MM.yyyy'}}</div>
-    <div class="fnpc-table-cell playerinfo-venue">{{score.playername}}</div>
-    <div class="fnpc-table-cell playerinfo-buyin">{{score.data.buyin}}</div>
-    <div class="fnpc-table-cell playerinfo-chips">{{score.data.chips}}</div>
-    <div class="fnpc-table-cell playerinfo-result">{{score.data.totalscore}}</div>
-
+<div class="fnpc-content playerinfo-content">
+  <div class="fnpc-table playerinfo-table">
+  <div class="fnpc-table-row playerinfo-head">
+    <div class="fnpc-table-cell playerinfo-date"><strong>Wann</strong></div>
+    <div class="fnpc-table-cell playerinfo-venue"><strong>Wo</strong></div>
+    <div class="fnpc-table-cell playerinfo-buyin"><strong>BuyIn</strong></div>
+    <div class="fnpc-table-cell playerinfo-chips"><strong>Chips</strong></div>
+    <div class="fnpc-table-cell playerinfo-result"><strong>Ergebnis</strong></div>
   </div>
-      
+
+
+          
+    <div [ngClass]="{'fnpc-table-row': true, 'oddRow':(i %2 !=0)}" *ngFor="let score of scores | async; let i = index">
+      <div class="fnpc-table-cell playerinfo-date">#{{i + 1}} {{score.data.matchdayDate | date: 'dd.MM.yyyy'}}</div>
+      <div class="fnpc-table-cell playerinfo-venue">{{score.playername}}</div>
+      <div class="fnpc-table-cell playerinfo-buyin">{{score.data.buyin}}</div>
+      <div class="fnpc-table-cell playerinfo-chips">{{score.data.chips}}</div>
+      <div class="fnpc-table-cell playerinfo-result">{{score.data.totalscore}}</div>
+
+    </div>
+
+</div>
 </div>
 
 
-<div class="fnpc-menu-bottom">
+<div class="fnpc-menu-bottom" *ngIf="globalVars.dataInitialized">
   <a class="fnpc-menu-item" (click)="globalVars.closeAllDialogs()">Schließen</a>
 </div>
 

@@ -1,7 +1,6 @@
 .playerinfo-head{
     margin: unset !important;
     width: 100% !important;
-    display:table;
     background-color: #eeeeee;
     height:5%;
 }
@@ -24,4 +23,10 @@ vertical-align:middle;
 .playerinfo-result{
 width: 18% !important;
 vertical-align:middle;
+}
+.playerinfo-content{
+    height: 81% !important;
+}
+.playerinfo-table{
+    margin: unset !important;
 }
