@@ -17,8 +17,8 @@
         <div class="">Von {{article.playerName}}</div>
       </div>
       <!--div class="fnpc-article-headline">{{article.data.matchdayDate | date: 'dd.MM.yyyy'}} bei {{article.venuePlayer}}<span class="fnpc-article-headline-right"> von {{article.playerName}}</span></div-->
-      <div *ngIf="article.data.imported == true"><div class="fnpc-article-content" [innerHTML]="article.data.text"></div></div>
-      <div *ngIf="article.data.imported == false"><div class="fnpc-article-content"><pre>{{article.data.text}}</pre></div></div>
+      <div><div class="fnpc-article-content" [innerHTML]="article.data.text"></div></div>
+
     </div>
   </div>
 
