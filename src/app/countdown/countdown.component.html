@@ -1,0 +1,9 @@
+<div class="countdown">
+  <div *ngFor="let time of display; let i = index" class="timebox">
+      <!--div class="time"><strong>{{displayNumbers[i]}}</strong></div>
+      <div-- class="unit">{{display[i]}}</div-->
+      <span class="time">{{displayNumbers[i]}}</span><br/>
+      <span class="unit">{{display[i]}}</span>
+  </div>
+</div>
+<ng-content></ng-content>

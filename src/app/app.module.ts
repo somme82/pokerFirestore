@@ -22,6 +22,8 @@ import { ArticleDialogComponent } from './matchday/article-dialog/article-dialog
 import { ArticlesComponent } from './articles/articles.component';
 import { PlayerInfoDialogComponent } from './scoretable/player-info-dialog/player-info-dialog.component';
 import { ServerToolsComponent } from './server-tools/server-tools.component';
+import { CountdownComponent } from './countdown/countdown.component';
+import {CountDown} from 'ng2-date-countdown';
 
 @NgModule({
   imports: [
@@ -49,7 +51,9 @@ import { ServerToolsComponent } from './server-tools/server-tools.component';
     ArticleDialogComponent,
     ArticlesComponent,
     PlayerInfoDialogComponent,
-    ServerToolsComponent
+    ServerToolsComponent,
+    CountdownComponent,
+    CountDown
 
   ],
   providers: [GlobalVars, ServerToolsComponent],

@@ -1,0 +1,244 @@
+@import url('https://fonts.googleapis.com/css?family=Yantramanav');
+
+:root {
+  --width: 100vw;
+  --segments: 0;
+  --width-segment: calc(var(--width)/var(--segments));
+  --radius: 1.5vmin;
+  --rgb: 59, 182, 235;
+  --fontColor: 255, 255, 255;
+  --animationDirection: normal;
+}
+
+body {
+  background-color: rgb(255,255,255);
+}
+
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.splitflap {
+  min-width: var(--width-segment);
+  font-size: calc(var(--width-segment)*.75);
+  text-align: center;
+  height: var(--width-segment);
+  color: rgb(var(--fontColor));
+  margin: 5px;
+  perspective: 1000px;
+  position: relative;
+  line-height:var(--width-segment);
+  font-family:"Helvetica Neue", Helvetica, sans-serif;
+  font-weight:600;
+  transform: translate3D(0, 0, 0);
+}
+
+.splitflap > div {
+  width:66%;
+  overflow:hidden;
+  left: 50%;
+  margin-left: calc(var(--width-segment)/3*-1);
+}
+
+.front-top {
+  background-color: rgb(var(--rgb));
+  border-radius: var(--radius) var(--radius) 0 0;
+  height: 50%;
+  width: 66%;
+  position: relative;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.front-full {
+  position: relative;
+  height: 100%;
+  width: 66%;
+  margin-top: -50%;
+  border-radius: var(--radius) var(--radius) var(--radius) var(--radius);
+  z-index: -1;
+  background-color: black;
+  background-image: linear-gradient(rgba(var(--rgb), 0), rgb(var(--rgb)));
+  transform-origin: center;
+}
+
+.front-top:after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  content: "";
+  height: 100%;
+  width: 100%;
+  border-bottom: 1px solid black;
+  box-sizing: border-box;
+}
+
+
+.back-top {
+  position: relative;
+  height: 50%;
+  width: 66%;
+  background-color: rgb(var(--rgb));
+  margin-top: -100%;
+  overflow: hidden;
+  border-radius: var(--radius) var(--radius) 0 0;
+  z-index: 2;
+  background-color: black;
+  background-image: linear-gradient(rgb(var(--rgb)), rgba(var(--rgb), 0));
+  transform-origin: bottom;
+  transform: rotateX(-90deg);
+}
+
+.back-top:after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  content: "";
+  border-bottom: 1px solid black;
+  box-sizing: border-box;
+  height: 100%;
+  width: 100%;
+}
+
+.back-full {
+  position: relative;
+  height: 100%;
+  width: 66%;
+  background-color: rgb(var(--rgb));
+  margin-top: -50%;
+  border-radius: var(--radius) var(--radius) var(--radius) var(--radius);
+  z-index: -3;
+}
+
+.flip1 {
+  animation: flip1 ease-in 1s;
+  animation-fill-mode: forwards;
+  animation-direction: var(--animationDirection);
+}
+
+.flip2 {
+  animation: flip2 ease-out 1s;
+  animation-fill-mode: forwards;
+  animation-direction: var(--animationDirection);
+}
+
+@keyframes flip1 {
+  0% {
+    transform: rotateX(0deg);
+    background-color: rgb(var(--rgb));
+  }
+  50% {
+    transform: rotateX(90deg);
+    background-color: black;
+  }
+  100% {
+    transform: rotateX(90deg);
+  }
+}
+
+@keyframes flip2 {
+  0% {
+    transform: rotateX(-90deg);
+  }
+  50% {
+    transform: rotateX(-90deg);
+  }
+  100% {
+    transform: rotateX(0deg);
+    background-color: rgb(var(--rgb));
+  }
+}
+
+
+
+.splitflap:nth-child(2n):after {
+  position: absolute;
+  top: -80%;
+  left: -50%;
+  text-align: center;
+  font-size: 2.5vmin;
+  color: black;
+  height: 100%;
+  width: 100%;
+  z-index:10;
+  font-family:sans-serif;
+  font-weight:100;
+  margin-left: 1.5vw;
+}
+
+
+/* [!!]
+in old CSS, i spaced the flaps by nth-child(even)
+i changed it instead to  2n-1
+ 2n = even
+ added -1 to adjust for the three day flaps
+
+then with .splitflap:nth-child(1),
+i pushed the first day flap back towards the last two
+
+*/
+
+.splitflap:nth-child(2n-1) {
+  margin-left: -3.5vw;
+}
+.splitflap:nth-child(1) {
+  margin-right:-3.5vw;
+}
+
+.splitflap:nth-child(2n+3):after {
+  content: ":";
+  position: relative;
+  font-family: futura;
+  color: #444;
+  top: -11.5vw;
+  left: 5.5vw;
+  font-size:5vw;
+  margin-left: 5px;
+}
+
+.splitflap:nth-child(9):after {
+  content: "";
+}
+
+
+.text {
+  width:80vw;
+  height: 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: -1vw;
+}
+
+.text > div {
+
+  text-align: center;
+  min-width: calc(100vw / 10 * 2 - 40px);
+  flex-grow: 2;
+}
+
+.text > div:nth-child(1) {
+  flex-grow: 5;
+}
+
+
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width:100vw;
+  position: absolute;
+  top: 30vh;
+  font-family: sans-serif;
+  font-weight:100;
+  left: 0;
+}

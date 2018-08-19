@@ -23,7 +23,8 @@
         "styles.css"
       ],
       "scripts": [
-        "../node_modules/moment/min/moment.min.js"
+        "../node_modules/moment/min/moment.min.js",
+        "../src/assets/countdown/js/demo.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {
