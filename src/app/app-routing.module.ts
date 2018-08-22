@@ -7,7 +7,8 @@ import {ServerToolsComponent} from './server-tools/server-tools.component';
 import {CountdownComponent} from './countdown/countdown.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/scoretable', pathMatch: 'full' },
+  //{ path: '', redirectTo: '/scoretable', pathMatch: 'full' },
+  { path: '', redirectTo: '/countdown', pathMatch: 'full' },
   { path: 'scoretable', component: ScoretableComponent },
   { path: 'matchday', component: MatchdayComponent },
   { path: 'articles', component: ArticlesComponent },
