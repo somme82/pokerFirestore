@@ -210,6 +210,11 @@ export class AppComponent implements OnInit{
             return b.totalscore - a.totalscore;
           });
           this.globalVars.matchdayResultsByYear = playerResultsByYear;
+
+          if (!this.globalVars.matchdaysByYear.has(this.globalVars.currentYear)){
+            this.globalVars.currentYear = this.globalVars.currentYear -1;
+          }
+
           this.globalVars.matchdayCount = this.globalVars.matchdaysByYear.get(this.globalVars.currentYear).length;
           if (this.globalVars.selectedPlayer == '' && playerResultsByYear.get(this.globalVars.currentYear).length > 0) {
             this.globalVars.selectedPlayer = playerResultsByYear.get(this.globalVars.currentYear)[0].id;
