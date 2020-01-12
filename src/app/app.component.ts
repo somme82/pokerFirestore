@@ -3,10 +3,11 @@ import {Player} from "./Player";
 import {Observable} from "rxjs/Observable";
 import {Matchday} from "./Matchday";
 import {Score} from "./Score";
-import {AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument} from "angularfire2/firestore";
+import {AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument} from "@angular/fire/firestore";
 import {ServerToolsComponent} from "./server-tools/server-tools.component";
 import {MatDialog} from "@angular/material";
 import {GlobalVars} from "../GlobalVars";
+import 'rxjs/add/operator/map';
 
 @Component({
   selector: 'my-root',
@@ -60,7 +61,7 @@ export class AppComponent implements OnInit{
           return actions.map(a => {
             const data = a.payload.doc.data();
 
-            data.playername = this.globalVars.getPlayerNameById(data.venue)
+            data.playerName = this.globalVars.getPlayerNameById(data.venue)
 
             const id = a.payload.doc.id;
             var results = new Array<any>();
@@ -214,7 +215,7 @@ export class AppComponent implements OnInit{
           if (!this.globalVars.matchdaysByYear.has(this.globalVars.currentYear)){
             this.globalVars.currentYear = this.globalVars.currentYear -1;
           }
-
+        
           this.globalVars.matchdayCount = this.globalVars.matchdaysByYear.get(this.globalVars.currentYear).length;
           if (this.globalVars.selectedPlayer == '' && playerResultsByYear.get(this.globalVars.currentYear).length > 0) {
             this.globalVars.selectedPlayer = playerResultsByYear.get(this.globalVars.currentYear)[0].id;

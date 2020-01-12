@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {AngularFirestore, AngularFirestoreDocument} from 'angularfire2/firestore';
+import {AngularFirestore, AngularFirestoreDocument} from '@angular/fire/firestore';
 import {Score} from '../../Score';
 import {GlobalVars} from '../../../GlobalVars';
 import {Player} from '../../Player';

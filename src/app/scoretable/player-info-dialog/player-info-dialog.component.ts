@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument} from 'angularfire2/firestore';
+import {AngularFirestore, AngularFirestoreCollection} from '@angular/fire/firestore';
+
 import {Score} from '../../Score';
 import {GlobalVars} from '../../../GlobalVars';
 import {Observable} from 'rxjs/Observable';
 import {Matchday} from '../../Matchday';
 import {Player} from '../../Player';
-import {forEach} from '@angular/router/src/utils/collection';
 
 @Component({
   selector: 'my-player-info-dialog',
@@ -33,7 +33,7 @@ export class PlayerInfoDialogComponent implements OnInit {
     this.players = this.playersCollection.snapshotChanges()
       .map(actions => {
         return actions.map(a => {
-          const data = a.payload.doc.data() as Matchday;
+          const data = a.payload.doc.data() as unknown as Matchday;
           const id = a.payload.doc.id;
           return {id, data};
         });
@@ -58,7 +58,7 @@ export class PlayerInfoDialogComponent implements OnInit {
       this.matchdays = this.matchdayCollection.snapshotChanges()
         .map(actions => {
           return actions.map(a => {
-            const data = a.payload.doc.data() as Score;
+            const data = a.payload.doc.data() as unknown as Score;
             const id = a.payload.doc.id;
             return {id, data};
           });

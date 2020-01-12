@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument} from 'angularfire2/firestore';
+import {AngularFirestore, AngularFirestoreDocument} from '@angular/fire/firestore';
 import {MatDatepicker, MatDatepickerInputEvent, MatDialog} from '@angular/material';
 import {Player} from '../Player';
 import {GlobalVars} from '../../GlobalVars';
@@ -26,7 +26,7 @@ export class ScoretableComponent implements OnInit {
   newMatchday: any;
 
   showOverAllScoreTable = false;
-  @ViewChild(MatDatepicker) datepicker: MatDatepicker<Date>;
+  @ViewChild(MatDatepicker, {static: false}) datepicker: MatDatepicker<Date>;
 
   constructor(private firestore: AngularFirestore, public dialog: MatDialog, public globalVars: GlobalVars, public serverTools: ServerToolsComponent) {
    this.globalVars.page='scoretable'

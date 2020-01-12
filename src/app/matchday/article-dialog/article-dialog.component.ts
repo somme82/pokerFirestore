@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {GlobalVars} from '../../../GlobalVars';
-import {AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument} from 'angularfire2/firestore';
+import {AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument} from '@angular/fire/firestore';
 import {MatchdayComponent} from '../matchday.component';
 import {Score} from '../../Score';
 import {Player} from '../../Player';
@@ -42,7 +42,7 @@ export class ArticleDialogComponent implements OnInit {
     this.currentArticleDoc = this.currentArticle.snapshotChanges()
       .map(actions => {
         return actions.map( a => {
-          const data = a.payload.doc.data() as Matchday;
+          const data = a.payload.doc.data() as unknown as Matchday;
           const id = a.payload.doc.id;
           return {id, data};
         });
@@ -83,7 +83,7 @@ export class ArticleDialogComponent implements OnInit {
     this.articleDoc = this.articleCollection.snapshotChanges()
       .map(actions => {
         return actions.map( a => {
-          const data = a.payload.doc.data() as Score;
+          const data = a.payload.doc.data() as unknown as Score;
           const id = a.payload.doc.id;
           return {id, data};
         });

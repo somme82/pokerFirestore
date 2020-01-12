@@ -3,7 +3,7 @@ import {GlobalVars} from "../../GlobalVars";
 import {Email} from "../Email";
 import {Headers, Http, RequestOptions, Response} from '@angular/http';
 import {Score} from "../Score";
-import {AngularFirestore, AngularFirestoreCollection} from "angularfire2/firestore";
+import {AngularFirestore, AngularFirestoreCollection} from '@angular/fire/firestore';
 import {Player} from "../Player";
 import {Matchday} from "../Matchday";
 import {Article} from "../Article";
@@ -51,7 +51,7 @@ export class ServerToolsComponent implements OnInit {
     this.player = this.playerCollection.snapshotChanges()
       .map(actions => {
         return actions.map(a => {
-          const data = a.payload.doc.data() as Score;
+          const data = a.payload.doc.data() as unknown as Score;
           const id = a.payload.doc.id;
           return {id, data};
         });
@@ -67,7 +67,7 @@ export class ServerToolsComponent implements OnInit {
       this.matchday = this.matchdayCollection.snapshotChanges()
         .map(actions => {
           return actions.map(a => {
-            const data = a.payload.doc.data() as Score;
+            const data = a.payload.doc.data() as unknown as Score;
             const id = a.payload.doc.id;
             return {id, data};
           });
@@ -100,7 +100,7 @@ export class ServerToolsComponent implements OnInit {
           this.article = this.articleCollection.snapshotChanges()
             .map(actions => {
               return actions.map(a => {
-                const data = a.payload.doc.data() as Score;
+                const data = a.payload.doc.data() as unknown as Score;
                 const id = a.payload.doc.id;
                 return {id, data};
               });

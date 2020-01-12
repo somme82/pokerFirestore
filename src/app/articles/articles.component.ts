@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {GlobalVars} from '../../GlobalVars';
 import {MatDialog} from '@angular/material';
-import {AngularFirestore, AngularFirestoreCollection} from 'angularfire2/firestore';
+import {AngularFirestore, AngularFirestoreCollection} from '@angular/fire/firestore';
 import {Matchday} from '../Matchday';
 import {Article} from '../Article';
 import {Player} from '../Player';
