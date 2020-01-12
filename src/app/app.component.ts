@@ -31,7 +31,6 @@ export class AppComponent implements OnInit{
   constructor(private firestore: AngularFirestore, public dialog: MatDialog, public globalVars: GlobalVars, public serverTools: ServerToolsComponent) {}
 
   ngOnInit(): void {
-    console.log('app.component.ts')
     this.getPlayerResults()
   }
 
@@ -60,28 +59,30 @@ export class AppComponent implements OnInit{
         .map(actions => {
           return actions.map(a => {
             const data = a.payload.doc.data();
-
-            data.playerName = this.globalVars.getPlayerNameById(data.venue)
-
+            data.playername = this.globalVars.getPlayerNameById(data.venue)
             const id = a.payload.doc.id;
             var results = new Array<any>();
             return {id, results, data};
           });
         });
+
       this.matchdays.subscribe( m => {
         this.globalVars.matchdaysByYear = new Map<number, Array<Matchday>>();
         m.forEach(md=>{
+
+          console.log(md.data.date.toDate().getFullYear());
           if (!this.globalVars.matchdaysMap.has(md.id)){
             this.globalVars.matchdaysMap.set(md.id, md)
           }
-          if (this.globalVars.matchdaysByYear.has(Number(new Date(md.data.date).getFullYear()))){
-            this.globalVars.matchdaysByYear.get(Number(new Date(md.data.date).getFullYear())).push(md);
+          if (this.globalVars.matchdaysByYear.has(Number(md.data.date.toDate().getFullYear()))){
+            this.globalVars.matchdaysByYear.get(Number(md.data.date.toDate().getFullYear())).push(md);
           } else{
             var newMd = new Array<Matchday>();
             newMd.push(md);
-            this.globalVars.matchdaysByYear.set(Number(new Date(md.data.date).getFullYear()), newMd)
+            this.globalVars.matchdaysByYear.set(Number(md.data.date.toDate().getFullYear()), newMd)
           }
         })
+        
         this.scoreCollection = this.firestore.collection('userscores', ref => ref
           .orderBy('matchdayDate', 'asc')
         );
@@ -100,32 +101,33 @@ export class AppComponent implements OnInit{
 
           if (this.scores && this.scores.length > 0) {
             var scoreBefore = this.scores[0];
-            if (this.globalVars.matchdaysByYear.get(new Date(scoreBefore.data.matchdayDate).getFullYear()).some(m=>m.id == scoreBefore.data.matchday))
+            if (this.globalVars.matchdaysByYear.get(scoreBefore.data.matchdayDate.toDate().getFullYear()).some(m=>m.id == scoreBefore.data.matchday))
             {
-              this.globalVars.matchdaysByYear.get(new Date(scoreBefore.data.matchdayDate).getFullYear()).find(m=>m.id == scoreBefore.data.matchday).results = new Array<any>();
+              this.globalVars.matchdaysByYear.get(scoreBefore.data.matchdayDate.toDate().getFullYear()).find(m=>m.id == scoreBefore.data.matchday).results = new Array<any>();
             }
+
             this.scores.forEach(s => {
 
 
 
               if (s.data.matchday != scoreBefore.data.matchday)
               {
-                if (this.globalVars.matchdaysByYear.get(new Date(s.data.matchdayDate).getFullYear()).some(m=>m.id == s.data.matchday))
+                if (this.globalVars.matchdaysByYear.get(s.data.matchdayDate.toDate().getFullYear()).some(m=>m.id == s.data.matchday))
                 {
-                  this.globalVars.matchdaysByYear.get(new Date(s.data.matchdayDate).getFullYear()).find(m=>m.id == s.data.matchday).results = new Array<any>();
+                  this.globalVars.matchdaysByYear.get(s.data.matchdayDate.toDate().getFullYear()).find(m=>m.id == s.data.matchday).results = new Array<any>();
                 }
 
-                this.globalVars.matchdaysByYear.get(new Date(scoreBefore.data.matchdayDate).getFullYear()).find(m=>m.id == scoreBefore.data.matchday).results =
-                  this.globalVars.matchdaysByYear.get(new Date(scoreBefore.data.matchdayDate).getFullYear()).find(m=>m.id == scoreBefore.data.matchday).results.sort(function (a, b) {
+                this.globalVars.matchdaysByYear.get(scoreBefore.data.matchdayDate.toDate().getFullYear()).find(m=>m.id == scoreBefore.data.matchday).results =
+                  this.globalVars.matchdaysByYear.get(scoreBefore.data.matchdayDate.toDate().getFullYear()).find(m=>m.id == scoreBefore.data.matchday).results.sort(function (a, b) {
                   return b.data.totalscore - a.data.totalscore;
                 });
               }
               scoreBefore= s;
               s.playername = this.globalVars.getPlayerNameById(s.data.player)
               s.avatar = this.globalVars.getPlayerAvatarById(s.data.player)
-              this.globalVars.matchdaysByYear.get(new Date(s.data.matchdayDate).getFullYear()).find(m=>m.id == s.data.matchday).results.push(s);
+              this.globalVars.matchdaysByYear.get(s.data.matchdayDate.toDate().getFullYear()).find(m=>m.id == s.data.matchday).results.push(s);
 
-              if (!playerResultsByYear.has(new Date(s.data.matchdayDate).getFullYear())){
+              if (!playerResultsByYear.has(s.data.matchdayDate.toDate().getFullYear())){
                 var player = <Player>{};
                 player.name = this.globalVars.getPlayerNameById(s.data.player)
                 player.avatar = this.globalVars.getPlayerAvatarById(s.data.player)
@@ -133,7 +135,7 @@ export class AppComponent implements OnInit{
                 player.totalscore = s.data.totalscore;
                 player.totalbuyin = s.data.buyin;
                 player.participations = 1;
-                if(player.participations >= (this.globalVars.matchdaysByYear.get(new Date(s.data.matchdayDate).getFullYear()).length / 3)){
+                if(player.participations >= (this.globalVars.matchdaysByYear.get(s.data.matchdayDate.toDate().getFullYear()).length / 3)){
                   player.relevantForTotalScore = true;
                 }
                 player.realRank = 1;
@@ -141,15 +143,15 @@ export class AppComponent implements OnInit{
                 var players = new Array<Player>();
                 players.push(player);
 
-                playerResultsByYear.set(new Date(s.data.matchdayDate).getFullYear(), players);
+                playerResultsByYear.set(s.data.matchdayDate.toDate().getFullYear(), players);
               } else{
-                if (playerResultsByYear.get(new Date(s.data.matchdayDate).getFullYear()).some(p => p.id === s.data.player)) {
-                  var p = playerResultsByYear.get(new Date(s.data.matchdayDate).getFullYear()).find(p => p.id === s.data.player);
-                  playerResultsByYear.get(new Date(s.data.matchdayDate).getFullYear()).find(p => p.id === s.data.player).totalscore = Number((Number(p.totalscore) + Number(s.data.totalscore)));
-                  playerResultsByYear.get(new Date(s.data.matchdayDate).getFullYear()).find(p => p.id === s.data.player).totalbuyin = Number((Number(p.totalbuyin) + Number(s.data.buyin)));
-                  playerResultsByYear.get(new Date(s.data.matchdayDate).getFullYear()).find(p => p.id === s.data.player).participations += 1;
-                  if(playerResultsByYear.get(new Date(s.data.matchdayDate).getFullYear()).find(p => p.id === s.data.player).participations >= (this.globalVars.matchdaysByYear.get(new Date(s.data.matchdayDate).getFullYear()).length / 3)){
-                    playerResultsByYear.get(new Date(s.data.matchdayDate).getFullYear()).find(p => p.id === s.data.player).relevantForTotalScore = true;
+                if (playerResultsByYear.get(s.data.matchdayDate.toDate().getFullYear()).some(p => p.id === s.data.player)) {
+                  var p = playerResultsByYear.get(s.data.matchdayDate.toDate().getFullYear()).find(p => p.id === s.data.player);
+                  playerResultsByYear.get(s.data.matchdayDate.toDate().getFullYear()).find(p => p.id === s.data.player).totalscore = Number((Number(p.totalscore) + Number(s.data.totalscore)));
+                  playerResultsByYear.get(s.data.matchdayDate.toDate().getFullYear()).find(p => p.id === s.data.player).totalbuyin = Number((Number(p.totalbuyin) + Number(s.data.buyin)));
+                  playerResultsByYear.get(s.data.matchdayDate.toDate().getFullYear()).find(p => p.id === s.data.player).participations += 1;
+                  if(playerResultsByYear.get(s.data.matchdayDate.toDate().getFullYear()).find(p => p.id === s.data.player).participations >= (this.globalVars.matchdaysByYear.get(s.data.matchdayDate.toDate().getFullYear()).length / 3)){
+                    playerResultsByYear.get(s.data.matchdayDate.toDate().getFullYear()).find(p => p.id === s.data.player).relevantForTotalScore = true;
                   }
                 } else {
                   var player = <Player>{};
@@ -161,10 +163,10 @@ export class AppComponent implements OnInit{
                   player.participations = 1;
                   player.realRank = 1;
                   player.overAllRank = 1;
-                  if(player.participations >= (this.globalVars.matchdaysByYear.get(new Date(s.data.matchdayDate).getFullYear()).length / 3)){
+                  if(player.participations >= (this.globalVars.matchdaysByYear.get(s.data.matchdayDate.toDate().getFullYear()).length / 3)){
                     player.relevantForTotalScore = true;
                   }
-                  playerResultsByYear.get(new Date(s.data.matchdayDate).getFullYear()).push(player);
+                  playerResultsByYear.get(s.data.matchdayDate.toDate().getFullYear()).push(player);
                 }
               }
             })
@@ -217,6 +219,8 @@ export class AppComponent implements OnInit{
           }
         
           this.globalVars.matchdayCount = this.globalVars.matchdaysByYear.get(this.globalVars.currentYear).length;
+          console.log(this.globalVars.currentYear);
+          console.log(playerResultsByYear)
           if (this.globalVars.selectedPlayer == '' && playerResultsByYear.get(this.globalVars.currentYear).length > 0) {
             this.globalVars.selectedPlayer = playerResultsByYear.get(this.globalVars.currentYear)[0].id;
           }

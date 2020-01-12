@@ -86,7 +86,7 @@ export class GlobalVars {
     this.currentMatchdayResultsObservable = Observable.of(this.currentMatchdayResults.results)
     this.currentMatchday = this.matchdaysMap.get(this.matchdayId);
     this.venue = this.matchdaysMap.get(this.matchdayId).data.playername;
-    this.date = this.matchdaysMap.get(this.matchdayId).data.date;
+    this.date = this.matchdaysMap.get(this.matchdayId).data.date.toDate();
     this.dataInitialized = true;
   }
 
