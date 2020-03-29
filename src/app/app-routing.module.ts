@@ -13,7 +13,7 @@ const routes: Routes = [
   { path: 'matchday', component: MatchdayComponent },
   { path: 'articles', component: ArticlesComponent },
   { path: 'admin', component: ServerToolsComponent },
-  { path: 'countdown', component: CountdownComponent }
+  { path: 'countdown', component: ScoretableComponent }
 
 ];
 
