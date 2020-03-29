@@ -66,8 +66,8 @@ export class MatchdayComponent implements OnInit {
       this.globalVars.currentMatchdayResultsObservable =
         Observable.of(nextMatchday.results)
       this.globalVars.matchdayId = nextMatchday.id;
-      this.globalVars.venue = this.globalVars.matchdaysMap.get(this.globalVars.matchdayId).data.playername;
-      this.globalVars.date = this.globalVars.matchdaysMap.get(this.globalVars.matchdayId).data.date;
+      this.globalVars.venue = this.globalVars.matchdaysMap.get(this.globalVars.matchdayId).data.playerName;
+      this.globalVars.date = this.globalVars.matchdaysMap.get(this.globalVars.matchdayId).data.date.toDate();
     }
 
   }
@@ -81,8 +81,8 @@ export class MatchdayComponent implements OnInit {
       this.globalVars.currentMatchdayResultsObservable =
         Observable.of(previousMatchday.results)
       this.globalVars.matchdayId = previousMatchday.id;
-      this.globalVars.venue = this.globalVars.matchdaysMap.get(this.globalVars.matchdayId).data.playername;
-      this.globalVars.date = this.globalVars.matchdaysMap.get(this.globalVars.matchdayId).data.date;
+      this.globalVars.venue = this.globalVars.matchdaysMap.get(this.globalVars.matchdayId).data.playerName;
+      this.globalVars.date = this.globalVars.matchdaysMap.get(this.globalVars.matchdayId).data.date.toDate();
     }
   }
 

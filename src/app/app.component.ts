@@ -70,7 +70,7 @@ export class AppComponent implements OnInit{
         this.globalVars.matchdaysByYear = new Map<number, Array<Matchday>>();
         m.forEach(md=>{
 
-          console.log(md.data.date.toDate().getFullYear());
+          //console.log(md.data.date.toDate().getFullYear());
           if (!this.globalVars.matchdaysMap.has(md.id)){
             this.globalVars.matchdaysMap.set(md.id, md)
           }
@@ -95,7 +95,7 @@ export class AppComponent implements OnInit{
             });
           });
         this.scores.subscribe(s => {
-          console.log('scores changed!')
+          //console.log('scores changed!')
           this.scores = s;
           var playerResultsByYear: Map<number, Player[]> = new Map<number, Player[]>();
 
@@ -219,8 +219,8 @@ export class AppComponent implements OnInit{
           }
         
           this.globalVars.matchdayCount = this.globalVars.matchdaysByYear.get(this.globalVars.currentYear).length;
-          console.log(this.globalVars.currentYear);
-          console.log(playerResultsByYear)
+          //console.log(this.globalVars.currentYear);
+          //console.log(playerResultsByYear)
           if (this.globalVars.selectedPlayer == '' && playerResultsByYear.get(this.globalVars.currentYear).length > 0) {
             this.globalVars.selectedPlayer = playerResultsByYear.get(this.globalVars.currentYear)[0].id;
           }

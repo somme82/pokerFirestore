@@ -14,7 +14,7 @@
 
           
     <div [ngClass]="{'fnpc-table-row': true, 'oddRow':(i %2 !=0)}" *ngFor="let score of scores | async; let i = index">
-      <div class="fnpc-table-cell playerinfo-date">#{{i + 1}} {{score.data.matchdayDate | date: 'dd.MM.yyyy'}}</div>
+      <div class="fnpc-table-cell playerinfo-date">#{{i + 1}} {{score.data.matchdayDate.toDate().toLocaleDateString('de-de', {year: 'numeric', month: '2-digit', day: '2-digit'})}}</div>
       <div class="fnpc-table-cell playerinfo-venue">{{score.playername}}</div>
       <div class="fnpc-table-cell playerinfo-buyin">{{score.data.buyin}}</div>
       <div class="fnpc-table-cell playerinfo-chips">{{score.data.chips}}</div>

@@ -1,6 +1,6 @@
 <div class="fnpc-headline" *ngIf="globalVars.dataInitialized">
   <div class="fnpc-headline-item-left" (click)="getPreviousMatchday()"><img src="../../assets/images/carat-l-white.svg"></div>
-  <div class="fnpc-headline-item-middle">Bei {{globalVars.venue}} am {{globalVars.date}}</div>
+  <div class="fnpc-headline-item-middle">Bei {{globalVars.venue}} am {{globalVars.date.toLocaleDateString('de-de', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'})}}</div>
   <div class="fnpc-headline-item-right" (click)="getNextMatchday()"><img src="../../assets/images/carat-r-white.svg"></div>
 </div>
 <div class="fnpc-content" *ngIf="globalVars.dataInitialized" (touchstart)="swipe($event, 'start')" (touchend)="swipe($event, 'end')">

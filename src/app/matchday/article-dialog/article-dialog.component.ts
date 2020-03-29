@@ -67,7 +67,7 @@ export class ArticleDialogComponent implements OnInit {
     var newArticle = {
       text: this.articleText,
       player: this.globalVars.matchdaysMap.get(this.globalVars.matchdayId).results[0].data.player,
-      matchdayDate: this.globalVars.matchdaysMap.get(this.globalVars.matchdayId).data.date,
+      matchdayDate: this.globalVars.matchdaysMap.get(this.globalVars.matchdayId).data.date.toDate(),
       matchdayVenue: this.globalVars.matchdaysMap.get(this.globalVars.matchdayId).data.venue,
       matchdayId: this.globalVars.matchdayId,
       imported: false
