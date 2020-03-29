@@ -59,7 +59,7 @@ export class AppComponent implements OnInit{
         .map(actions => {
           return actions.map(a => {
             const data = a.payload.doc.data();
-            data.playername = this.globalVars.getPlayerNameById(data.venue)
+            data.playerName = this.globalVars.getPlayerNameById(data.venue)
             const id = a.payload.doc.id;
             var results = new Array<any>();
             return {id, results, data};
