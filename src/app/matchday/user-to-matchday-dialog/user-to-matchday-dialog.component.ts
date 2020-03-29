@@ -35,8 +35,12 @@ export class UserToMatchdayDialogComponent implements OnInit {
       .map(actions => {
         return actions.map(a => {
           const data = a.payload.doc.data() as Player;
+          var avatar = "empty.jpg"
+          if (data.avatar != undefined){
+            avatar = data.avatar;
+          }
           const id = a.payload.doc.id;
-          return {id, data};
+          return {id, avatar, data};
         });
       });
 

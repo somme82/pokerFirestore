@@ -1,4 +1,4 @@
-<div class="fnpc-dialog-headline">{{globalVars.currentMatchday.matchdayDate | date: 'dd.MM.yyyy'}} von {{article.player}}</div>
+<div class="fnpc-dialog-headline">{{article.matchdayDate | date: 'dd.MM.yyyy'}} von {{article.player}}</div>
 <div class="fnpc-dialog-content">
   <div class="fnpc-textarea-wrap">
     <textarea class="fnpc-textarea" rows="20" [(ngModel)]="articleText"></textarea>

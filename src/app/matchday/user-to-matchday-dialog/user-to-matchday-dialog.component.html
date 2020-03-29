@@ -1,12 +1,32 @@
 <div class="fnpc-dialog-headline">Spieler zu Spieltag hinzufügen</div>
 <div class="fnpc-dialog-content">
-  <div [ngClass]="{'fnpc-userDialog-row': true, 'oddRow': (i %2 !=0), 'active': player.data.name == selectedPlayer, 'active': player.markForScore}" (click)='markPlayer(player.id)' *ngFor="let player of players | async; let i = index">
-    <strong>{{player.data.name}}</strong>
 
-
+  <!--div *ngFor="let player of globalVars.matchdayResultsObservable | async; let i = index">
+    <div *ngIf="(player.participations > 0) && (player.relevantForTotalScore || globalVars.showAllPlayers)" [ngClass]="{'fnpc-profile': true, 'active': player.id == globalVars.selectedPlayer, 'oddRow': ((player.overAllRank -1) % 2 != 0 && globalVars.showAllPlayers) || ((player.realRank -1) %2 !=0 && !globalVars.showAllPlayers)}" (click)="globalVars.setSelection( player.id, '' )" >
+      <div class="fnpc-profile-avatar">
+        <img src="../../assets/avatar/{{player.avatar}}">
+      </div>
+      <div class="fnpc-profile-head">
+        <strong *ngIf="globalVars.showAllPlayers">#{{player.overAllRank}} {{player.name}}</strong>
+        <strong *ngIf="!globalVars.showAllPlayers">#{{player.realRank}} {{player.name}}</strong>
+        <span class="fnpc-pull-right"><strong>{{player.totalscore}} €</strong></span>
+      </div>
+      
+    </div>
+  </div-->
+  
+  <div *ngFor="let player of players | async; let i = index" [ngClass]="{'fnpc-profile': true, 'oddRow': (i %2 !=0), 'active': player.data.name == selectedPlayer, 'active': player.markForScore}" (click)='markPlayer(player.id)'>
+    <div class="fnpc-profile-avatar">
+      <img src="../../assets/avatar/{{player.avatar}}">
+    </div>
+    <div class="fnpc-profile-head" style="padding-top:20px;">
+      <strong>{{player.data.name}}</strong>
+    </div>
+   
+    <!--strong>{{player.data.name}}</strong-->
   </div>
 </div>
-
+ 
 <div class="fnpc-menu-bottom">
   <a class="fnpc-menu-item" mat-button (click)="insertPlayerToMatchday()">Speichern</a>
   <a class="fnpc-menu-item" mat-button (click)="globalVars.closeAllDialogs()">Abbrechen</a>
