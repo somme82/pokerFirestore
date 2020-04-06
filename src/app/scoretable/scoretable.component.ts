@@ -55,7 +55,7 @@ export class ScoretableComponent implements OnInit {
      this.firestore.collection("gamedays").doc(pushkey).set(matchday);
  
      if ((this.globalVars.matchdaysByYear.get(this.globalVars.currentYear).length + 1) % 4 == 0){
-       this.serverTools.doBackup();
+       //this.serverTools.doBackup();
      }
  
      this.newMatchdayDoc = this.firestore.doc('gamedays/' + pushkey);
