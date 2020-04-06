@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "fridaynight-test"
+    "default": "fridaynight-test",
+    "live": "friday-night-poker-crew"
   }
 }
