@@ -8,7 +8,7 @@ import {Matchday} from '../../Matchday';
 import {Article} from '../../Article';
 
 @Component({
-  selector: 'my-article-dialog',
+  selector: 'app-article-dialog',
   templateUrl: './article-dialog.component.html',
   styleUrls: ['./article-dialog.component.css']
 })

@@ -4,7 +4,7 @@ import {GlobalVars} from '../../../GlobalVars';
 import {Score} from '../../Score';
 
 @Component({
-  selector: 'my-matchday-dialog',
+  selector: 'app-matchday-dialog',
   templateUrl: './matchday-dialog.component.html',
   styleUrls: ['./matchday-dialog.component.css']
 })

@@ -3,12 +3,12 @@ import {AngularFirestore, AngularFirestoreCollection} from '@angular/fire/firest
 
 import {Score} from '../../Score';
 import {GlobalVars} from '../../../GlobalVars';
-import {Observable} from 'rxjs/Observable';
 import {Matchday} from '../../Matchday';
 import {Player} from '../../Player';
+import { of } from 'rxjs';
 
 @Component({
-  selector: 'my-player-info-dialog',
+  selector: 'app-player-info-dialog',
   templateUrl: './player-info-dialog.component.html',
   styleUrls: ['./player-info-dialog.component.css']
 })
@@ -98,7 +98,7 @@ export class PlayerInfoDialogComponent implements OnInit {
           })
         }
         console.log(score);
-        this.scores = Observable.of(score);
+        this.scores = of(score);
       })
     });
   }

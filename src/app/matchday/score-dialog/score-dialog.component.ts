@@ -5,7 +5,7 @@ import {GlobalVars} from '../../../GlobalVars';
 import {Player} from '../../Player';
 
 @Component({
-  selector: 'my-score-dialog',
+  selector: 'app-score-dialog',
   templateUrl: './score-dialog.component.html',
   styleUrls: ['./score-dialog.component.css']
 })
@@ -16,9 +16,7 @@ export class ScoreDialogComponent implements OnInit {
 
   selectedPlayer: AngularFirestoreDocument<Player>;
   player: any;
-
-
-
+  
   constructor(private firestore: AngularFirestore, public globalVars: GlobalVars) { }
 
   ngOnInit()
@@ -45,6 +43,7 @@ export class ScoreDialogComponent implements OnInit {
     });
     this.globalVars.closeAllDialogs();
   }
+  
   deleteScore() {
     this.selectedScore.delete();
     this.globalVars.selectedScore = '';

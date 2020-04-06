@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {AngularFirestore} from '@angular/fire/firestore';
-
 import {GlobalVars} from '../../../GlobalVars';
 
 @Component({
-  selector: 'my-user-dialog',
+  selector: 'app-user-dialog',
   templateUrl: './user-dialog.component.html',
   styleUrls: ['./user-dialog.component.css']
 })

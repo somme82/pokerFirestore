@@ -1,18 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import {AngularFirestore, AngularFirestoreCollection} from '@angular/fire/firestore';
 import {Matchday} from '../Matchday';
-import {Score} from '../Score';
-import {Player} from '../Player';
-import {MatDialog} from '@angular/material';
+import {MatDialog} from '@angular/material/dialog';
 import {GlobalVars} from '../../GlobalVars';
 import {MatchdayDialogComponent} from './matchday-dialog/matchday-dialog.component';
 import {UserToMatchdayDialogComponent} from './user-to-matchday-dialog/user-to-matchday-dialog.component';
+import {ArticleDialogComponent} from './article-dialog/article-dialog.component';
 import {ScoreDialogComponent} from './score-dialog/score-dialog.component';
 import {Observable} from 'rxjs/Observable';
-import {ArticleDialogComponent} from './article-dialog/article-dialog.component';
+import { of } from 'rxjs';
+
 
 @Component({
-  selector: 'my-matchday',
+  selector: 'app-matchday',
   templateUrl: './matchday.component.html',
   styleUrls: ['./matchday.component.css']
 })
@@ -64,7 +64,7 @@ export class MatchdayComponent implements OnInit {
       var nextMatchday = this.globalVars.matchdaysByYear.get(this.globalVars.currentYear)[index];
 
       this.globalVars.currentMatchdayResultsObservable =
-        Observable.of(nextMatchday.results)
+        of(nextMatchday.results)
       this.globalVars.matchdayId = nextMatchday.id;
       this.globalVars.venue = this.globalVars.matchdaysMap.get(this.globalVars.matchdayId).data.playerName;
       this.globalVars.date = this.globalVars.matchdaysMap.get(this.globalVars.matchdayId).data.date.toDate();
@@ -79,7 +79,7 @@ export class MatchdayComponent implements OnInit {
         [index];
 
       this.globalVars.currentMatchdayResultsObservable =
-        Observable.of(previousMatchday.results)
+        of(previousMatchday.results)
       this.globalVars.matchdayId = previousMatchday.id;
       this.globalVars.venue = this.globalVars.matchdaysMap.get(this.globalVars.matchdayId).data.playerName;
       this.globalVars.date = this.globalVars.matchdaysMap.get(this.globalVars.matchdayId).data.date.toDate();

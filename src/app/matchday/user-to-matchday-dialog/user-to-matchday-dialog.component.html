@@ -15,7 +15,7 @@
     </div>
   </div-->
   
-  <div *ngFor="let player of players | async; let i = index" [ngClass]="{'fnpc-profile': true, 'oddRow': (i %2 !=0), 'active': player.data.name == selectedPlayer, 'active': player.markForScore}" (click)='markPlayer(player.id)'>
+  <div *ngFor="let player of players | async; let i = index" [ngClass]="{'fnpc-profile': true, 'oddRow': (i %2 !=0), 'active': player.data.name == selectedPlayer || player.markForScore}" (click)='markPlayer(player.id)'>
     <div class="fnpc-profile-avatar">
       <img src="../../assets/avatar/{{player.avatar}}">
     </div>

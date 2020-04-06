@@ -1,64 +1,56 @@
+import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
-
-import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
 import { ScoretableComponent } from './scoretable/scoretable.component';
-import {AngularFirestore, AngularFirestoreCollection, AngularFirestoreModule} from '@angular/fire/firestore';
-import {environment} from '../environments/environment';
 import {AngularFireModule} from '@angular/fire';
-import {MatDatepickerModule, MatDialogModule, MatNativeDateModule} from '@angular/material';
-import {GlobalVars} from '../GlobalVars';
-import { UserDialogComponent } from './scoretable/user-dialog/user-dialog.component';
+import {environment} from '../environments/environment';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatDatepickerModule } from '@angular/material/datepicker';
+import {MatFormFieldModule} from '@angular/material/form-field';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {GlobalVars} from '../GlobalVars';
+import { ServerToolsComponent } from './server-tools/server-tools.component';
 import { MatchdayComponent } from './matchday/matchday.component';
+import { ArticlesComponent } from './articles/articles.component';
+import { PlayerInfoDialogComponent } from './scoretable/player-info-dialog/player-info-dialog.component';
+import { UserDialogComponent } from './scoretable/user-dialog/user-dialog.component';
+import { ArticleDialogComponent } from './matchday/article-dialog/article-dialog.component';
 import { MatchdayDialogComponent } from './matchday/matchday-dialog/matchday-dialog.component';
 import { ScoreDialogComponent } from './matchday/score-dialog/score-dialog.component';
 import { UserToMatchdayDialogComponent } from './matchday/user-to-matchday-dialog/user-to-matchday-dialog.component';
-import { ServiceWorkerModule } from '@angular/service-worker';
-import { ArticleDialogComponent } from './matchday/article-dialog/article-dialog.component';
-import { ArticlesComponent } from './articles/articles.component';
-import { PlayerInfoDialogComponent } from './scoretable/player-info-dialog/player-info-dialog.component';
-import { ServerToolsComponent } from './server-tools/server-tools.component';
-import { CountdownComponent } from './countdown/countdown.component';
-import {CountDown} from 'ng2-date-countdown';
+import { MatMomentDateModule } from "@angular/material-moment-adapter";
+
+
 
 @NgModule({
-  imports: [
-    BrowserModule,
-    FormsModule,
-    AppRoutingModule,
-    AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule,
-    AngularFirestoreModule.enablePersistence(),
-    MatDialogModule,
-    BrowserAnimationsModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    ServiceWorkerModule.register('/ngsw-worker.js', {enabled: environment.production}),
-    HttpModule
-  ],
   declarations: [
     AppComponent,
     ScoretableComponent,
-    UserDialogComponent,
+    ServerToolsComponent,
     MatchdayComponent,
-    MatchdayDialogComponent,
-    ScoreDialogComponent,
-    UserToMatchdayDialogComponent,
-    ArticleDialogComponent,
     ArticlesComponent,
     PlayerInfoDialogComponent,
-    ServerToolsComponent,
-    CountdownComponent,
-    CountDown
-
+    UserDialogComponent,
+    ArticleDialogComponent,
+    MatchdayDialogComponent,
+    ScoreDialogComponent,
+    UserToMatchdayDialogComponent
+  ],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    FormsModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatMomentDateModule,
+    MatDatepickerModule,
+    AngularFireModule.initializeApp(environment.firebase),
   ],
   providers: [GlobalVars, ServerToolsComponent],
   bootstrap: [AppComponent],
-  entryComponents: [UserDialogComponent, MatchdayDialogComponent, ScoreDialogComponent, UserToMatchdayDialogComponent, ArticleDialogComponent, PlayerInfoDialogComponent],
-
+  entryComponents: [UserDialogComponent, MatchdayDialogComponent, ScoreDialogComponent, UserToMatchdayDialogComponent, ArticleDialogComponent, PlayerInfoDialogComponent]
 })
 export class AppModule { }

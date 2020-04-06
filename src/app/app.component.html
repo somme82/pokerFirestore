@@ -5,11 +5,9 @@
   <!--a [ngClass]="{'fnpc-menu-item': true, 'active': globalVars.page == 'countdown'}" routerLink="/countdown"><img src="./assets/images/clock-black.svg"></a-->
 </div>
 <div class="fnpc-preload" *ngIf="!globalVars.dataInitialized">
-<!--div class="loadingdata"-->
   <div>
     <div class="fnpc-table-row centered"><img src="./assets/images/preloaders/pokerkarten.png"></div>
     <div class="fnpc-table-row centered"><img src="./assets/images/preloaders/bullets_white.gif"></div>
   </div>
 </div>
-<!--div class="loadingdata"  ><img src="./assets/images/preloaders/bullets_white.gif"></div-->
 <router-outlet></router-outlet>

@@ -1,15 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import {GlobalVars} from '../../GlobalVars';
-import {MatDialog} from '@angular/material';
+import {MatDialog} from '@angular/material/dialog';
 import {AngularFirestore, AngularFirestoreCollection} from '@angular/fire/firestore';
-import {Matchday} from '../Matchday';
 import {Article} from '../Article';
-import {Player} from '../Player';
-import {Observable} from "rxjs/Observable";
-import {Score} from "../Score";
 
 @Component({
-  selector: 'my-articles',
+  selector: 'app-articles',
   templateUrl: './articles.component.html',
   styleUrls: ['./articles.component.css']
 })

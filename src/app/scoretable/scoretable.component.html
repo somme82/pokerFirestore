@@ -1,15 +1,16 @@
 
 <div class="fnpc-headline" *ngIf="globalVars.dataInitialized">
   <div class="fnpc-headline-item-left" (click)="previousYear()"><img src="../../assets/images/carat-l-white.svg"></div>
-  <div *ngIf="showOverAllScoreTable" class="fnpc-headline-item-middle">All Time Rangliste</div>
-  <div *ngIf="!showOverAllScoreTable" class="fnpc-headline-item-middle">Rangliste {{globalVars.currentYear}}</div>
+  <div *ngIf="showOverAllScoreTable && !showAllPlayers" class="fnpc-headline-item-middle">All Time Rangliste</div>
+  <div *ngIf="!showOverAllScoreTable && !showAllPlayers" class="fnpc-headline-item-middle">Rangliste {{globalVars.currentYear}}</div>
+  <div *ngIf="showAllPlayers" class="fnpc-headline-item-middle">Alle Spieler</div>
   <div class="fnpc-headline-item-right"(click)="nextYear()"><img src="../../assets/images/carat-r-white.svg"></div>
 </div>
 
-<div class="fnpc-content" *ngIf="globalVars.dataInitialized" (touchstart)="swipe($event, 'start')" (touchend)="swipe($event, 'end')">
+<div class="fnpc-content" *ngIf="globalVars.dataInitialized && !showAllPlayers" (touchstart)="swipe($event, 'start')" (touchend)="swipe($event, 'end')">
   <!--div *ngIf="resultsInit == true"-->
   <div *ngFor="let player of globalVars.matchdayResultsObservable | async; let i = index">
-    <div *ngIf="(player.participations > 0) && (player.relevantForTotalScore || globalVars.showAllPlayers)" [ngClass]="{'fnpc-profile': true, 'active': player.id == globalVars.selectedPlayer, 'oddRow': ((player.overAllRank -1) % 2 != 0 && globalVars.showAllPlayers) || ((player.realRank -1) %2 !=0 && !globalVars.showAllPlayers)}" (click)="globalVars.setSelection( player.id, '' )" >
+    <div *ngIf="(player.participations > 0 || globalVars.showAllPlayers) && (player.relevantForTotalScore || globalVars.showAllPlayers)" [ngClass]="{'fnpc-profile': true, 'active': player.id == globalVars.selectedPlayer, 'oddRow': ((player.overAllRank -1) % 2 != 0 && globalVars.showAllPlayers) || ((player.realRank -1) %2 !=0 && !globalVars.showAllPlayers)}" (click)="globalVars.setSelection( player.id, '' )" >
       <div class="fnpc-profile-avatar">
         <img src="../../assets/avatar/{{player.avatar}}">
       </div>
@@ -24,6 +25,27 @@
   </div>
   <!--/-->
 </div>
+
+<div class="fnpc-content" *ngIf="globalVars.dataInitialized && showAllPlayers" (touchstart)="swipe($event, 'start')" (touchend)="swipe($event, 'end')">
+  <!--div *ngIf="resultsInit == true"-->
+  <div *ngFor="let player of players | async; let i = index" [ngClass]="{'fnpc-profile': true, 'active': player.id == globalVars.selectedPlayer, 'oddRow': ((player.overAllRank -1) % 2 != 0 && globalVars.showAllPlayers) || ((player.realRank -1) %2 !=0 && !globalVars.showAllPlayers)}" (click)="globalVars.setSelection( player.id, '' )">
+    <div class="fnpc-profile-avatar">
+      <img src="../../assets/avatar/{{player.avatar}}">
+    </div>
+    <div class="fnpc-profile-head" style="padding-top:20px;">
+      <strong>{{player.data.name}}</strong>
+    </div>
+   
+    <!--strong>{{player.data.name}}</strong-->
+  </div>
+  <!--/-->
+</div>
+
+
+
+
+
+
 <div class="fnpc-menu-bottom" *ngIf="globalVars.dataInitialized">
   <a class="fnpc-menu-item" mat-button (click)="openUserDialog()"><img src="../../assets/images/plus-white.svg"></a>
   <a class="fnpc-menu-item" mat-button (click)="openDatepicker()"><img src="../../assets/images/calendar-white.svg"></a>

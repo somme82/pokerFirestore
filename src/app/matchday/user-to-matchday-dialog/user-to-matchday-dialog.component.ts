@@ -4,10 +4,10 @@ import {GlobalVars} from '../../../GlobalVars';
 import {Matchday} from '../../Matchday';
 import {Player} from '../../Player';
 import {Score} from '../../Score';
-import {Observable} from 'rxjs/Observable';
+import { of } from 'rxjs';
 
 @Component({
-  selector: 'my-user-to-matchday-dialog',
+  selector: 'app-user-to-matchday-dialog',
   templateUrl: './user-to-matchday-dialog.component.html',
   styleUrls: ['./user-to-matchday-dialog.component.css']
 })
@@ -67,7 +67,7 @@ export class UserToMatchdayDialogComponent implements OnInit {
         })
       })
       console.log(this.playersAsArray)
-      this.players = Observable.of(this.playersAsArray);
+      this.players = of(this.playersAsArray);
     })
     this.selectedMatchday = this.firestore.doc("gamedays/" + this.globalVars.matchdayId);
     this.matchday = this.selectedMatchday.valueChanges();
@@ -105,7 +105,7 @@ export class UserToMatchdayDialogComponent implements OnInit {
   markPlayer(playerid){
 
     this.playersAsArray.find(p=>p.id == playerid).markForScore = !this.playersAsArray.find(p=>p.id == playerid).markForScore;
-    this.players = Observable.of(this.playersAsArray)
+    this.players = of(this.playersAsArray)
 
     const pushkey = this.firestore.createId();
     /*this.firestore.collection("userscores").doc(pushkey).set({

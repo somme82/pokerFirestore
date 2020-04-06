@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import {MatDialog} from '@angular/material';
-import {Email} from "./app/Email";
-import {Headers, Http, RequestOptions, Response} from '@angular/http';
-import {Matchday} from "./app/Matchday";
-import {Observable} from "rxjs/Observable";
+import {MatDialog} from '@angular/material/dialog';
+//import {Email} from "./app/Email";
+//import {Matchday} from "./app/Matchday";
+import {Observable} from "rxjs";
+import { of } from 'rxjs';
 
 @Injectable()
 export class GlobalVars {
@@ -49,7 +49,7 @@ export class GlobalVars {
   matchdayResultsObservable: any;
   currentMatchdayResultsObservable: any;
 
-  constructor(public dialog: MatDialog, private http: Http) { }
+  constructor(public dialog: MatDialog) { }
 
   closeAllDialogs() {
     this.dialog.closeAll();
@@ -80,10 +80,10 @@ export class GlobalVars {
       return b.data.totalscore - a.data.totalscore;
     });
 
-    this.matchdayResultsObservable = Observable.of(this.matchdayResultsByYear.get(this.currentYear))
+    this.matchdayResultsObservable = of(this.matchdayResultsByYear.get(this.currentYear))
     this.matchdayCount = this.matchdaysByYear.get(this.currentYear).length
 
-    this.currentMatchdayResultsObservable = Observable.of(this.currentMatchdayResults.results)
+    this.currentMatchdayResultsObservable = of(this.currentMatchdayResults.results)
     this.currentMatchday = this.matchdaysMap.get(this.matchdayId);
     this.venue = this.matchdaysMap.get(this.matchdayId).data.playerName;
     this.date = this.matchdaysMap.get(this.matchdayId).data.date.toDate();

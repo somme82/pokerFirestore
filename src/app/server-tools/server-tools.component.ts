@@ -1,19 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import {GlobalVars} from "../../GlobalVars";
-import {Email} from "../Email";
-import {Headers, Http, RequestOptions, Response} from '@angular/http';
-import {Score} from "../Score";
 import {AngularFirestore, AngularFirestoreCollection} from '@angular/fire/firestore';
 import {Player} from "../Player";
 import {Matchday} from "../Matchday";
 import {Article} from "../Article";
+import {Score} from "../Score";
 import * as moment from 'moment';
 
-
-
-
 @Component({
-  selector: 'my-server-tools',
+  selector: 'app-server-tools',
   templateUrl: './server-tools.component.html',
   styleUrls: ['./server-tools.component.css']
 })
@@ -38,7 +33,7 @@ export class ServerToolsComponent implements OnInit {
   scoresMap: Map<string, any> = new Map<string, any> ();
   articlesMap: Map<string, any> = new Map<string, any> ();
 
-  constructor(private globalVars: GlobalVars, private http: Http, private firestore: AngularFirestore) { }
+  constructor(private globalVars: GlobalVars, private firestore: AngularFirestore) { }
 
   ngOnInit() {
 
@@ -120,14 +115,14 @@ export class ServerToolsComponent implements OnInit {
             console.log('backup ready to send...');
             console.log(this.backup);
 
-            var options: RequestOptions = new RequestOptions();
+            /*var options: RequestOptions = new RequestOptions();
             options.headers = new Headers();
             options.headers.append('content-type', 'application/json');
             console.log('send to function');
             this.http
               .post('https://us-central1-friday-night-poker-crew.cloudfunctions.net/sendMail', body, options).toPromise()
               .then(res => res)
-              .catch(this.handleError)
+              .catch(this.handleError)*/
           })
         });
       })

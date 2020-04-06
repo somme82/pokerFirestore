@@ -2,6 +2,17 @@ html{
   height: 100%;
 }
 
+.mat-calendar-body-today{
+  background-color: yellowgreen !important;
+}
+
+
+.mat-datepicker-content{
+  margin: 0px !important;
+
+  border: 3px solid black;
+}
+
 body{
   font-family: "Arial" !important;
   font-size: 12px !important;
@@ -208,12 +219,6 @@ div.fnpc-profile-rebuy{
 
 div.active{
   background-color: yellowgreen !important;
-}
-
-.mat-datepicker-content-touch
-{
-  margin: 0px !important;
-  background-color: white;
 }
 
 .oddRow {
