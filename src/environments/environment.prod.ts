@@ -1,4 +1,4 @@
-/*export const environment = {
+export const environment = {
   production: true,
   firebase: {
     apiKey: "AIzaSyAGEPphOhxncNGIuFyGrtEt9886MV_KvkE",
@@ -8,9 +8,9 @@
     storageBucket: "friday-night-poker-crew.appspot.com",
     messagingSenderId: "944744993714"
   }
-};*/
+};
 
-export const environment = {
+/*export const environment = {
   production: true,
   firebase: {
     apiKey: "AIzaSyBzaKd-S6SLv3RWP_kSqcQpiXDEhPuDt54",
@@ -22,4 +22,4 @@ export const environment = {
     appId: "1:337509153062:web:287e084f94435c08e169e7",
     measurementId: "G-KL9HVT25BX"
   }
-};
+};*/
