@@ -1,5 +1,5 @@
 
-<div class="fnpc-headline" *ngIf="globalVars.dataInitialized">
+<div class="fnpc-headline" *ngIf="globalVars.dataInitialized" (click)="globalVars.closeAllDialogs()">
   <div class="fnpc-headline-item-left" (click)="previousYear()"><img src="../../assets/images/carat-l-white.svg"></div>
   <div *ngIf="showOverAllScoreTable && !showAllPlayers" class="fnpc-headline-item-middle">All Time Rangliste</div>
   <div *ngIf="!showOverAllScoreTable && !showAllPlayers" class="fnpc-headline-item-middle">Rangliste {{globalVars.currentYear}}</div>
@@ -7,7 +7,7 @@
   <div class="fnpc-headline-item-right"(click)="nextYear()"><img src="../../assets/images/carat-r-white.svg"></div>
 </div>
 
-<div class="fnpc-content" *ngIf="globalVars.dataInitialized && !showAllPlayers" (touchstart)="swipe($event, 'start')" (touchend)="swipe($event, 'end')">
+<div class="fnpc-content" *ngIf="globalVars.dataInitialized && !showAllPlayers" (touchstart)="swipe($event, 'start')" (touchend)="swipe($event, 'end')" (click)="globalVars.closeAllDialogs()">
   <!--div *ngIf="resultsInit == true"-->
   <div *ngFor="let player of globalVars.matchdayResultsObservable | async; let i = index">
     <div *ngIf="(player.participations > 0 || globalVars.showAllPlayers) && (player.relevantForTotalScore || globalVars.showAllPlayers)" [ngClass]="{'fnpc-profile': true, 'active': player.id == globalVars.selectedPlayer, 'oddRow': ((player.overAllRank -1) % 2 != 0 && globalVars.showAllPlayers) || ((player.realRank -1) %2 !=0 && !globalVars.showAllPlayers)}" (click)="globalVars.setSelection( player.id, '' )" >
@@ -26,9 +26,9 @@
   <!--/-->
 </div>
 
-<div class="fnpc-content" *ngIf="globalVars.dataInitialized && showAllPlayers" (touchstart)="swipe($event, 'start')" (touchend)="swipe($event, 'end')">
+<div class="fnpc-content" *ngIf="globalVars.dataInitialized && showAllPlayers" (touchstart)="swipe($event, 'start')" (touchend)="swipe($event, 'end')" (click)="globalVars.closeAllDialogs()">
   <!--div *ngIf="resultsInit == true"-->
-  <div *ngFor="let player of players | async; let i = index" [ngClass]="{'fnpc-profile': true, 'active': player.id == globalVars.selectedPlayer, 'oddRow': ((player.overAllRank -1) % 2 != 0 && globalVars.showAllPlayers) || ((player.realRank -1) %2 !=0 && !globalVars.showAllPlayers)}" (click)="globalVars.setSelection( player.id, '' )">
+  <div *ngFor="let player of players | async; let i = index" [ngClass]="{'fnpc-profile': true, 'active': player.id == globalVars.selectedPlayer, 'oddRow': i % 2 != 0}" (click)="globalVars.setSelection( player.id, '' )">
     <div class="fnpc-profile-avatar">
       <img src="../../assets/avatar/{{player.avatar}}">
     </div>
