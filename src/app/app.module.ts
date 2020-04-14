@@ -21,7 +21,10 @@ import { MatchdayDialogComponent } from './matchday/matchday-dialog/matchday-dia
 import { ScoreDialogComponent } from './matchday/score-dialog/score-dialog.component';
 import { UserToMatchdayDialogComponent } from './matchday/user-to-matchday-dialog/user-to-matchday-dialog.component';
 import { MatMomentDateModule } from "@angular/material-moment-adapter";
-
+import { LoginComponent } from './login/login.component';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { Router } from '@angular/router';
+import * as firebase from 'firebase';
 
 
 @NgModule({
@@ -36,7 +39,8 @@ import { MatMomentDateModule } from "@angular/material-moment-adapter";
     ArticleDialogComponent,
     MatchdayDialogComponent,
     ScoreDialogComponent,
-    UserToMatchdayDialogComponent
+    UserToMatchdayDialogComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -47,10 +51,12 @@ import { MatMomentDateModule } from "@angular/material-moment-adapter";
     MatFormFieldModule,
     MatMomentDateModule,
     MatDatepickerModule,
+    AngularFireAuthModule,
     AngularFireModule.initializeApp(environment.firebase),
   ],
   providers: [GlobalVars, ServerToolsComponent],
   bootstrap: [AppComponent],
   entryComponents: [UserDialogComponent, MatchdayDialogComponent, ScoreDialogComponent, UserToMatchdayDialogComponent, ArticleDialogComponent, PlayerInfoDialogComponent]
 })
+
 export class AppModule { }

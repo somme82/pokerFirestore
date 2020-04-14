@@ -1,0 +1,27 @@
+<div class="fnpc-headline" *ngIf="globalVars.dataInitialized">
+  <div class="fnpc-headline-item-left"></div>
+  <div class="fnpc-headline-item-middle">Anmelden</div>
+  <div class="fnpc-headline-item-right"></div>
+</div>
+<!--div class="fnpc-headline">Neuen Spielstand eintragen<div class="fnpc-pull-right">X</div></div-->
+<div class="fnpc-content">
+  <div *ngIf="!globalVars.angemeldet"  class="fnpc-table">
+    <div class="fnpc-table-row">
+      <div class="fnpc-table-cell">Benutzername:</div>
+      <div class="fnpc-table-cell"><input type="text" [(ngModel)]="username"/></div>
+    </div>
+    <div class="fnpc-table-row">
+      <div class="fnpc-table-cell">Passwort:</div>
+      <div class="fnpc-table-cell"><input type="password" [(ngModel)]="password"/></div>
+    </div>
+  </div>
+  <ngb-alert [type]="success">adsfas</ngb-alert>
+  <div *ngIf="globalVars.angemeldet"  class="fnpc-table">
+    <div class="success">Du bist bereits angemeldet</div>
+  </div>
+</div>
+
+<div class="fnpc-menu-bottom">
+  <a *ngIf="!globalVars.angemeldet" class="fnpc-menu-item" mat-button (click)="tryLogin()">Anmelden</a>
+  <a *ngIf="globalVars.angemeldet" class="fnpc-menu-item" mat-button (click)="trySignOut()">Abmelden</a>
+</div> 

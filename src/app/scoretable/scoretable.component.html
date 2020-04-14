@@ -47,8 +47,8 @@
 
 
 <div class="fnpc-menu-bottom" *ngIf="globalVars.dataInitialized">
-  <a class="fnpc-menu-item" mat-button (click)="openUserDialog()"><img src="../../assets/images/plus-white.svg"></a>
-  <a class="fnpc-menu-item" mat-button (click)="openDatepicker()"><img src="../../assets/images/calendar-white.svg"></a>
+  <a *ngIf="globalVars.angemeldet" class="fnpc-menu-item" mat-button (click)="openUserDialog()"><img src="../../assets/images/plus-white.svg"></a>
+  <a *ngIf="globalVars.angemeldet" class="fnpc-menu-item" mat-button (click)="openDatepicker()"><img src="../../assets/images/calendar-white.svg"></a>
   <a class="fnpc-menu-item" mat-button (click)="openPlayerInfoDialog()"><img src="../../assets/images/info-white.svg"></a>
   <a class="fnpc-menu-item" (click)="globalVars.toggleshowAllPlayersFlag()" [ngClass]="{'lineThrough': !globalVars.showAllPlayers}">Alle</a>
   <input type="hidden" [matDatepicker]="picker" [(ngModel)]="matchdayDate" (dateChange)="onDateChange($event)">

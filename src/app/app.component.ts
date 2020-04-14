@@ -8,6 +8,8 @@ import 'rxjs/add/operator/map';
 import {MatDatepicker, MatDatepickerInputEvent} from '@angular/material/datepicker';
 import {MatDialog} from "@angular/material/dialog";
 import {GlobalVars} from '../GlobalVars';
+import * as firebase from 'firebase';
+import { AngularFireAuth} from '@angular/fire/auth';
 
 
 @Component({
@@ -29,7 +31,21 @@ export class AppComponent implements OnInit{
   matchdayDate: Date;
   results: any;
 
-  constructor(private firestore: AngularFirestore, public dialog: MatDialog, public globalVars: GlobalVars) {}
+  constructor(private firestore: AngularFirestore, public dialog: MatDialog, public globalVars: GlobalVars, public auth: AngularFireAuth) {
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        console.log(user);
+        console.log("angemeldet");
+        globalVars.angemeldet = true;
+      } else {
+        console.log(user);
+        console.log("nicht angemeldet");
+        globalVars.angemeldet = false;
+      }
+    });
+  }
+
+  
 
   ngOnInit(): void {
     this.getPlayerResults()

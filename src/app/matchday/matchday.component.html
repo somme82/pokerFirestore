@@ -19,10 +19,10 @@
 
 
 <div class="fnpc-menu-bottom" *ngIf="globalVars.dataInitialized">
-  <a class="fnpc-menu-item" mat-button (click)="openScoreDialog()"><img src="../../assets/images/recycle-white.svg"></a>
-  <a class="fnpc-menu-item" mat-button (click)="openNewUserDialog()"><img src="../../assets/images/plus-white.svg"></a>
+  <a *ngIf="globalVars.angemeldet" class="fnpc-menu-item" mat-button (click)="openScoreDialog()"><img src="../../assets/images/recycle-white.svg"></a>
+  <a *ngIf="globalVars.angemeldet" class="fnpc-menu-item" mat-button (click)="openNewUserDialog()"><img src="../../assets/images/plus-white.svg"></a>
   <a class="fnpc-menu-item" mat-button (click)="openMatchdayDialog()"><img src="../../assets/images/info-white.svg"></a>
-  <a class="fnpc-menu-item" mat-button (click)="openArticleDialog()"><img src="../../assets/images/edit-white.svg"></a>
+  <a *ngIf="globalVars.angemeldet" class="fnpc-menu-item" mat-button (click)="openArticleDialog()"><img src="../../assets/images/edit-white.svg"></a>
   <!--a class="fnpc-menu-item" mat-button (click)="openMatchdayDialog()" ><img src="../../assets/images/star-white.svg"></a-->
   <!--a class="fnpc-menu-item"><img src="../../assets/images/mail-white.svg"></a-->
 </div>

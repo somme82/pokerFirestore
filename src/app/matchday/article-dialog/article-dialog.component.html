@@ -6,8 +6,8 @@
 </div>
 
 <div class="fnpc-menu-bottom">
-  <a class="fnpc-menu-item" mat-button (click)="addArticle()">Speichern</a>
-  <a class="fnpc-menu-item" mat-button (click)="deleteArticle()">Löschen</a>
+  <a *ngIf="globalVars.angemeldet" class="fnpc-menu-item" mat-button (click)="addArticle()">Speichern</a>
+  <a *ngIf="globalVars.angemeldet" class="fnpc-menu-item" mat-button (click)="deleteArticle()">Löschen</a>
   <a class="fnpc-menu-item" mat-button (click)="globalVars.closeAllDialogs()">Abbrechen</a>
 </div>
 
