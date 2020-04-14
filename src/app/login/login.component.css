@@ -1,13 +1,7 @@
-.header{
+.success{
+  border: 2px solid yellowgreen;
+  padding: 5px;
+  margin: 5 px;
+  margin-top: 10px !important;
   text-align: center;
-  font-size: 30px;
-  margin-bottom: 40px;
-}
-
-.row{
-  margin-top: 10px;
-}
-
-.error{
-  color: red;
 }
